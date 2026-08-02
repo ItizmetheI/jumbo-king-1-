@@ -401,10 +401,14 @@ if (!prefersReduced && matchMedia("(hover:hover) and (pointer:fine)").matches) {
   });
 }
 
-/* ─── image blur-up ─────────────────────────────────────────── */
+/* ─── image blur-up + per-slot skeleton ─────────────────────── */
 $$(".ph img").forEach(img => {
-  if (img.complete) img.classList.add("ready");
-  else img.addEventListener("load", () => img.classList.add("ready"), { once: true });
+  const slot = img.closest(".ph");
+  const done = () => { img.classList.add("ready"); slot?.classList.remove("loading"); };
+  if (img.complete && img.naturalWidth) return done();
+  slot?.classList.add("loading");
+  img.addEventListener("load", done, { once: true });
+  img.addEventListener("error", () => slot?.classList.remove("loading"), { once: true });
 });
 
 /* ─── tab-away title ────────────────────────────────────────── */

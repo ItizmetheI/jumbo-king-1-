@@ -111,7 +111,9 @@
 
   <!-- ═══════════ showcase ═══════════ -->
   <div class="wrap">
-    <div class="showcase" id="showcase"></div>
+    <div class="showcase" id="showcase">
+      <div class="skel-show"><div class="skel" style="min-height:420px;border-radius:var(--r)"></div><div style="padding:40px"><div class="skel skel-line w40"></div><div class="skel skel-title"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div></div></div>
+    </div>
 
     <div class="band flame reveal">
       <div>
@@ -129,7 +131,11 @@
       <h2>Nine ways to<br>have a jumbo day</h2>
       <p>Every one flame-grilled to order. Single, or make it a value meal with fries and a fountain drink.</p>
     </div>
-    <div class="sig reveal" id="sigGrid" data-limit="3"></div>
+    <div class="sig" id="sigGrid" data-limit="3" data-stagger>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+    </div>
     <div style="margin-top:34px" class="reveal">
       <a class="btn btn-primary" href="menu.html">See the full menu</a>
     </div>
@@ -181,10 +187,13 @@
       <div class="rail-nav"><button id="railPrev" aria-label="Previous">‹</button><button id="railNext" aria-label="Next">›</button></div>
     </div>
     <div class="score reveal">
-      <div class="big">4.8</div>
+      <div class="big" data-count="4.8">4.8</div>
       <div><div class="stars" aria-label="4.8 out of 5">★★★★★</div><p style="margin-top:4px;font-size:13.5px">Replace with your real Google reviews</p></div>
     </div>
-    <div class="rail reveal" id="rail"></div>
+    <div class="rail reveal" id="rail">
+      <figure class="quote"><div class="skel skel-line"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div><div class="skel skel-line w40" style="margin-top:14px"></div></figure>
+      <figure class="quote"><div class="skel skel-line"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div><div class="skel skel-line w40" style="margin-top:14px"></div></figure>
+    </div>
   </section>
 
   <!-- ═══════════ visit CTA ═══════════ -->
@@ -235,6 +244,11 @@
     <button class="sheet-cancel" data-close>Cancel</button>
   </div>
 </div>
+
+<button id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>

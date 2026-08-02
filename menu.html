@@ -10,9 +10,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path d='M6 22c0-9 8-14 18-14s18 5 18 14z' fill='%23E8A24B'/><path d='M5 24h38v4H5z' fill='%234E8A3E'/><path d='M6 29h36v6H6z' fill='%235B3520'/><path d='M7 36h34c0 6-6 9-17 9S7 42 7 36z' fill='%23E8A24B'/></svg>">
+<script>try{if(sessionStorage.getItem('jkb-seen'))document.documentElement.classList.add('loaded-before')}catch(e){}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<div id="loader" aria-hidden="true">
+  <div class="lbox">
+    <div class="lstack">
+      <svg class="lflame" viewBox="0 0 240 120" aria-hidden="true">
+        <path class="fl-b" d="M120 120c-20-33 9-50 17-77 5 16 13 21 19 34 7-21 3-38-7-55 30 18 53 50 48 82-3 19-17 24-34 24z" fill="#DC3A1F"/>
+        <path class="fl-a" d="M52 120c-10-24 6-35 13-51 3 10 7 13 11 21 5-15 2-27-4-40 20 12 34 33 31 53-2 14-11 17-21 17z" fill="#DC3A1F" opacity=".75"/>
+        <path class="fl-c" d="M188 120c-10-24 6-35 13-51 3 10 7 13 11 21 5-15 2-27-4-40 20 12 34 33 31 53-2 14-11 17-21 17z" fill="#F2A93B" opacity=".7"/>
+      </svg>
+      <svg viewBox="0 0 240 200" aria-hidden="true">
+        <g><path d="M40 158h160c0 18-28 28-80 28s-80-10-80-28z" fill="#E8A24B"/><path d="M40 158h160c0 6-3 10-7 13H47c-4-3-7-7-7-13z" fill="#D08C3B"/></g>
+        <g><rect x="32" y="132" width="176" height="24" rx="12" fill="#5B3520"/><rect x="32" y="132" width="176" height="8" rx="4" fill="#7A472B"/></g>
+        <g><path d="M34 118h172v8c0 4-4 6-8 6H42c-4 0-8-2-8-6z" fill="#F2A93B"/><path d="M62 132c0 8-2 13-5 13s-5-5-5-13zM122 132c0 10-2 16-5 16s-5-6-5-16zM182 132c0 8-2 13-5 13s-5-5-5-13z" fill="#F2A93B"/></g>
+        <g><rect x="38" y="105" width="164" height="12" rx="6" fill="#D93A26"/><path d="M30 94c10-9 19 6 29-2s17 7 27-2 19 9 29-1 19 7 29-2 19 9 29 0c5 4 7 8 7 11H28c0-3 0-5 2-6z" fill="#7FB04E"/></g>
+        <g><path d="M28 96c0-27 32-44 92-44s92 17 92 44z" fill="#E8A24B"/><g fill="#FBF2DF"><ellipse cx="86" cy="76" rx="7" ry="3.6" transform="rotate(-18 86 76)"/><ellipse cx="120" cy="66" rx="7.2" ry="3.6"/><ellipse cx="154" cy="77" rx="7" ry="3.6" transform="rotate(17 154 77)"/><ellipse cx="103" cy="88" rx="6" ry="3.2" transform="rotate(-8 103 88)"/><ellipse cx="139" cy="87" rx="6" ry="3.2" transform="rotate(9 139 87)"/></g></g>
+      </svg>
+    </div>
+    <div class="lwm">Jumbo King Burger</div>
+    <div class="ltag">The one. The only.</div>
+    <div class="lbar"><i></i></div>
+  </div>
+</div>
+
+<div id="progress"></div>
+
 
 <header>
   <div class="head-in">
@@ -78,7 +105,11 @@
       <h2>The nine</h2>
       <p>Single or value meal pricing. Add bacon and cheese to any of them for +$2.00.</p>
     </div>
-    <div class="sig reveal" id="sigGrid"></div>
+    <div class="sig" id="sigGrid" data-stagger>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+    </div>
 
     <div class="band dark reveal">
       <div>
@@ -112,7 +143,14 @@
     </div>
   </div>
 
-  <div class="wrap"><div id="menuRoot"></div></div>
+  <div class="wrap"><div id="menuRoot">
+    <section class="mblock"><div class="skel skel-title" style="max-width:280px"></div>
+      <div class="cols">
+        <div><div class="skel skel-line"></div><div class="skel skel-line w70"></div><div class="skel skel-line"></div><div class="skel skel-line w40"></div></div>
+        <div><div class="skel skel-line w70"></div><div class="skel skel-line"></div><div class="skel skel-line w40"></div><div class="skel skel-line"></div></div>
+      </div>
+    </section>
+  </div></div>
 
   <section class="wrap">
     <div class="band flame reveal" style="margin-top:var(--gap)">
@@ -161,6 +199,11 @@
     <button class="sheet-cancel" data-close>Cancel</button>
   </div>
 </div>
+
+<button id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
