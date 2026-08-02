@@ -22,10 +22,3 @@ folder with any static host.
 Photography is not shot yet. Every image slot is already sized in the layout —
 see [SHOT-LIST.md](SHOT-LIST.md) for what to shoot, how to name each file, and
 where to register it in `assets/data.js`.
-
-## Concepts
-
-`concepts/charcoal-flame.html` — an alternate visual direction (dark charcoal
-canvas, flame accent, poster-scale type, illustrated food). Standalone single
-file, not wired into the main site. Copy, prices, addresses and links in it are
-placeholders.
