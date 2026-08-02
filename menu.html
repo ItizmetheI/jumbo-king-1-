@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menu — Jumbo King Burger</title>
+<meta name="description" content="The full Jumbo King Burger menu: signature burgers and sandwiches, sides, daily deals, kids meals, beverages, desserts and breakfast.">
+<meta name="theme-color" content="#DC3A1F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="head-in">
+    <a class="brand" href="index.html" aria-label="Jumbo King Burger home">
+      <svg class="mono" viewBox="0 0 60 60" aria-hidden="true">
+        <circle cx="30" cy="30" r="28" fill="none" stroke="#DC3A1F" stroke-width="2.5"/>
+        <path d="M13 15l6 7 6-9 6 9 6-9 6 9 6-7v8H13z" fill="#F2A93B"/>
+        <path d="M15 30c0-7 7-11 15-11s15 4 15 11z" fill="#DC3A1F"/>
+        <path d="M14 32h32v3H14z" fill="#DC3A1F"/>
+        <path d="M15 37h30c0 5-6 8-15 8s-15-3-15-8z" fill="#DC3A1F"/>
+      </svg>
+      <span class="wm">Jumbo King<br>Burger<small>The one. The only.</small></span>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="menu.html" class="active">Menu</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="head-cta">
+      <button class="btn btn-ghost btn-sm" data-order="pickup">Pickup</button>
+      <button class="btn btn-primary btn-sm" data-order="delivery">Delivery</button>
+    </div>
+    <button class="burger-btn" id="navToggle" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="orderbar">
+  <button data-order="pickup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Pickup</button>
+  <button data-order="delivery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Delivery</button>
+</div>
+
+<div class="drawer" id="drawer">
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="contact.html">Contact</a>
+  <a href="#signature">Signature</a>
+  <a href="#sides">Sides</a>
+  <a href="#deals">Daily deals</a>
+  <a href="#drinks">Beverages</a>
+  <a href="#breakfast">Breakfast</a>
+  <button class="btn" data-order="delivery">Order delivery</button>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<main id="main">
+
+  <section class="wrap">
+    <div class="page-hero">
+      <span class="kicker">The full menu</span>
+      <h1>Everything<br>we grill</h1>
+      <p>Flame-grilled burgers and sandwiches, sides, breakfast, shakes and sweets. Make any signature entrée a value meal with fries and a fountain drink for <b style="color:var(--flame)">+$3.79</b>.</p>
+      <div style="display:flex;gap:10px;margin-top:28px;flex-wrap:wrap">
+        <button class="btn btn-primary" data-order="pickup">Order pickup</button>
+        <button class="btn btn-ghost" data-order="delivery">Order delivery</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ signature ═══════════ -->
+  <section class="wrap" id="signature">
+    <div class="sec-head reveal" style="margin-top:clamp(30px,4vw,56px)">
+      <span class="kicker">01 — Signature burgers &amp; sandwiches</span>
+      <h2>The nine</h2>
+      <p>Single or value meal pricing. Add bacon and cheese to any of them for +$2.00.</p>
+    </div>
+    <div class="sig reveal" id="sigGrid"></div>
+
+    <div class="band dark reveal">
+      <div>
+        <span class="kicker">Add-on</span>
+        <h3>Bacon and cheese<br>on anything</h3>
+      </div>
+      <div class="figure">+$2.00</div>
+    </div>
+
+    <div class="band flame reveal">
+      <div>
+        <span class="kicker" style="color:#fff">Make it a value meal</span>
+        <h3>Add fries and a<br>fountain drink</h3>
+        <p>Any signature burger or sandwich. Any time.</p>
+      </div>
+      <div class="figure">+$3.79</div>
+      <button class="btn btn-light" data-order="pickup">Start an order</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ in-page nav ═══════════ -->
+  <div class="menu-nav">
+    <div class="in">
+      <a href="#sides">Sides</a>
+      <a href="#deals">Daily deals</a>
+      <a href="#kids">Kids meals</a>
+      <a href="#drinks">Beverages</a>
+      <a href="#desserts">Desserts</a>
+      <a href="#breakfast">Breakfast</a>
+      <a href="#bvalue">Breakfast value</a>
+    </div>
+  </div>
+
+  <div class="wrap"><div id="menuRoot"></div></div>
+
+  <section class="wrap">
+    <div class="band flame reveal" style="margin-top:var(--gap)">
+      <div>
+        <span class="kicker" style="color:#fff">Ready when you are</span>
+        <h3>Order it hot,<br>eat it hotter</h3>
+        <p>Pickup in store or delivery to your door.</p>
+      </div>
+      <button class="btn btn-light" data-order="delivery">Order now</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h5>Jumbo King Burger</h5>
+        <p style="color:rgba(253,251,246,.68);max-width:34ch">Flame-grilled quality ingredients. Bold, juicy, made for you. Thank you — have a jumbo day.</p>
+        <div style="display:flex;gap:9px;margin-top:22px">
+          <button class="btn btn-sm" style="background:var(--gold);border-color:var(--gold);color:var(--charcoal)" data-order="pickup">Pickup</button>
+          <button class="btn btn-sm" style="border-color:rgba(253,251,246,.45)" data-order="delivery">Delivery</button>
+        </div>
+      </div>
+      <div class="fl"><h5>Menu</h5>
+        <a href="#signature">Signature burgers</a><a href="#sides">Sides</a>
+        <a href="#deals">Daily deals</a><a href="#kids">Kids meals</a>
+        <a href="#drinks">Beverages</a><a href="#breakfast">Breakfast</a>
+      </div>
+      <div class="fl"><h5>Info</h5>
+        <a href="contact.html">Location &amp; hours</a><a href="contact.html#catering">Catering</a>
+        <a href="contact.html#delivery">Delivery partners</a><a href="index.html#grill">Flame-grilled</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span data-year></span> Jumbo King Burger. All rights reserved.</span>
+      <span>Prices and availability subject to change.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="sheet" id="orderSheet" role="dialog" aria-modal="true" aria-label="Choose how to order">
+  <div class="sheet-in">
+    <div class="sheet-card"><p id="orderTitle">Order</p><div id="orderOptions"></div></div>
+    <button class="sheet-cancel" data-close>Cancel</button>
+  </div>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
