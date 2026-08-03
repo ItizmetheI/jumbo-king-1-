@@ -122,16 +122,22 @@
   <!-- ═══════════ location ═══════════ -->
   <section class="wrap" id="location">
     <div class="loc reveal">
-      <div class="loc-map" id="mapCard" role="button" tabindex="0" aria-label="Open our address in a maps app">
-        <svg class="pin" width="88" height="112" viewBox="0 0 88 112" aria-hidden="true">
-          <path d="M44 4C24 4 8 19 8 39c0 28 36 69 36 69s36-41 36-69C80 19 64 4 44 4z" fill="#DC3A1F"/>
-          <circle cx="44" cy="38" r="15" fill="#FDFBF6"/>
-          <path d="M36 34c0-5 3-7 8-7s8 2 8 7z" fill="#E8A24B"/>
-          <rect x="35" y="36" width="18" height="4" rx="2" fill="#5B3520"/>
-          <path d="M36 42h16c0 4-3 6-8 6s-8-2-8-6z" fill="#E8A24B"/>
-        </svg>
-        <span class="map-cta">Tap to open in maps</span>
+      <div class="loc-map" id="mapCard">
+        <div class="map-ph" id="mapPlaceholder" aria-hidden="true">
+          <svg class="pin" width="88" height="112" viewBox="0 0 88 112" aria-hidden="true">
+            <path d="M44 4C24 4 8 19 8 39c0 28 36 69 36 69s36-41 36-69C80 19 64 4 44 4z" fill="#DC3A1F"/>
+            <circle cx="44" cy="38" r="15" fill="#FDFBF6"/>
+            <path d="M36 34c0-5 3-7 8-7s8 2 8 7z" fill="#E8A24B"/>
+            <rect x="35" y="36" width="18" height="4" rx="2" fill="#5B3520"/>
+            <path d="M36 42h16c0 4-3 6-8 6s-8-2-8-6z" fill="#E8A24B"/>
+          </svg>
+        </div>
+        <button class="map-directions" id="mapDirections" aria-label="Choose a maps app for directions">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          Directions
+        </button>
       </div>
+      <noscript><p><a href="https://www.google.com/maps/search/?api=1&query=12-14+Spruce+St%2C+Paterson%2C+NJ+07501">Open our location in Google Maps</a></p></noscript>
       <div class="loc-info">
         <div class="card">
           <h4>Address</h4>

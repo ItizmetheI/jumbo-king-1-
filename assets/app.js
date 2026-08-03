@@ -388,10 +388,25 @@ $$("[data-map]").forEach(a => {
 const mapCard = $("#mapCard");
 const mapSheet = $("#mapSheet");
 if (mapCard && mapSheet) {
-  mapCard.onclick = () => openSheet(mapSheet);
-  mapCard.onkeydown = e => {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openSheet(mapSheet); }
-  };
+  // Real embedded map built from the same SITE.address as the maps-app
+  // links, so there is one source of truth. Keyless "output=embed" endpoint —
+  // no API key, no billing, and it plots the address text directly rather
+  // than resolving through a third-party place index (unlike OSM, whose
+  // record for this address currently carries an unrelated business name).
+  const ph = $("#mapPlaceholder");
+  const io = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    io.disconnect();
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://maps.google.com/maps?q=" + q + "&output=embed";
+    iframe.loading = "lazy";
+    iframe.title = "Map showing our location";
+    iframe.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
+    ph?.replaceWith(iframe);
+  }, { rootMargin: "200px" });
+  io.observe(mapCard);
+
+  $("#mapDirections")?.addEventListener("click", () => openSheet(mapSheet));
 }
 
 const orderSheet = $("#orderSheet");
