@@ -1,0 +1,5 @@
+# Fallback for hosts that read _headers instead of netlify.toml
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin

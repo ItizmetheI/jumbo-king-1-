@@ -622,3 +622,83 @@ nav a::after{transform-origin:left}
 /* never defer the hero — it holds the LCP element */
 .hero,.page-hero{content-visibility:visible}
 img{background:var(--cream)}
+
+/* ═══════════════════════════════════════════════════════════════
+   P7 — enquiry form
+   ═══════════════════════════════════════════════════════════════ */
+.enquiry{margin-top:var(--gap)}
+.form{margin-top:clamp(22px,3vw,34px);max-width:760px}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px;flex:1;min-width:0}
+.field-row{display:flex;gap:16px;flex-wrap:wrap}
+.field label{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.field .req{color:var(--flame-text)}
+.field input,.field select,.field textarea{
+  font:inherit;font-size:15.5px;color:var(--ink);background:#fff;
+  border:1.5px solid var(--hair);border-radius:var(--r-chip);padding:13px 15px;width:100%;
+  transition:border-color .2s,box-shadow .2s}
+.field textarea{resize:vertical;min-height:110px}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--flame);box-shadow:0 0 0 4px rgba(220,58,31,.12)}
+.field input[aria-invalid="true"],.field textarea[aria-invalid="true"]{border-color:var(--flame-text)}
+.field .err{display:none;font-style:normal;font-size:12.5px;font-weight:600;color:var(--flame-text)}
+.field .err.on{display:block}
+/* honeypot: reachable to a bot, invisible and unfocusable to a person */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-foot{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:6px}
+.form-note{font-size:12.5px;color:var(--soft)}
+.form-status{margin-top:18px;border-radius:var(--r-chip);padding:0;font-size:15px;font-weight:600;line-height:1.6}
+.form-status.on{padding:15px 18px}
+.form-status.ok{background:rgba(78,138,62,.11);color:#2F6B22}
+.form-status.bad{background:rgba(220,58,31,.1);color:var(--flame-text)}
+@media(max-width:620px){.field-row{flex-direction:column;gap:0}}
+@media print{.enquiry{display:none}}
+
+/* ═══════════════════════════════════════════════════════════════
+   Drawer — rebuilt in the site's own language.
+   The old panel was solid flame with white Anton caps, which read as
+   a different product to the cream/charcoal page behind it.
+   ═══════════════════════════════════════════════════════════════ */
+.drawer{
+  inset:0 0 0 auto;width:min(360px,90vw);background:var(--paper);color:var(--ink);
+  border-left:1px solid var(--hair);box-shadow:var(--e3);
+  padding:20px 22px calc(20px + env(safe-area-inset-bottom));gap:0;
+  transform:translateX(101%);transition:transform .42s var(--ease)}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:18px;border-bottom:1px solid var(--hair);margin-bottom:6px}
+.drawer-mark svg{width:42px;height:42px}
+.drawer-close{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  color:var(--ink);border:1px solid var(--hair);background:#fff;transition:background .2s,color .2s,transform .2s}
+.drawer-close svg{width:19px;height:19px}
+.drawer-close:hover{background:var(--flame);border-color:var(--flame);color:#fff;transform:rotate(90deg)}
+
+.drawer-nav,.drawer-sub{list-style:none;margin:0;padding:0}
+.drawer-nav a{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-family:var(--display);font-size:30px;text-transform:uppercase;letter-spacing:.01em;
+  color:var(--charcoal);text-decoration:none;padding:15px 0;border-bottom:1px solid var(--hair);
+  transition:color .2s,padding-left .25s var(--ease)}
+.drawer-nav a svg{width:20px;height:20px;color:var(--hair);flex:0 0 auto;transition:transform .25s var(--ease),color .2s}
+.drawer-nav a:hover{color:var(--flame);padding-left:8px}
+.drawer-nav a:hover svg{transform:translateX(4px);color:var(--flame)}
+.drawer-nav a.on{color:var(--flame)}
+.drawer-nav a.on svg{color:var(--flame)}
+
+.drawer-label{font-size:10.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--soft);margin:24px 0 10px}
+.drawer-sub a{display:block;font-size:15px;font-weight:600;color:var(--soft);text-decoration:none;
+  padding:9px 0;transition:color .2s,transform .2s var(--ease)}
+.drawer-sub a:hover{color:var(--ink);transform:translateX(3px)}
+
+.drawer-foot{margin-top:auto;padding-top:22px;display:flex;flex-direction:column;gap:9px}
+.drawer-foot .btn{width:100%;background:none}
+.drawer-foot .btn-primary{background:var(--flame);border-color:var(--flame);color:#fff}
+.drawer .btn{margin-top:0}
+
+/* ─── page exit fade (fallback where View Transitions are unsupported) ── */
+body{transition:opacity .18s ease}
+body.is-leaving{opacity:0}
+@media(prefers-reduced-motion:reduce){body.is-leaving{opacity:1}}
+
+/* ─── field recovers visibly once corrected ───────────────────── */
+.field input:not([aria-invalid="true"]):not(:placeholder-shown):valid{border-color:rgba(78,138,62,.5)}
+.copy-btn:active,#phoneLink:active{transform:scale(.97)}

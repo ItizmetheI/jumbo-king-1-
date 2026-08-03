@@ -152,8 +152,9 @@ if (showcase) {
 const sigGrid = $("#sigGrid");
 if (sigGrid) {
   const limit = Number(sigGrid.dataset.limit) || SIGNATURE.length;
+  const searchable = s => s.replace(/&amp;/g, "&").replace(/&[a-z]+;/g, " ").trim();
   sigGrid.innerHTML = SIGNATURE.slice(0, limit).map(i => `
-    <article>
+    <article data-search="${searchable(i.name)}">
       ${photo(i.key, "r11", i.name, i.icon ? WRAP_ART : stack(i.art))}
       <div class="meta"><h3>${i.name}</h3><span class="no">${String(i.n).padStart(2, "0")}</span></div>
       <div class="cost">
@@ -171,7 +172,10 @@ if (menuRoot) {
       : (it.price == null
           ? `<span class="tbd" title="Ask in store — price not listed on the menu board">—</span>`
           : money(it.price));
-    return `<div class="item">
+    const search = `${it.name} ${it.note || ""}`
+      .replace(/&amp;/g, "&").replace(/&[a-z]+;/g, " ")
+      .replace(/^\s*\d+\.\s*/, "").replace(/\s+/g, " ").trim();
+    return `<div class="item" data-search="${search.replace(/"/g, "&quot;")}">
       <div class="nm">${it.name}${it.note ? `<em>${it.note}</em>` : ""}</div>
       <div class="dots"></div>
       <div class="val">${val}</div></div>`;
@@ -522,8 +526,12 @@ if (filterInput) {
   const rows = $$(".mblock .item");
   const blocks = $$(".mblock");
 
-  const textOf = el => el.textContent.toLowerCase().replace(/\s+/g, " ");
-  const index = new Map([...cards, ...rows].map(el => [el, textOf(el)]));
+  // Index the item NAME only, taken from the source data at render time.
+  // Scraping textContent pulled in price labels, the prices themselves and the
+  // placeholder filename tag, so "9" matched every $x.99 and "single" matched
+  // every card that had a Single price.
+  const index = new Map([...cards, ...rows].map(el =>
+    [el, (el.dataset.search || "").toLowerCase()]));
 
   let empty = $("#noResults");
   if (!empty) {
@@ -589,6 +597,173 @@ document.addEventListener("click", e => {
   if (!b) return;
   try { localStorage.setItem("jkb-order", b.dataset.order); } catch (err) { /* private mode */ }
 });
+
+/* ═══════════════════════════════════════════════════════════════
+   Micro-interactions — the kind you only notice when they're missing
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── drawer close button ─────────────────────────────────────── */
+$("#drawerClose")?.addEventListener("click", closeNav);
+
+/* ─── prefetch internal pages on intent ───────────────────────────
+   Hovering a link for 65ms, or touching it, is a strong signal the
+   navigation is coming. Warming the cache then makes the click feel
+   instant without costing anything to people who never hover. */
+(() => {
+  if (navigator.connection?.saveData) return;
+  const done = new Set();
+  const warm = href => {
+    if (!href || done.has(href)) return;
+    done.add(href);
+    const l = document.createElement("link");
+    l.rel = "prefetch";
+    l.href = href;
+    document.head.appendChild(l);
+  };
+  const internal = a => {
+    if (!a || a.target === "_blank" || a.hasAttribute("download")) return null;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin) return null;
+    if (url.pathname === location.pathname) return null;
+    return url.pathname;
+  };
+  let timer;
+  document.addEventListener("pointerover", e => {
+    const a = e.target.closest("a[href]");
+    const path = internal(a);
+    if (!path) return;
+    clearTimeout(timer);
+    timer = setTimeout(() => warm(path), 65);
+  });
+  document.addEventListener("pointerout", () => clearTimeout(timer));
+  document.addEventListener("touchstart", e => {
+    const path = internal(e.target.closest("a[href]"));
+    if (path) warm(path);
+  }, { passive: true });
+})();
+
+/* ─── page exit fade ──────────────────────────────────────────────
+   Browsers with cross-document View Transitions handle this natively
+   (see @view-transition in the stylesheet); this is the fallback for
+   everything else. Modifier-clicks and new tabs are left alone. */
+(() => {
+  if (prefersReduced) return;
+  if (document.startViewTransition) return; // native path already covers it
+  document.addEventListener("click", e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest("a[href]");
+    if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin) return;
+    if (url.pathname === location.pathname) return; // same page, it's an anchor
+    e.preventDefault();
+    document.body.classList.add("is-leaving");
+    setTimeout(() => { location.href = a.href; }, 180);
+  });
+  // coming back via bfcache must not leave the page faded out
+  addEventListener("pageshow", () => document.body.classList.remove("is-leaving"));
+})();
+
+/* ─── tap the phone number to copy it ─────────────────────────── */
+(() => {
+  const el = $("#phoneLink");
+  if (!el || !SITE.phone) return;
+  // on a phone the tel: link is the right behaviour; on desktop it is not
+  if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
+    el.addEventListener("click", async e => {
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(SITE.phoneLabel || SITE.phone);
+        toast("Phone number copied");
+      } catch { toast("Could not copy — select it manually"); }
+    });
+    el.title = "Click to copy";
+  }
+})();
+
+/* ─── enquiry form ────────────────────────────────────────────────
+   Client-side checks mirror the Worker's, but the Worker is the real
+   gate — this layer only exists to save the customer a round trip. */
+const enquiryForm = $("#enquiryForm");
+if (enquiryForm) {
+  const statusEl = $("#enquiryStatus");
+  const submitBtn = $("#enquirySubmit");
+  const startedAt = $("#startedAt");
+  if (startedAt) startedAt.value = String(Date.now());
+
+  const showErrors = errors => {
+    $$("#enquiryForm .err").forEach(el => {
+      const field = el.dataset.err;
+      const msg = errors?.[field];
+      el.textContent = msg || "";
+      el.classList.toggle("on", Boolean(msg));
+      const input = enquiryForm.querySelector(`[name="${field}"]`);
+      if (input) input.setAttribute("aria-invalid", msg ? "true" : "false");
+    });
+    const first = enquiryForm.querySelector('[aria-invalid="true"]');
+    first?.focus();
+  };
+
+  const setStatus = (msg, kind) => {
+    statusEl.textContent = msg;
+    statusEl.className = "form-status" + (msg ? ` on ${kind}` : "");
+  };
+
+  // cheap local mirror so obvious mistakes never cost a round trip
+  const localCheck = fd => {
+    const e = {};
+    if (String(fd.get("name") || "").trim().length < 2) e.name = "Please give us a name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(fd.get("email") || "").trim())) e.email = "Check the email address.";
+    if (String(fd.get("message") || "").trim().length < 5) e.message = "Tell us a little about what you need.";
+    return e;
+  };
+
+  enquiryForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const fd = new FormData(enquiryForm);
+
+    const local = localCheck(fd);
+    if (Object.keys(local).length) {
+      showErrors(local);
+      setStatus("Please fix the highlighted fields.", "bad");
+      return;
+    }
+    showErrors({});
+
+    submitBtn.classList.add("is-loading");
+    submitBtn.disabled = true;
+    setStatus("", "");
+
+    try {
+      // urlencoded so the same request shape works for Netlify Forms, the
+      // Cloudflare Worker and the local dev server
+      const res = await fetch(enquiryForm.getAttribute("action") || "/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(fd)
+      });
+      // Netlify Forms answers 200 with HTML, not JSON
+      const data = await res.json().catch(() => (res.ok ? { ok: true } : {}));
+
+      if (res.ok && data.ok) {
+        enquiryForm.reset();
+        if (startedAt) startedAt.value = String(Date.now());
+        setStatus("Thanks — we've got it. We'll reply by email shortly.", "ok");
+      } else if (res.status === 422 && data.errors) {
+        showErrors(data.errors);
+        setStatus("Please fix the highlighted fields.", "bad");
+      } else {
+        setStatus(data.error || "Something went wrong sending that. Please call the store instead.", "bad");
+      }
+    } catch (err) {
+      // offline, blocked, or the endpoint isn't deployed yet
+      setStatus("Could not reach us just now. Please check your connection, or call the store.", "bad");
+    } finally {
+      submitBtn.classList.remove("is-loading");
+      submitBtn.disabled = false;
+    }
+  });
+}
 
 /* ─── structured data ─────────────────────────────────────────────
    Generated from HOURS / SIGNATURE / BLOCKS so prices and opening

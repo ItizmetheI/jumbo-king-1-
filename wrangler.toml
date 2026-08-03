@@ -1,0 +1,24 @@
+name = "jumbo-king-1"
+main = "worker/index.js"
+compatibility_date = "2025-01-01"
+
+# Static site is served from the repo root; .assetsignore keeps source and
+# tooling out of the deployed bundle.
+[assets]
+directory = "."
+binding = "ASSETS"
+not_found_handling = "404-page"
+
+# Enquiries + rate-limit counters. Create with:
+#   wrangler kv namespace create ENQUIRIES
+# then paste the id below. The Worker fails open without it: no rate limiting
+# and no stored copy, but the endpoint still validates and still emails.
+# [[kv_namespaces]]
+# binding = "ENQUIRIES"
+# id = "<paste-id-here>"
+
+[vars]
+# Where catering enquiries land. Set ENQUIRY_TO here; keep the API key secret:
+#   wrangler secret put RESEND_API_KEY
+# ENQUIRY_TO   = "orders@yourdomain.com"
+# ENQUIRY_FROM = "Jumbo King Burger <hello@yourdomain.com>"

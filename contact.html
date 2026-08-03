@@ -47,7 +47,7 @@
         <g><path d="M40 158h160c0 18-28 28-80 28s-80-10-80-28z" fill="#E8A24B"/><path d="M40 158h160c0 6-3 10-7 13H47c-4-3-7-7-7-13z" fill="#D08C3B"/></g>
         <g><rect x="32" y="132" width="176" height="24" rx="12" fill="#5B3520"/><rect x="32" y="132" width="176" height="8" rx="4" fill="#7A472B"/></g>
         <g><path d="M34 118h172v8c0 4-4 6-8 6H42c-4 0-8-2-8-6z" fill="#F2A93B"/><path d="M62 132c0 8-2 13-5 13s-5-5-5-13zM122 132c0 10-2 16-5 16s-5-6-5-16zM182 132c0 8-2 13-5 13s-5-5-5-13z" fill="#F2A93B"/></g>
-        <g><rect x="38" y="105" width="164" height="12" rx="6" fill="#D93A26"/><path d="M30 94c10-9 19 6 29-2s17 7 27-2 19 9 29-1 19 7 29-2 19 9 29 0c5 4 7 8 7 11H28c0-3 0-5 2-6z" fill="#7FB04E"/></g>
+        <g><rect x="38" y="105" width="164" height="12" rx="6" fill="#D93A26"/><path d="M46 94c10-9 19 6 29-2s17 7 27-2 19 9 29-1 19 7 29-2 19 9 29 0c5 4 7 8 7 11H44c0-3 0-5 2-6z" fill="#7FB04E"/></g>
         <g><path d="M28 96c0-27 32-44 92-44s92 17 92 44z" fill="#E8A24B"/><g fill="#FBF2DF"><ellipse cx="86" cy="76" rx="7" ry="3.6" transform="rotate(-18 86 76)"/><ellipse cx="120" cy="66" rx="7.2" ry="3.6"/><ellipse cx="154" cy="77" rx="7" ry="3.6" transform="rotate(17 154 77)"/><ellipse cx="103" cy="88" rx="6" ry="3.2" transform="rotate(-8 103 88)"/><ellipse cx="139" cy="87" rx="6" ry="3.2" transform="rotate(9 139 87)"/></g></g>
       </svg>
     </div>
@@ -91,12 +91,34 @@
 </div>
 
 <nav class="drawer" id="drawer" aria-label="Mobile">
-  <a href="/">Home</a>
-  <a href="/menu">Menu</a>
-  <a href="/contact">Contact</a>
-  <a href="#delivery">Delivery partners</a>
-  <a href="#catering">Catering</a>
-  <button class="btn" data-order="delivery">Order delivery</button>
+  <div class="drawer-top">
+    <span class="drawer-mark" aria-hidden="true">
+      <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="none" stroke="#DC3A1F" stroke-width="2.5"/><path d="M13 15l6 7 6-9 6 9 6-9 6 9 6-7v8H13z" fill="#F2A93B"/><path d="M15 30c0-7 7-11 15-11s15 4 15 11z" fill="#DC3A1F"/><path d="M14 32h32v3H14z" fill="#DC3A1F"/><path d="M15 37h30c0 5-6 8-15 8s-15-3-15-8z" fill="#DC3A1F"/></svg>
+    </span>
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <ul class="drawer-nav">
+    <li><a href="/">Home<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+    <li><a href="/menu">Menu<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+    <li><a href="/contact" class="on" aria-current="page">Contact<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+  </ul>
+
+  <p class="drawer-label">Jump to</p>
+  <ul class="drawer-sub">
+    <li><a href="/menu#signature">Signature burgers</a></li>
+    <li><a href="/menu#deals">Daily deals</a></li>
+    <li><a href="/menu#breakfast">Breakfast</a></li>
+    <li><a href="/contact#delivery">Delivery partners</a></li>
+    <li><a href="/contact#enquiry">Catering</a></li>
+  </ul>
+
+  <div class="drawer-foot">
+    <button class="btn btn-primary" data-order="delivery">Order delivery</button>
+    <button class="btn btn-ghost" data-order="pickup">Order pickup</button>
+  </div>
 </nav>
 <div class="scrim" id="scrim"></div>
 
@@ -165,8 +187,83 @@
         <h3>Feeding a crowd?<br>We've got a jumbo plan.</h3>
         <p>Office lunches, parties, teams. Ask about catering trays and bulk pricing.</p>
       </div>
-      <button class="btn btn-light" data-order="pickup">Ask about catering</button>
+      <a class="btn btn-light" href="#enquiry">Ask about catering</a>
     </div>
+
+    <section id="enquiry" class="enquiry reveal">
+      <div class="sec-head" style="margin-top:0">
+        <span class="kicker">Catering enquiry</span>
+        <h2>Tell us what<br>you need</h2>
+        <p>Office lunch, party, team feed. Give us the shape of it and we'll come back with pricing.</p>
+      </div>
+
+      <form id="enquiryForm" class="form" name="catering" method="POST" action="/"
+        data-netlify="true" netlify-honeypot="company" novalidate>
+        <input type="hidden" name="form-name" value="catering">
+        <input type="hidden" name="startedAt" id="startedAt">
+        <p class="hp" aria-hidden="true">
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off">
+        </p>
+
+        <div class="field">
+          <label for="f-name">Your name <span class="req">*</span></label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required>
+          <em class="err" data-err="name"></em>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-email">Email <span class="req">*</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+            <em class="err" data-err="email"></em>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+            <em class="err" data-err="phone"></em>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-type">What's the occasion</label>
+            <select id="f-type" name="eventType">
+              <option value="">Choose one</option>
+              <option>Office lunch</option>
+              <option>Party</option>
+              <option>Team / sports</option>
+              <option>School or community</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-date">Date</label>
+            <input id="f-date" name="date" type="date">
+            <em class="err" data-err="date"></em>
+          </div>
+          <div class="field">
+            <label for="f-head">How many people</label>
+            <input id="f-head" name="headcount" type="number" min="1" max="5000" inputmode="numeric">
+            <em class="err" data-err="headcount"></em>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-msg">What do you need <span class="req">*</span></label>
+          <textarea id="f-msg" name="message" rows="4" required
+            placeholder="Rough numbers, any dietary needs, pickup or drop-off…"></textarea>
+          <em class="err" data-err="message"></em>
+        </div>
+
+        <div class="form-foot">
+          <button class="btn btn-primary btn-lg" type="submit" id="enquirySubmit">Send enquiry</button>
+          <p class="form-note">We'll reply by email. No spam, no list.</p>
+        </div>
+
+        <div class="form-status" id="enquiryStatus" role="status" aria-live="polite"></div>
+      </form>
+    </section>
 
     <div class="band dark reveal">
       <div>

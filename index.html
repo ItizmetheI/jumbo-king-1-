@@ -47,7 +47,7 @@
         <g><path d="M40 158h160c0 18-28 28-80 28s-80-10-80-28z" fill="#E8A24B"/><path d="M40 158h160c0 6-3 10-7 13H47c-4-3-7-7-7-13z" fill="#D08C3B"/></g>
         <g><rect x="32" y="132" width="176" height="24" rx="12" fill="#5B3520"/><rect x="32" y="132" width="176" height="8" rx="4" fill="#7A472B"/></g>
         <g><path d="M34 118h172v8c0 4-4 6-8 6H42c-4 0-8-2-8-6z" fill="#F2A93B"/><path d="M62 132c0 8-2 13-5 13s-5-5-5-13zM122 132c0 10-2 16-5 16s-5-6-5-16zM182 132c0 8-2 13-5 13s-5-5-5-13z" fill="#F2A93B"/></g>
-        <g><rect x="38" y="105" width="164" height="12" rx="6" fill="#D93A26"/><path d="M30 94c10-9 19 6 29-2s17 7 27-2 19 9 29-1 19 7 29-2 19 9 29 0c5 4 7 8 7 11H28c0-3 0-5 2-6z" fill="#7FB04E"/></g>
+        <g><rect x="38" y="105" width="164" height="12" rx="6" fill="#D93A26"/><path d="M46 94c10-9 19 6 29-2s17 7 27-2 19 9 29-1 19 7 29-2 19 9 29 0c5 4 7 8 7 11H44c0-3 0-5 2-6z" fill="#7FB04E"/></g>
         <g><path d="M28 96c0-27 32-44 92-44s92 17 92 44z" fill="#E8A24B"/><g fill="#FBF2DF"><ellipse cx="86" cy="76" rx="7" ry="3.6" transform="rotate(-18 86 76)"/><ellipse cx="120" cy="66" rx="7.2" ry="3.6"/><ellipse cx="154" cy="77" rx="7" ry="3.6" transform="rotate(17 154 77)"/><ellipse cx="103" cy="88" rx="6" ry="3.2" transform="rotate(-8 103 88)"/><ellipse cx="139" cy="87" rx="6" ry="3.2" transform="rotate(9 139 87)"/></g></g>
       </svg>
     </div>
@@ -90,13 +90,34 @@
 </div>
 
 <nav class="drawer" id="drawer" aria-label="Mobile">
-  <a href="/">Home</a>
-  <a href="/menu">Menu</a>
-  <a href="/contact">Contact</a>
-  <a href="/menu#signature">Signature burgers</a>
-  <a href="/menu#breakfast">Breakfast</a>
-  <a href="/contact#catering">Catering</a>
-  <button class="btn" data-order="delivery">Order delivery</button>
+  <div class="drawer-top">
+    <span class="drawer-mark" aria-hidden="true">
+      <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="none" stroke="#DC3A1F" stroke-width="2.5"/><path d="M13 15l6 7 6-9 6 9 6-9 6 9 6-7v8H13z" fill="#F2A93B"/><path d="M15 30c0-7 7-11 15-11s15 4 15 11z" fill="#DC3A1F"/><path d="M14 32h32v3H14z" fill="#DC3A1F"/><path d="M15 37h30c0 5-6 8-15 8s-15-3-15-8z" fill="#DC3A1F"/></svg>
+    </span>
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <ul class="drawer-nav">
+    <li><a href="/" class="on" aria-current="page">Home<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+    <li><a href="/menu">Menu<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+    <li><a href="/contact">Contact<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+  </ul>
+
+  <p class="drawer-label">Jump to</p>
+  <ul class="drawer-sub">
+    <li><a href="/menu#signature">Signature burgers</a></li>
+    <li><a href="/menu#deals">Daily deals</a></li>
+    <li><a href="/menu#breakfast">Breakfast</a></li>
+    <li><a href="/contact#delivery">Delivery partners</a></li>
+    <li><a href="/contact#enquiry">Catering</a></li>
+  </ul>
+
+  <div class="drawer-foot">
+    <button class="btn btn-primary" data-order="delivery">Order delivery</button>
+    <button class="btn btn-ghost" data-order="pickup">Order pickup</button>
+  </div>
 </nav>
 <div class="scrim" id="scrim"></div>
 
@@ -188,7 +209,7 @@
           <g data-layer="1"><rect x="58" y="231" width="284" height="26" rx="13" fill="#4E2C1A"/><rect x="58" y="231" width="284" height="8" rx="4" fill="#6B3D24"/><g stroke="#331B0F" stroke-width="4" stroke-linecap="round" opacity=".6"><path d="M96 242l24 10M158 241l24 10M220 242l24 10M280 241l22 10"/></g></g>
           <g data-layer="2"><rect x="56" y="203" width="288" height="27" rx="13.5" fill="#5B3520"/><rect x="56" y="203" width="288" height="9" rx="4.5" fill="#7A472B"/><g stroke="#3B2113" stroke-width="4" stroke-linecap="round" opacity=".6"><path d="M92 215l24 10M152 213l24 10M212 215l24 10M272 213l24 10"/></g></g>
           <g data-layer="3"><path d="M58 181h284v10c0 5-5 8-10 8H68c-5 0-10-3-10-8z" fill="#F2A93B"/><path d="M92 199c0 10-2 18-8 18s-8-8-8-18zM196 199c0 13-2 22-8 22s-8-9-8-22zM306 199c0 11-2 19-8 19s-8-8-8-19z" fill="#F2A93B"/></g>
-          <g data-layer="4"><rect x="62" y="164" width="276" height="15" rx="7.5" fill="#D93A26"/><rect x="62" y="164" width="276" height="6" rx="3" fill="#E8604A"/><path d="M52 148c14-12 26 8 40-3s24 10 38-2 26 12 40-1 26 10 40-2 26 12 40 0 26 8 38-2c8 8 12 13 12 19H48c0-4 0-6 4-10z" fill="#7FB04E"/></g>
+          <g data-layer="4"><rect x="62" y="164" width="276" height="15" rx="7.5" fill="#D93A26"/><rect x="62" y="164" width="276" height="6" rx="3" fill="#E8604A"/><path d="M78 148c14-12 26 8 40-3s24 10 38-2 26 12 40-1 26 10 40-2 26 12 40 0 26 8 38-2c8 8 12 13 12 19H74c0-4 0-6 4-10z" fill="#7FB04E"/></g>
           <g data-layer="5"><path d="M60 142c0-46 62-74 140-74s140 28 140 74z" fill="#E8A24B"/><path d="M60 142c0-46 62-74 140-74s140 28 140 74z" fill="url(#gl)" opacity=".5"/><g fill="#FBF2DF"><ellipse cx="130" cy="108" rx="8" ry="4.3" transform="rotate(-18 130 108)"/><ellipse cx="196" cy="92" rx="8.4" ry="4.3"/><ellipse cx="262" cy="110" rx="8" ry="4.3" transform="rotate(17 262 110)"/><ellipse cx="160" cy="130" rx="7" ry="3.9" transform="rotate(-8 160 130)"/><ellipse cx="235" cy="128" rx="7" ry="3.9" transform="rotate(9 235 128)"/></g></g>
           <defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD79A"/><stop offset="1" stop-color="#E8A24B" stop-opacity="0"/></linearGradient></defs>
         </svg>
