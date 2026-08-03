@@ -504,7 +504,7 @@ if (grillSec) {
 const loader = $("#loader");
 if (loader) {
   try { sessionStorage.setItem("jkb-seen", "1"); } catch (e) { /* private mode */ }
-  setTimeout(() => loader.remove(), 2300); // after the 1.45s hold + 0.7s wipe
+  setTimeout(() => loader.remove(), 1450); // after the .9s hold + .5s wipe
 }
 
 /* ─── scroll progress bar ───────────────────────────────────── */

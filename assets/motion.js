@@ -48,7 +48,43 @@ function splitWords(root) {
 }
 
 /* the loader keeps its CSS animation as the fail-safe; content waits for it */
-const loaderDelay = () => ($("#loader") && !document.documentElement.classList.contains("loaded-before")) ? 1500 : 0;
+const loaderDelay = () => ($("#loader") && !document.documentElement.classList.contains("loaded-before")) ? 1450 : 0;
+
+/* ─── loader: flame flare-in + a graceful exit ─────────────────────
+   The badge's own pop-in and the progress bar fill stay on CSS — cheap,
+   and already fine as the no-JS fallback. anime only adds two things CSS
+   doesn't do gracefully here: a staggered flare so the flames feel lit
+   rather than just present, and an exit that moves the content before
+   the panel wipes rather than cutting it off mid-frame.
+
+   The continuous flicker on .fl-a/.fl-b/.fl-c stays on CSS (infinite,
+   basically free) — so this animates opacity only. Scale is already
+   owned by that CSS keyframe, and a CSS animation always wins the
+   property it's actively animating over an inline style, so touching
+   transform here would just be silently overwritten every frame. */
+const loaderEl = $("#loader");
+if (loaderEl && !document.documentElement.classList.contains("loaded-before")) {
+  const flames = $$("#loader .lflame path");
+  if (flames.length) {
+    utils.set(flames, { opacity: 0 });
+    animate(flames, { opacity: [0, 1], duration: 480, ease: "out(2)", delay: stagger(90, { start: 150 }) });
+  }
+
+  // A pop-in that then sits frozen for another second reads as a static
+  // image, not something alive — this keeps the badge visibly breathing
+  // through the hold. Starts after the CSS pop-in (lpop, .55s) finishes,
+  // so there is no window where both are animating transform at once.
+  const logoEl = $("#loader .llogo");
+  const breathe = logoEl && animate(logoEl, {
+    scale: [1, 1.035], duration: 900, ease: "inOut(2)", loop: true, alternate: true, delay: 650
+  });
+
+  setTimeout(() => {
+    breathe?.pause();
+    const box = $("#loader .lbox");
+    if (box) animate(box, { opacity: 0, scale: 0.94, y: -14, duration: 620, ease: "in(2)" });
+  }, 900); // matches the CSS #loader wipe delay, so the content leaves with the panel
+}
 
 /* ─── enter-viewport helper ───────────────────────────────────────
    A plain "fire on isIntersecting" observer has a real hole: if the

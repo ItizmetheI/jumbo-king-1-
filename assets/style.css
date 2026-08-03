@@ -332,31 +332,26 @@ footer{view-transition-name:site-footer}
 #loader{
   position:fixed;inset:0;z-index:9999;background:var(--paper);
   display:grid;place-items:center;gap:0;
-  animation:loader-out .7s cubic-bezier(.76,0,.24,1) 1.45s forwards;
+  animation:loader-out .5s cubic-bezier(.76,0,.24,1) .9s forwards;
 }
 @keyframes loader-out{to{opacity:0;visibility:hidden;transform:translateY(-100%)}}
 .loaded-before #loader,.no-loader #loader{display:none}
-#loader .lbox{display:flex;flex-direction:column;align-items:center;gap:22px;
+#loader .lbox{display:flex;flex-direction:column;align-items:center;gap:26px;
   animation:lbox-in .5s cubic-bezier(.22,1,.36,1) both}
 @keyframes lbox-in{from{opacity:0;transform:scale(.94)}}
-#loader .lstack{width:132px;height:132px;position:relative}
-#loader .lstack svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-/* direct children only — the sesame <g> is nested inside the bun <g>
-   and must inherit its parent's timing, not get its own */
-#loader .lstack > svg > g{animation:lpop .42s cubic-bezier(.2,.9,.25,1.3) both}
-#loader .lstack > svg > g:nth-child(1){animation-delay:.06s}
-#loader .lstack > svg > g:nth-child(2){animation-delay:.17s}
-#loader .lstack > svg > g:nth-child(3){animation-delay:.28s}
-#loader .lstack > svg > g:nth-child(4){animation-delay:.39s}
-#loader .lstack > svg > g:nth-child(5){animation-delay:.50s}
-@keyframes lpop{from{opacity:0;transform:translateY(-26px)}}
-#loader .lflame{position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);width:150%;z-index:-1;opacity:.9}
-#loader .lwm{font-family:var(--display);font-size:19px;letter-spacing:.26em;text-transform:uppercase;color:var(--flame);
-  animation:lfade .5s ease .45s both}
-#loader .ltag{font-size:10px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);
-  animation:lfade .5s ease .6s both;margin-top:-14px}
-@keyframes lfade{from{opacity:0;transform:translateY(6px)}}
-#loader .lbar{width:132px;height:3px;border-radius:2px;background:var(--cream);overflow:hidden}
+
+/* The stack is wider than the badge itself on purpose: the badge sits at
+   76% width so the flame — full width, behind it — has room to show past
+   both edges near the base instead of being fully hidden underneath. */
+#loader .lstack{position:relative;width:min(210px,58vw)}
+
+#loader .lflame{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);
+  width:100%;z-index:0}
+#loader .llogo{position:relative;z-index:1;display:block;width:76%;height:auto;margin:0 auto;
+  animation:lpop .55s cubic-bezier(.2,.9,.25,1.15) both}
+@keyframes lpop{from{opacity:0;transform:translateY(-18px) scale(.96)}}
+
+#loader .lbar{width:min(190px,54vw);height:3px;border-radius:2px;background:var(--cream);overflow:hidden}
 #loader .lbar i{display:block;height:100%;width:100%;background:var(--flame);transform-origin:left;
   animation:lbar 1.4s cubic-bezier(.5,0,.2,1) both}
 @keyframes lbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
@@ -622,7 +617,11 @@ nav a::after{transform-origin:left}
 #reviews{contain-intrinsic-size:auto 420px}
 /* never defer the hero — it holds the LCP element */
 .hero,.page-hero{content-visibility:visible}
-img{background:var(--cream)}
+/* Photo placeholder tint lives on .ph/.ph.loading (see photo slots, above),
+   scoped to real photographs. A bare img{background} rule used to sit here
+   and applied to EVERY <img>, including transparent-background SVG marks
+   (the logo, the header mark) — painting a solid cream box behind artwork
+   that is meant to show through to the page. */
 
 /* ═══════════════════════════════════════════════════════════════
    P7 — enquiry form
@@ -703,12 +702,6 @@ body.is-leaving{opacity:0}
 /* ─── field recovers visibly once corrected ───────────────────── */
 .field input:not([aria-invalid="true"]):not(:placeholder-shown):valid{border-color:rgba(78,138,62,.5)}
 .copy-btn:active,#phoneLink:active{transform:scale(.97)}
-
-/* ─── loader carries the real lockup as a single asset ────────── */
-#loader .lstack{width:min(200px,52vw);height:auto}
-#loader .llogo{width:100%;height:auto;animation:lpop .6s cubic-bezier(.2,.9,.25,1.15) both}
-#loader .lflame{bottom:-10px;width:150%}
-#loader .lbar{margin-top:18px}
 
 /* ─── review rail: position dots + keyboard ───────────────────── */
 .rail-dots{display:flex;gap:7px;justify-content:center;margin-top:2px}
