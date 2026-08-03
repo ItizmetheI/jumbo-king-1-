@@ -54,6 +54,7 @@ function openState(date, hours = HOURS) {
 window.openState = openState; // exposed so the self-check is runnable from the console
 
 const fmt = m => {
+  if (m % 1440 === 0 && m > 0) return "Midnight";
   const h24 = Math.floor(m / 60) % 24, mm = m % 60;
   const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
   return h12 + (mm ? ":" + String(mm).padStart(2, "0") : "") + (h24 < 12 ? " AM" : " PM");
@@ -74,7 +75,30 @@ function nextOpen(date, hours = HOURS) {
 }
 window.nextOpen = nextOpen;
 
-const now = new Date();
+/* ─── the shop's clock, not the visitor's ─────────────────────────
+   "Open now" must be answered in Paterson time. Using the browser's
+   local Date means a visitor in Karachi gets the shop's hours judged
+   against Karachi's clock, which is wrong by 9-10 hours. Intl resolves
+   the shop's wall-clock natively, DST included, with no library. */
+const SHOP_TZ = "America/New_York";
+const DAY_IDX = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+
+function shopClock(d = new Date()) {
+  const p = new Intl.DateTimeFormat("en-US", {
+    timeZone: SHOP_TZ, weekday: "short", hour: "numeric", minute: "numeric", hour12: false
+  }).formatToParts(d).reduce((a, x) => (a[x.type] = x.value, a), {});
+  const hour = Number(p.hour) % 24;   // hour12:false can report "24"
+  return {
+    getDay: () => DAY_IDX[p.weekday],
+    getHours: () => hour,
+    getMinutes: () => Number(p.minute),
+    getFullYear: () => d.getFullYear(),
+    toLocaleDateString: (...a) => d.toLocaleDateString(...a)
+  };
+}
+window.shopClock = shopClock;
+
+const now = shopClock();
 const state = openState(now);
 
 const statusEl = $("#status");
@@ -107,6 +131,8 @@ if (hoursList) {
 }
 
 $$("[data-year]").forEach(el => el.textContent = String(now.getFullYear()));
+$$("[data-year-full]").forEach(el =>
+  el.textContent = now.toLocaleDateString("en-US", { month: "long", year: "numeric" }));
 
 /* ─── contact wiring ────────────────────────────────────────── */
 const addrLine = $("#addrLine");
@@ -830,7 +856,12 @@ if (enquiryForm) {
    address or phone to search engines is worse than publishing none.
    ─────────────────────────────────────────────────────────────── */
 function buildStructuredData() {
-  const hhmm = m => String(Math.floor(m / 60) % 24).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+  const hhmm = m => {
+    // a window closing at midnight is 23:59, not 00:00 — 00:00 is read as the
+    // start of the day and would describe a business that never opens
+    if (m % 1440 === 0 && m > 0) return "23:59";
+    return String(Math.floor(m / 60) % 24).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+  };
   const abs = path => (SITE.url || "") + path;
 
   const restaurant = {

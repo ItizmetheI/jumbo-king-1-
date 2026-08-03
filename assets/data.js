@@ -6,12 +6,12 @@
 /* ─── 1. YOUR DETAILS ─────────────────────────────────────────── */
 const SITE = {
   url: "https://jumbo-king-1.ahmedbarkat1067.workers.dev", // canonical origin, no trailing slash
-  address: "",                 // "123 Main St, Newark, NJ 07102"
-  locality: "",                // "Newark"
-  region: "",                  // "NJ"
-  postalCode: "",              // "07102"
-  phone: "",                   // "+15551234567"
-  phoneLabel: "",              // "(555) 123-4567"
+  address: "12-14 Spruce St, Paterson, NJ 07501",
+  locality: "Paterson",
+  region: "NJ",
+  postalCode: "07501",
+  phone: "+19732471113",
+  phoneLabel: "(973) 247-1113",
   instagram: "",               // "jumbokingburger"
   orderPickup: "",             // your online-ordering URL
   orderDelivery: { "Uber Eats": "", "DoorDash": "", "Grubhub": "" }
@@ -31,9 +31,15 @@ const PHOTOS = {
   sweets: "/assets/img/sweets.jpg",          // 4:5  — shake + sundae + cinnamon roll
   storefront: "",      // 16:9 — exterior, daylight
   // Signature items — all 1:1 square
-  "jumbo-king-burger": "", "jumbo-king-double": "", "jumbo-loaded-king": "",
-  "jumbo-king-jr": "", "grilled-chicken": "", "crispy-chicken": "",
-  "spicy-chicken": "", "chicken-wrap": "", "fish-sandwich": ""
+  "jumbo-king-burger": "/assets/img/jumbo-king-burger.jpg",
+  "jumbo-king-double": "/assets/img/jumbo-king-double.jpg",
+  "jumbo-loaded-king": "/assets/img/jumbo-loaded-king.jpg",
+  "jumbo-king-jr": "/assets/img/jumbo-king-jr.jpg",
+  "grilled-chicken": "/assets/img/grilled-chicken.jpg",
+  "crispy-chicken": "/assets/img/crispy-chicken.jpg",
+  "spicy-chicken": "/assets/img/spicy-chicken.jpg",
+  "chicken-wrap": "/assets/img/chicken-wrap.jpg",
+  "fish-sandwich": ""   // no honest stock match — stays illustrated
 };
 
 /* ─── 3. HOURS ────────────────────────────────────────────────────
@@ -41,13 +47,13 @@ const PHOTOS = {
    e.g. 25*60 = closes at 1 AM the next day.
    ─────────────────────────────────────────────────────────────── */
 const HOURS = [
-  { day: "Sunday",    open: 7 * 60, close: 23 * 60 },
-  { day: "Monday",    open: 7 * 60, close: 23 * 60 },
-  { day: "Tuesday",   open: 7 * 60, close: 23 * 60 },
-  { day: "Wednesday", open: 7 * 60, close: 23 * 60 },
-  { day: "Thursday",  open: 7 * 60, close: 23 * 60 },
-  { day: "Friday",    open: 7 * 60, close: 25 * 60 },
-  { day: "Saturday",  open: 7 * 60, close: 25 * 60 }
+  { day: "Sunday",    open: 7 * 60, close: 24 * 60 },
+  { day: "Monday",    open: 7 * 60, close: 24 * 60 },
+  { day: "Tuesday",   open: 7 * 60, close: 24 * 60 },
+  { day: "Wednesday", open: 7 * 60, close: 24 * 60 },
+  { day: "Thursday",  open: 7 * 60, close: 24 * 60 },
+  { day: "Friday",    open: 7 * 60, close: 24 * 60 },
+  { day: "Saturday",  open: 7 * 60, close: 24 * 60 }
 ];
 
 /* ─── 4. MENU ─────────────────────────────────────────────────── */
