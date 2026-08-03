@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://jumbo-king-1.ahmedbarkat1067.workers.dev/sitemap.xml

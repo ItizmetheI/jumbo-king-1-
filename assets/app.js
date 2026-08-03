@@ -590,6 +590,98 @@ document.addEventListener("click", e => {
   try { localStorage.setItem("jkb-order", b.dataset.order); } catch (err) { /* private mode */ }
 });
 
+/* ─── structured data ─────────────────────────────────────────────
+   Generated from HOURS / SIGNATURE / BLOCKS so prices and opening
+   times can never drift from what the page renders. Fields backed by
+   an empty SITE value are omitted entirely — publishing a blank
+   address or phone to search engines is worse than publishing none.
+   ─────────────────────────────────────────────────────────────── */
+function buildStructuredData() {
+  const hhmm = m => String(Math.floor(m / 60) % 24).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+  const abs = path => (SITE.url || "") + path;
+
+  const restaurant = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: "Jumbo King Burger",
+    slogan: "The one. The only.",
+    description: "Flame-grilled burgers, chicken, breakfast and shakes.",
+    servesCuisine: ["Burgers", "American", "Fast Food"],
+    priceRange: "$",
+    url: abs("/"),
+    hasMenu: abs("/menu"),
+    openingHoursSpecification: HOURS
+      .filter(h => h.open < h.close)
+      .map(h => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: `https://schema.org/${h.day}`,
+        opens: hhmm(h.open),
+        closes: hhmm(h.close)
+      }))
+  };
+
+  if (PHOTOS.hero) restaurant.image = abs("/" + PHOTOS.hero.replace(/^\//, ""));
+  if (SITE.phone) restaurant.telephone = SITE.phone;
+  if (SITE.instagram) restaurant.sameAs = ["https://instagram.com/" + SITE.instagram];
+  if (SITE.address) {
+    restaurant.address = {
+      "@type": "PostalAddress",
+      streetAddress: SITE.address.split(",")[0].trim(),
+      ...(SITE.locality && { addressLocality: SITE.locality }),
+      ...(SITE.region && { addressRegion: SITE.region }),
+      ...(SITE.postalCode && { postalCode: SITE.postalCode }),
+      addressCountry: "US"
+    };
+  }
+  if (SITE.orderPickup || Object.values(SITE.orderDelivery).some(Boolean)) {
+    restaurant.potentialAction = [
+      ...(SITE.orderPickup ? [{ "@type": "OrderAction", target: SITE.orderPickup, deliveryMethod: "http://purl.org/goodrelations/v1#PickUp" }] : []),
+      ...Object.entries(SITE.orderDelivery).filter(([, u]) => u)
+        .map(([, u]) => ({ "@type": "OrderAction", target: u, deliveryMethod: "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet" }))
+    ];
+  }
+
+  const item = (name, price) => ({
+    "@type": "MenuItem",
+    name: name.replace(/&amp;/g, "&").replace(/^\d+\.\s*/, ""),
+    ...(price != null && { offers: { "@type": "Offer", price: price.toFixed(2), priceCurrency: "USD" } })
+  });
+
+  const menu = {
+    "@context": "https://schema.org",
+    "@type": "Menu",
+    name: "Jumbo King Burger menu",
+    url: abs("/menu"),
+    hasMenuSection: [
+      {
+        "@type": "MenuSection",
+        name: "Signature Burgers & Sandwiches",
+        hasMenuItem: SIGNATURE.map(s => item(s.name, s.single))
+      },
+      ...BLOCKS.map(b => ({
+        "@type": "MenuSection",
+        name: b.title.replace(/&amp;/g, "&"),
+        hasMenuItem: b.items.map(i => item(i.name, i.multi ? i.multi[0][1] : i.price))
+      }))
+    ]
+  };
+
+  return [restaurant, menu];
+}
+
+(() => {
+  const path = location.pathname.replace(/\/$/, "") || "/";
+  const blocks = buildStructuredData();
+  // menu graph only where it belongs; every page carries the Restaurant
+  const payload = path === "/menu" ? blocks : [blocks[0]];
+  payload.forEach(obj => {
+    const s = document.createElement("script");
+    s.type = "application/ld+json";
+    s.textContent = JSON.stringify(obj);
+    document.head.appendChild(s);
+  });
+})();
+
 /* ─── self-check: append ?selftest or #selftest to any page ──── */
 if (location.search.includes("selftest") || location.hash.includes("selftest")) {
   const out = [];

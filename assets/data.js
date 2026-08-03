@@ -5,7 +5,11 @@
 
 /* ─── 1. YOUR DETAILS ─────────────────────────────────────────── */
 const SITE = {
+  url: "https://jumbo-king-1.ahmedbarkat1067.workers.dev", // canonical origin, no trailing slash
   address: "",                 // "123 Main St, Newark, NJ 07102"
+  locality: "",                // "Newark"
+  region: "",                  // "NJ"
+  postalCode: "",              // "07102"
   phone: "",                   // "+15551234567"
   phoneLabel: "",              // "(555) 123-4567"
   instagram: "",               // "jumbokingburger"
