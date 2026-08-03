@@ -2,3 +2,6 @@
 _archive-charcoal/
 PLAN.md
 __pycache__/
+
+# stock scratch
+.tmp-stock/

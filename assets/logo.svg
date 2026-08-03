@@ -1,0 +1,50 @@
+<!--
+  Jumbo King Burger — brand lockup, redrawn as clean vector from the printed
+  menu board. This is an approximation: if you have the original AI/EPS/SVG
+  from whoever designed the board, drop it in here and it will be sharper
+  (especially the wordmark, which is set here in Anton rather than the exact
+  cut used on the board).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 260" role="img" aria-label="Jumbo King Burger — the one, the only">
+  <defs>
+    <linearGradient id="jkbBunTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F0B36B"/><stop offset="1" stop-color="#DE9243"/>
+    </linearGradient>
+  </defs>
+
+  <!-- bread-slice badge -->
+  <path d="M28 44c0-16 12-26 28-26 6-9 18-13 30-9 8-8 22-8 30 0 12-4 24 0 30 9 16 0 28 10 28 26 0 10-5 17-12 21v138c0 8-6 14-14 14H54c-8 0-14-6-14-14V65c-7-4-12-11-12-21z"
+        fill="#FBF7F0" stroke="#22303F" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- wordmark -->
+  <g font-family="Anton, Impact, 'Arial Narrow Bold', sans-serif" fill="#22303F"
+     text-anchor="middle" letter-spacing="1">
+    <text x="120" y="78" font-size="30">JUMBO</text>
+    <text x="120" y="106" font-size="30">KING</text>
+    <text x="120" y="134" font-size="30">BURGER</text>
+  </g>
+
+  <!-- burger -->
+  <g>
+    <path d="M64 176c0-16 25-27 56-27s56 11 56 27z" fill="url(#jkbBunTop)"/>
+    <g fill="#FDF6E6">
+      <ellipse cx="96" cy="163" rx="4.6" ry="2.4" transform="rotate(-18 96 163)"/>
+      <ellipse cx="120" cy="157" rx="4.8" ry="2.4"/>
+      <ellipse cx="144" cy="164" rx="4.6" ry="2.4" transform="rotate(17 144 164)"/>
+      <ellipse cx="108" cy="171" rx="4" ry="2.1" transform="rotate(-8 108 171)"/>
+      <ellipse cx="133" cy="170" rx="4" ry="2.1" transform="rotate(9 133 170)"/>
+    </g>
+    <path d="M60 178c8-6 14 4 22-1s13 5 21-1 15 6 23-1 14 5 22-1 13 5 20 0c4 3 5 6 5 8H57c0-2 0-4 3-5z" fill="#7FA84E"/>
+    <rect x="64" y="187" width="112" height="8" rx="4" fill="#D63A28"/>
+    <path d="M62 195h116v6c0 3-3 4-5 4H67c-3 0-5-2-5-4z" fill="#F0A93B"/>
+    <path d="M80 205c0 6-1 10-4 10s-4-4-4-10zM122 205c0 7-1 11-4 11s-4-4-4-11zM164 205c0 6-1 10-4 10s-4-4-4-10z" fill="#F0A93B"/>
+    <rect x="60" y="203" width="120" height="15" rx="7.5" fill="#6B4028"/>
+    <rect x="60" y="203" width="120" height="5" rx="2.5" fill="#8A5636"/>
+    <path d="M66 219h108c0 11-19 17-54 17s-54-6-54-17z" fill="url(#jkbBunTop)"/>
+  </g>
+
+  <!-- banner -->
+  <rect x="46" y="240" width="148" height="20" rx="10" fill="#E0402A"/>
+  <text x="120" y="254" font-family="Anton, Impact, sans-serif" font-size="12"
+        fill="#FBF7F0" text-anchor="middle" letter-spacing="1.4">THE ONE. THE ONLY.</text>
+</svg>

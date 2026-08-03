@@ -23,12 +23,12 @@ const SITE = {
    nothing shifts when the real photos land. See SHOT-LIST.md.
    ─────────────────────────────────────────────────────────────── */
 const PHOTOS = {
-  hero: "",            // 4:3  — group shot: burger, fries, drink
-  beef: "",            // 4:5  — Jumbo King Double, hero angle
-  chicken: "",         // 4:5  — Crispy Chicken, three-quarter
-  breakfast: "",       // 4:5  — croissant sandwich + hash browns
-  sides: "",           // 4:5  — fries, rings and wings together
-  sweets: "",          // 4:5  — shake + sundae + cinnamon roll
+  hero: "/assets/img/hero.jpg",            // 4:3  — group shot: burger, fries, drink
+  beef: "/assets/img/beef.jpg",            // 4:5  — Jumbo King Double, hero angle
+  chicken: "/assets/img/chicken.jpg",         // 4:5  — Crispy Chicken, three-quarter
+  breakfast: "/assets/img/breakfast.jpg",       // 4:5  — croissant sandwich + hash browns
+  sides: "/assets/img/sides.jpg",           // 4:5  — fries, rings and wings together
+  sweets: "/assets/img/sweets.jpg",          // 4:5  — shake + sundae + cinnamon roll
   storefront: "",      // 16:9 — exterior, daylight
   // Signature items — all 1:1 square
   "jumbo-king-burger": "", "jumbo-king-double": "", "jumbo-loaded-king": "",
