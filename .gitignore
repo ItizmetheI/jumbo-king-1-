@@ -5,3 +5,4 @@ __pycache__/
 
 # stock scratch
 .tmp-stock/
+.tmp3/
