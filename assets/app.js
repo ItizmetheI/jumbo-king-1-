@@ -115,7 +115,9 @@ if (menuRoot) {
   const renderItem = it => {
     const val = it.multi
       ? `<div class="multi">${it.multi.map(([l, v]) => `<span><i>${l}</i>${money(v)}</span>`).join("")}</div>`
-      : (it.price == null ? "—" : money(it.price));
+      : (it.price == null
+          ? `<span class="tbd" title="Ask in store — price not listed on the menu board">—</span>`
+          : money(it.price));
     return `<div class="item">
       <div class="nm">${it.name}${it.note ? `<em>${it.note}</em>` : ""}</div>
       <div class="dots"></div>
@@ -354,24 +356,12 @@ const stagger = new IntersectionObserver(es => {
 }, { rootMargin: "-6% 0px -6% 0px" });
 $$("[data-stagger]").forEach(el => stagger.observe(el));
 
-/* ─── count-up ──────────────────────────────────────────────── */
+/* ─── count-up is owned by motion.js (anime) ─────────────────────
+   Only the reduced-motion / no-module fallback lives here: show the
+   final value immediately so the number is never left reading zero. */
 $$("[data-count]").forEach(el => {
-  const target = parseFloat(el.dataset.count);
   const decimals = (el.dataset.count.split(".")[1] || "").length;
-  if (prefersReduced) { el.textContent = target.toFixed(decimals); return; }
-  el.textContent = (0).toFixed(decimals);
-  const co = new IntersectionObserver(es => {
-    if (!es[0].isIntersecting) return;
-    const t0 = performance.now();
-    const tick = now => {
-      const p = Math.min(1, (now - t0) / 900);
-      el.textContent = (target * (1 - Math.pow(1 - p, 3))).toFixed(decimals);
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-    co.disconnect();
-  }, { rootMargin: "-10% 0px" });
-  co.observe(el);
+  el.textContent = (el.dataset.countPrefix || "") + parseFloat(el.dataset.count).toFixed(decimals);
 });
 
 /* ─── button ripple ─────────────────────────────────────────── */

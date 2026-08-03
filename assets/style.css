@@ -14,7 +14,15 @@
   --head-h:92px;
   --pad:clamp(20px,5vw,84px);
   --gap:clamp(72px,11vw,168px);
+  /* radii: three steps only — pill, card, chip */
   --r:26px;
+  --r-card:20px;
+  --r-chip:10px;
+  /* elevation: three steps, all keyed to the charcoal ink */
+  --e1:0 2px 8px -4px rgba(31,39,51,.18);
+  --e2:0 18px 34px -20px rgba(31,39,51,.40);
+  --e3:0 26px 50px -22px rgba(31,39,51,.52);
+  --ease:cubic-bezier(.22,1,.36,1);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:150px}
@@ -138,8 +146,8 @@ main{padding-top:calc(var(--head-h) + 60px)}
 @keyframes marq{to{transform:translateX(-100%)}}
 
 /* ═══════════ reveal ═══════════ */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1)}
-.reveal.in{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+.js .reveal.in{opacity:1;transform:none}
 
 /* ═══════════ showcase ═══════════ */
 .showcase{margin-top:var(--gap);display:flex;flex-direction:column;gap:clamp(20px,3vw,32px)}
@@ -401,10 +409,93 @@ html{scrollbar-color:var(--flame) var(--cream);scrollbar-width:thin}
 ::-webkit-scrollbar-thumb{background:var(--flame);border-radius:999px;border:3px solid var(--cream)}
 ::-webkit-scrollbar-thumb:hover{background:var(--flame-dk)}
 
-/* ─── staggered reveals ───────────────────────────────────────── */
-[data-stagger] > *{opacity:0;transform:translateY(26px);
+/* ─── staggered reveals ───────────────────────────────────────────
+   Hidden only when JS is present (the inline head script sets .js), so
+   a script failure can never leave the page blank. */
+.js [data-stagger] > *{opacity:0;transform:translateY(26px);
   transition:opacity .75s ease var(--d,0ms),transform .75s cubic-bezier(.22,1,.36,1) var(--d,0ms)}
-[data-stagger].in > *{opacity:1;transform:none}
+.js [data-stagger].in > *{opacity:1;transform:none}
+
+/* ─── handshake with motion.js ────────────────────────────────────
+   Once the anime layer owns an element it writes inline transforms every
+   frame; leaving a CSS transition on the same properties makes the two
+   fight. .motion-owned stands the CSS down. */
+.motion-owned,.motion-owned > *{transition:none!important}
+.w{display:inline-block;white-space:pre-wrap}
+
+/* ═══════════════════════════════════════════════════════════════
+   P3 — UI refinement
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── buttons: size ramp + real states ────────────────────────── */
+.btn-lg{padding:18px 38px;font-size:15.5px}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none}
+.btn:active:not(:disabled){transform:translateY(1px) scale(.985)}
+.btn.is-loading{color:transparent!important;pointer-events:none;position:relative}
+.btn.is-loading::before{content:"";position:absolute;inset:0;margin:auto;width:17px;height:17px;border-radius:50%;
+  border:2px solid currentColor;border-top-color:transparent;color:#fff;animation:spin .7s linear infinite}
+.btn-ghost.is-loading::before,.btn-light.is-loading::before{color:var(--flame)}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* optical centring: icon-leading buttons read left-heavy at pill radii */
+.btn > svg:first-child{margin-left:-2px}
+
+/* ─── focus ring: needs to clear both cream and charcoal ──────── */
+:focus-visible{outline:3px solid var(--flame);outline-offset:3px;border-radius:6px}
+.band.dark :focus-visible,.grill :focus-visible,footer :focus-visible,
+.drawer :focus-visible,.band.flame :focus-visible{outline-color:var(--gold)}
+
+/* ─── header lifts once scrolled ──────────────────────────────── */
+header{box-shadow:0 0 0 rgba(31,39,51,0);transition:height .25s,box-shadow .3s}
+body.scrolled header{box-shadow:var(--e1)}
+/* nav underline matches the header hairline weight */
+nav a::after{height:2px}
+
+/* ─── touch targets ───────────────────────────────────────────── */
+.orderbar button{min-height:44px}
+footer .fl a{padding:9px 0}
+.rail-nav button{min-width:44px;min-height:44px}
+.menu-nav a{padding-block:10px 6px}
+
+/* ─── card elevation, one shared scale ────────────────────────── */
+.pick a:hover,.partner:hover{box-shadow:var(--e2)}
+.sig article:hover .ph{box-shadow:var(--e3)}
+.map-cta,.sheet-card,.sheet-cancel{box-shadow:var(--e3)}
+#toTop{box-shadow:var(--e2)}
+
+/* ─── prices: figures must align in a column ──────────────────── */
+.item .val,.sig .cost b,.band .figure,.pr span,.row .sizes i span,.score .big{
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+/* the dotted leader sat a touch high against the price baseline */
+.item .dots{transform:translateY(-3px)}
+/* missing price reads as intentional, not broken */
+.item .val:not(:has(.multi)){min-width:3.5ch}
+.item .val.tbd{color:var(--soft);font-weight:600;cursor:help}
+
+/* ─── kicker tightens at small sizes ──────────────────────────── */
+@media(max-width:600px){
+  .kicker{letter-spacing:.18em;font-size:11px}
+  .mtrack span{font-size:clamp(15px,4.6vw,20px)}
+  .mtrack{gap:28px;padding-right:28px}
+}
+
+/* ─── photo placeholders: quieter, better contrast ────────────── */
+.ph{background:linear-gradient(160deg,var(--cream),#EFE4D4)}
+.ph .ghost{opacity:.62}
+.ph .tag{background:rgba(31,39,51,.34);font-size:9.5px;opacity:.75;transition:opacity .2s}
+.ph:hover .tag{opacity:1}
+
+/* ─── delivery partners: honest empty state ───────────────────── */
+.partner[href="#"]{opacity:.62;cursor:default}
+.partner[href="#"]:hover{transform:none;box-shadow:none;border-color:var(--hair)}
+
+/* ─── footer balance on tablet ────────────────────────────────── */
+@media(min-width:761px) and (max-width:1024px){
+  .foot-grid{grid-template-columns:1fr 1fr;gap:32px 40px}
+  .foot-grid > :first-child{grid-column:1 / -1}
+}
+
+/* ─── skeleton shimmer paced to the loader bar ────────────────── */
+.skel::after,.ph.loading::before{animation-duration:1.4s}
 
 /* ─── button press + ripple ───────────────────────────────────── */
 .btn{position:relative;overflow:hidden}
@@ -445,6 +536,7 @@ nav a::after{transform-origin:left}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .reveal{opacity:1;transform:none}
   [data-stagger] > *{opacity:1;transform:none}
+  .w{opacity:1!important;transform:none!important}
   #loader{display:none}
   .ph img{opacity:1;filter:none;transform:none}
   @view-transition{navigation:none}
