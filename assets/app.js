@@ -989,6 +989,25 @@ if (location.search.includes("selftest") || location.hash.includes("selftest")) 
   check("Sat night -> Sunday",         nx(6, 23, 30).dayIdx, 0);
   const allClosed = H.map(() => ({ open: 600, close: 600 }));
   check("never open -> null",          nextOpen(new Date(2026, 7, 2, 12), allClosed), null);
+  // --- new logic added after the original suite ---------------------
+  // midnight must never serialise as 00:00 (schema.org reads it as the START
+  // of the day, describing a shop that never opens)
+  const specs = buildStructuredData()[0].openingHoursSpecification;
+  check("no spec closes at 00:00", specs.every(s => s.closes !== "00:00"), true);
+  check("midnight close -> 23:59",
+        specs.some(s => s.closes === "23:59") || HOURS.every(h => h.close % 1440 !== 0), true);
+
+  // the shop clock must track America/New_York, not the visitor
+  const sc = shopClock(new Date("2026-08-04T22:00:00Z"));   // 22:00 UTC = 18:00 EDT
+  check("shopClock resolves ET hour", sc.getHours(), 18);
+  const winter = shopClock(new Date("2026-01-15T22:00:00Z")); // EST, one hour back
+  check("shopClock honours DST", winter.getHours(), 17);
+  check("shopClock day matches", sc.getDay(), 2);           // Tuesday
+
+  // fmt must not print a bare "12 AM" for a midnight close
+  check("midnight reads as Midnight", fmt(1440), "Midnight");
+  check("noon still reads 12 PM", fmt(720), "12 PM");
+
   const pre = document.createElement("pre");
   pre.style.cssText = "position:fixed;left:10px;bottom:10px;z-index:99;background:#1F2733;color:#fff;font:12px/1.5 ui-monospace,monospace;padding:12px 16px;border-radius:12px;max-height:60vh;overflow:auto";
   pre.textContent = out.join("\n") + "\n\n" + (out.every(l => l.startsWith("PASS")) ? "ALL PASS" : "FAILURES");
