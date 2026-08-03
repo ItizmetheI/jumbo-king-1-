@@ -42,15 +42,44 @@ const fmt = m => {
   return h12 + (mm ? ":" + String(mm).padStart(2, "0") : "") + (h24 < 12 ? " AM" : " PM");
 };
 
+/* Next opening from `date`, skipping days that never open and today's
+   opening if it has already passed. Returns null if nothing is ever open. */
+function nextOpen(date, hours = HOURS) {
+  const mins = date.getHours() * 60 + date.getMinutes();
+  for (let i = 0; i < 8; i++) {
+    const d = (date.getDay() + i) % 7;
+    const h = hours[d];
+    if (h.open >= h.close) continue;      // closed all day
+    if (i === 0 && mins >= h.open) continue; // today's opening already gone
+    return { dayIdx: d, at: h.open, daysAhead: i };
+  }
+  return null;
+}
+window.nextOpen = nextOpen;
+
 const now = new Date();
 const state = openState(now);
 
 const statusEl = $("#status");
 if (statusEl) {
   statusEl.classList.toggle("open", state.open);
-  $("#statusText").textContent = state.open
-    ? "Open now · till " + fmt(state.until)
-    : "Closed · opens " + fmt(HOURS[now.getDay()].open);
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+  let label;
+  if (state.open) {
+    const left = state.until - nowMins;
+    // a closing time you can still act on is worth more than "till 11 PM"
+    label = left > 0 && left <= 60
+      ? `Closing in ${left} min`
+      : "Open now · till " + fmt(state.until);
+    statusEl.classList.toggle("closing", left > 0 && left <= 60);
+  } else {
+    const nx = nextOpen(now);
+    label = !nx ? "Closed"
+      : nx.daysAhead === 0 ? "Closed · opens " + fmt(nx.at)
+      : nx.daysAhead === 1 ? "Closed · opens tomorrow " + fmt(nx.at)
+      : `Closed · opens ${HOURS[nx.dayIdx].day} ${fmt(nx.at)}`;
+  }
+  $("#statusText").textContent = label;
 }
 
 const hoursList = $("#hoursList");
@@ -148,31 +177,83 @@ addEventListener("scroll", onScroll, { passive:true });
 onScroll();
 
 const navToggle = $("#navToggle");
+const drawerEl = $("#drawer");
+let releaseNavTrap = null;
 const closeNav = () => {
+  if (!body.classList.contains("nav-open")) return;
   body.classList.remove("nav-open");
   navToggle?.setAttribute("aria-expanded", "false");
+  releaseNavTrap?.(); releaseNavTrap = null;
+  drawerEl?.setAttribute("inert", "");
+  if (!body.classList.contains("sheet-open")) lockScroll(false);
+  navToggle?.focus();
 };
 if (navToggle) {
+  drawerEl?.setAttribute("inert", "");
   navToggle.onclick = () => {
     const open = !body.classList.contains("nav-open");
-    body.classList.toggle("nav-open", open);
-    navToggle.setAttribute("aria-expanded", String(open));
+    if (!open) return closeNav();
+    body.classList.add("nav-open");
+    navToggle.setAttribute("aria-expanded", "true");
+    drawerEl?.removeAttribute("inert");
+    lockScroll(true);
+    releaseNavTrap = drawerEl ? trapFocus(drawerEl) : null;
+    drawerEl?.querySelector(FOCUSABLE)?.focus();
   };
 }
 $$("#drawer a").forEach(a => a.addEventListener("click", closeNav));
 
 /* ─── bottom sheets ─────────────────────────────────────────── */
+/* ─── overlay plumbing: scroll lock + focus trap ──────────────────
+   Without the lock the page scrolls behind an open drawer on touch;
+   without the trap, Tab walks straight out of the dialog into content
+   the user cannot see. Both are required for the overlay to be usable. */
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])';
+let scrollLockY = 0;
+
+function lockScroll(on) {
+  if (on) {
+    scrollLockY = scrollY;
+    body.style.top = `-${scrollLockY}px`;
+    body.classList.add("locked");
+  } else if (body.classList.contains("locked")) {
+    body.classList.remove("locked");
+    body.style.top = "";
+    scrollTo(0, scrollLockY);
+  }
+}
+
+let releaseTrap = null;
+function trapFocus(container) {
+  const onKey = e => {
+    if (e.key !== "Tab") return;
+    const items = [...container.querySelectorAll(FOCUSABLE)].filter(el => el.offsetParent !== null);
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  };
+  document.addEventListener("keydown", onKey);
+  return () => document.removeEventListener("keydown", onKey);
+}
+
 let lastFocus = null;
 const openSheet = el => {
   lastFocus = document.activeElement;
   closeNav();
   body.classList.add("sheet-open");
   el.classList.add("on");
-  el.querySelector("a,button")?.focus();
+  lockScroll(true);
+  releaseTrap?.();
+  releaseTrap = trapFocus(el);
+  el.querySelector(FOCUSABLE)?.focus();
 };
 const closeSheets = () => {
+  if (!$(".sheet.on")) return;
   $$(".sheet.on").forEach(s => s.classList.remove("on"));
   body.classList.remove("sheet-open");
+  releaseTrap?.(); releaseTrap = null;
+  if (!body.classList.contains("nav-open")) lockScroll(false);
   lastFocus?.focus();
 };
 $("#scrim")?.addEventListener("click", () => { closeNav(); closeSheets(); });
@@ -407,6 +488,84 @@ document.addEventListener("visibilitychange", () => {
   document.title = document.hidden ? "🍔 Come back hungry…" : realTitle;
 });
 
+/* ─── menu search ─────────────────────────────────────────────── */
+const filterInput = $("#menuFilter");
+if (filterInput) {
+  const wrap = $("#msearch");
+  const countEl = $("#menuFilterCount");
+  const sigSection = $("#signature");
+  const cards = $$("#sigGrid article");
+  const rows = $$(".mblock .item");
+  const blocks = $$(".mblock");
+
+  const textOf = el => el.textContent.toLowerCase().replace(/\s+/g, " ");
+  const index = new Map([...cards, ...rows].map(el => [el, textOf(el)]));
+
+  let empty = $("#noResults");
+  if (!empty) {
+    empty = document.createElement("div");
+    empty.id = "noResults";
+    empty.className = "no-results is-filtered-out";
+    empty.innerHTML = `<h3>Nothing matched</h3><p>Try a shorter word, or browse the full menu below.</p>`;
+    $("#menuRoot")?.prepend(empty);
+  }
+
+  const apply = () => {
+    const q = filterInput.value.trim().toLowerCase();
+    wrap.classList.toggle("has-value", q.length > 0);
+
+    if (!q) {
+      index.forEach((_, el) => el.classList.remove("is-filtered-out"));
+      blocks.forEach(b => b.classList.remove("is-empty"));
+      sigSection?.classList.remove("is-empty");
+      empty.classList.add("is-filtered-out");
+      countEl.textContent = "";
+      return;
+    }
+
+    let hits = 0;
+    index.forEach((text, el) => {
+      const match = text.includes(q);
+      el.classList.toggle("is-filtered-out", !match);
+      if (match) hits++;
+    });
+    // hide a section once every child is filtered out
+    blocks.forEach(b => b.classList.toggle("is-empty",
+      ![...b.querySelectorAll(".item")].some(i => !i.classList.contains("is-filtered-out"))));
+    sigSection?.classList.toggle("is-empty",
+      !cards.some(c => !c.classList.contains("is-filtered-out")));
+
+    empty.classList.toggle("is-filtered-out", hits > 0);
+    countEl.textContent = hits === 0
+      ? `No matches for “${filterInput.value.trim()}”`
+      : `${hits} item${hits === 1 ? "" : "s"} matching “${filterInput.value.trim()}”`;
+  };
+
+  filterInput.addEventListener("input", apply);
+  filterInput.addEventListener("keydown", e => { if (e.key === "Escape") { filterInput.value = ""; apply(); } });
+  $("#menuFilterClear")?.addEventListener("click", () => { filterInput.value = ""; apply(); filterInput.focus(); });
+}
+
+/* ─── back-to-top yields to the footer ────────────────────────── */
+if (toTop) {
+  const foot = document.querySelector("footer");
+  if (foot) {
+    const fo = new IntersectionObserver(es => toTop.classList.toggle("at-footer", es[0].isIntersecting));
+    fo.observe(foot);
+  }
+}
+
+/* ─── order sheet remembers the last choice ───────────────────── */
+try {
+  const last = localStorage.getItem("jkb-order");
+  if (last) $$(`[data-order="${last}"]`).forEach(b => b.dataset.preferred = "1");
+} catch (e) { /* private mode */ }
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-order]");
+  if (!b) return;
+  try { localStorage.setItem("jkb-order", b.dataset.order); } catch (err) { /* private mode */ }
+});
+
 /* ─── self-check: append ?selftest or #selftest to any page ──── */
 if (location.search.includes("selftest") || location.hash.includes("selftest")) {
   const out = [];
@@ -424,6 +583,15 @@ if (location.search.includes("selftest") || location.hash.includes("selftest")) 
   check("Mon 00:30 closed (no spill)", at(1, 0, 30).open, false);
   check("Mon until = 11 PM",           at(1, 12).until, 1380);
   check("Fri until = 1 AM next day",   at(5, 23).until, 1500);
+
+  // nextOpen: what we tell a customer when the door is shut
+  const nx = (d, h, m = 0) => nextOpen(new Date(2026, 7, 2 + d, h, m), H);
+  check("before open -> today",        nx(0, 6).daysAhead, 0);
+  check("after close -> tomorrow",     nx(0, 23, 30).daysAhead, 1);
+  check("tomorrow's opening time",     nx(0, 23, 30).at, 420);
+  check("Sat night -> Sunday",         nx(6, 23, 30).dayIdx, 0);
+  const allClosed = H.map(() => ({ open: 600, close: 600 }));
+  check("never open -> null",          nextOpen(new Date(2026, 7, 2, 12), allClosed), null);
   const pre = document.createElement("pre");
   pre.style.cssText = "position:fixed;left:10px;bottom:10px;z-index:99;background:#1F2733;color:#fff;font:12px/1.5 ui-monospace,monospace;padding:12px 16px;border-radius:12px;max-height:60vh;overflow:auto";
   pre.textContent = out.join("\n") + "\n\n" + (out.every(l => l.startsWith("PASS")) ? "ALL PASS" : "FAILURES");

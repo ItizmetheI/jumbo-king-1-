@@ -497,6 +497,62 @@ footer .fl a{padding:9px 0}
 /* ─── skeleton shimmer paced to the loader bar ────────────────── */
 .skel::after,.ph.loading::before{animation-duration:1.4s}
 
+/* ═══════════════════════════════════════════════════════════════
+   P4 — UX
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── background must not scroll behind an overlay ────────────── */
+body.locked{position:fixed;width:100%;overflow:hidden}
+[inert]{pointer-events:none}
+
+/* ─── "closing soon" earns the flame ──────────────────────────── */
+.status.closing{background:rgba(220,58,31,.1);color:var(--flame)}
+.status.closing .dot{background:var(--flame)}
+.status.closing .dot::after{border-color:var(--flame)}
+
+/* ─── menu search ─────────────────────────────────────────────── */
+.msearch{position:relative;max-width:420px;margin-top:26px}
+.msearch input{width:100%;font:inherit;font-size:15px;padding:14px 44px 14px 44px;border-radius:999px;
+  border:1.5px solid var(--hair);background:#fff;color:var(--ink);transition:border-color .2s,box-shadow .2s}
+.msearch input::placeholder{color:var(--soft)}
+.msearch input:focus{outline:none;border-color:var(--flame);box-shadow:0 0 0 4px rgba(220,58,31,.12)}
+.msearch .mag{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--soft);pointer-events:none}
+.msearch .clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;
+  border-radius:50%;display:none;place-items:center;color:var(--soft);font-size:18px;line-height:1}
+.msearch .clear:hover{background:var(--cream);color:var(--ink)}
+.msearch.has-value .clear{display:grid}
+.msearch-count{margin-top:10px;font-size:12.5px;font-weight:600;color:var(--soft);min-height:1.2em}
+.is-filtered-out{display:none!important}
+.mblock.is-empty,.msec.is-empty{display:none}
+.no-results{padding:40px 0;text-align:center}
+.no-results h3{color:var(--charcoal);margin-bottom:10px}
+
+/* ─── back-to-top must not collide with the footer ────────────── */
+#toTop.at-footer{opacity:0!important;pointer-events:none!important}
+
+/* ─── print: the menu should print like a menu ────────────────── */
+@media print{
+  @page{margin:14mm}
+  header,.orderbar,.menu-nav,.drawer,.scrim,.sheet,#toTop,#progress,#loader,
+  .marquee,.msearch,.band,.rail-nav,.hero .pick,footer .fl,.skip{display:none!important}
+  body{background:#fff;font-size:11pt}
+  main{padding-top:0}
+  .wrap{max-width:none;padding-inline:0}
+  a{text-decoration:none;color:#000}
+  .ph{display:none}
+  .sig{display:block}
+  .sig article{break-inside:avoid;display:flex;justify-content:space-between;gap:16px;
+    padding:7px 0;border-bottom:1px solid #ddd}
+  .sig .meta{margin-top:0}
+  .sig h3{font-size:12pt}
+  .cols{grid-template-columns:1fr 1fr}
+  .item{padding:6px 0}
+  .mblock{break-inside:avoid;margin-top:20px}
+  .mblock > h3{border-bottom:2px solid #000}
+  *{box-shadow:none!important;animation:none!important;transition:none!important;
+    opacity:1!important;transform:none!important}
+}
+
 /* ─── button press + ripple ───────────────────────────────────── */
 .btn{position:relative;overflow:hidden}
 .btn::after{content:"";position:absolute;left:var(--rx,50%);top:var(--ry,50%);width:8px;height:8px;border-radius:50%;
