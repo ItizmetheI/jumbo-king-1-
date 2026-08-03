@@ -15,10 +15,27 @@ const prefersReduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
    placeholder that names the file and ratio it is waiting for.
    ─────────────────────────────────────────────────────────────── */
 const RATIOS = { r43:"4:3", r45:"4:5", r11:"1:1", r169:"16:9" };
-function photo(key, ratio, alt, ghost) {
+const DIMS   = { r43:[1200,900], r45:[1000,1250], r11:[1000,1000], r169:[1600,900] };
+
+/* Intrinsic width/height are always emitted so the browser reserves the exact
+   box before the image arrives — the placeholder already holds that space via
+   aspect-ratio, and matching it keeps CLS at zero when photos drop in.
+   AVIF/WebP siblings are used automatically if they sit next to the .jpg. */
+function photo(key, ratio, alt, ghost, opts = {}) {
   const src = PHOTOS[key];
-  if (src) return `<div class="ph ${ratio}"><img src="${src}" alt="${alt}" loading="lazy"></div>`;
-  return `<div class="ph ${ratio}">${ghost || ""}<span class="tag">${RATIOS[ratio]} · ${key}.jpg</span></div>`;
+  const [w, h] = DIMS[ratio] || DIMS.r43;
+  if (!src) {
+    return `<div class="ph ${ratio}">${ghost || ""}<span class="tag">${RATIOS[ratio]} · ${key}.jpg</span></div>`;
+  }
+  const base = src.replace(/\.(jpe?g|png)$/i, "");
+  const eager = opts.priority === true;
+  return `<div class="ph ${ratio}"><picture>
+    <source srcset="${base}.avif" type="image/avif">
+    <source srcset="${base}.webp" type="image/webp">
+    <img src="${src}" alt="${alt}" width="${w}" height="${h}"
+         loading="${eager ? "eager" : "lazy"}" decoding="async"
+         ${eager ? 'fetchpriority="high"' : ""}>
+  </picture></div>`;
 }
 
 /* ─── hours ──────────────────────────────────────────────────────
@@ -111,6 +128,13 @@ if (igLink && SITE.instagram) {
 }
 
 /* ─── page rendering ────────────────────────────────────────── */
+/* hero slot is static markup so it paints without waiting for JS; swap in
+   the real photo (eager + high priority — it's the LCP element) once set */
+const heroSlot = $(".hero .ph");
+if (heroSlot && PHOTOS.hero) {
+  heroSlot.outerHTML = photo("hero", "r43", "Flame-grilled burger, fries and a drink", "", { priority: true });
+}
+
 const showcase = $("#showcase");
 if (showcase) {
   showcase.innerHTML = SHOWCASE.map(s => `

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -53,10 +53,10 @@
       </svg>
       <span class="wm">Jumbo King<br>Burger<small>The one. The only.</small></span>
     </a>
-    <nav>
+    <nav aria-label="Main">
       <a href="/">Home</a>
       <a href="/menu">Menu</a>
-      <a href="/contact" class="active">Contact</a>
+      <a href="/contact" class="active" aria-current="page">Contact</a>
     </nav>
     <div class="head-cta">
       <button class="btn btn-ghost btn-sm" data-order="pickup">Pickup</button>
@@ -71,21 +71,21 @@
   <button data-order="delivery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Delivery</button>
 </div>
 
-<div class="drawer" id="drawer">
+<nav class="drawer" id="drawer" aria-label="Mobile">
   <a href="/">Home</a>
   <a href="/menu">Menu</a>
   <a href="/contact">Contact</a>
   <a href="#delivery">Delivery partners</a>
   <a href="#catering">Catering</a>
   <button class="btn" data-order="delivery">Order delivery</button>
-</div>
+</nav>
 <div class="scrim" id="scrim"></div>
 
 <main id="main">
 
   <section class="wrap">
     <div class="page-hero">
-      <div class="status" id="status" style="margin-bottom:20px"><span class="dot"></span><span id="statusText">Checking hours…</span></div>
+      <div class="status" id="status" role="status" aria-live="polite" style="margin-bottom:20px"><span class="dot"></span><span id="statusText">Checking hours…</span></div>
       <h1>Come and<br>get it</h1>
       <p>Open early for breakfast, open late for everything else. Find us below, or send it straight to your door.</p>
     </div>
