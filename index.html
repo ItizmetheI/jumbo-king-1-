@@ -3,802 +3,254 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Jumbo King Burger - Charcoal and Flame design concept. Ember-lit charcoal canvas, poster typography, illustrated food.">
-<meta name="theme-color" content="#121110">
-<title>JumboKing Burger — Charcoal &amp; Flame</title>
-<style>
-  :root {
-    --canvas: #121110;
-    --canvas-2: #191614;
-    --stage: #24211E;
-    --stage-2: #2E2A25;
-    --hot: #FF4A0D;
-    --ember: #FFA524;
-    --blush: #FFD2B8;
-    --black: #000000;
-    --bone: #FFFFFF;
-    --on-hot: #FFFFFF;
-    --hairline: rgba(255, 210, 184, .14);
-
-    --display: Impact, Haettenschweiler, "Arial Narrow Bold", "Franklin Gothic Heavy", sans-serif;
-    --ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-
-    --s4: 4px; --s8: 8px; --s12: 12px; --s16: 16px; --s20: 20px;
-    --s24: 24px; --s32: 32px; --s40: 40px; --s56: 56px; --s64: 64px; --s80: 80px; --s100: 100px;
-    --r-pill: 15px; --r-card: 12px; --r-feature: 38px;
-    --max: 1280px;
-
-    --seed: #FFE6BC;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--canvas); color: var(--bone);
-    font-family: var(--ui); font-size: 18px; line-height: 1.45; letter-spacing: .02em;
-    -webkit-font-smoothing: antialiased; overflow-x: hidden;
-  }
-  h1, h2, h3, h4, p, ul, li, figure { margin: 0; }
-  ul { padding: 0; list-style: none; }
-  a { color: inherit; text-decoration: none; }
-  button { font: inherit; }
-  :focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
-  .wrap { max-width: var(--max); margin: 0 auto; padding-left: var(--s24); padding-right: var(--s24); }
-
-  .display { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: .73; letter-spacing: .06em; }
-  .flame {
-    background: linear-gradient(178deg, var(--ember) 4%, var(--hot) 58%, #C22F04 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .eyebrow {
-    display: inline-block; font-size: 14px; font-weight: 500; letter-spacing: .02em;
-    text-transform: uppercase; color: var(--hot);
-  }
-  .lede { color: var(--blush); font-size: 18px; max-width: 52ch; }
-  .aside { display: block; color: var(--blush); font-size: .44em; letter-spacing: .04em; }
-
-  /* ---------- reveal ---------- */
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.75,.3,1); }
-  .reveal.in { opacity: 1; transform: none; }
-
-  /* ---------- buttons ---------- */
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
-    font-size: 14px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase;
-    padding: 11px 16px; border-radius: var(--r-pill);
-    background: var(--hot); color: var(--on-hot); border: 1px solid var(--hot);
-    transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
-  }
-  .btn:hover { background: var(--ember); border-color: var(--ember); color: #1A0C02; transform: translateY(-1px); }
-  .btn.ghost { background: transparent; color: var(--bone); border-color: rgba(255,255,255,.5); }
-  .btn.ghost:hover { background: var(--bone); color: var(--black); border-color: var(--bone); }
-  .caret { font-size: 12px; }
-
-  /* ---------- nav ---------- */
-  nav.bar { position: sticky; top: 0; z-index: 40; background: var(--black); border-bottom: 1px solid rgba(255,255,255,.07); }
-  nav.bar .wrap { display: flex; align-items: center; gap: var(--s20); padding: var(--s12) var(--s24); flex-wrap: wrap; }
-  .logo { font-family: var(--display); font-size: 24px; letter-spacing: .04em; text-transform: uppercase; }
-  .navlinks { display: flex; gap: var(--s20); margin-left: auto; font-size: 14px; font-weight: 500; text-transform: uppercase; flex-wrap: wrap; }
-  .navlinks a { padding-bottom: 2px; border-bottom: 2px solid transparent; }
-  .navlinks a:hover { color: var(--ember); border-bottom-color: var(--ember); }
-  .navcta { display: flex; gap: var(--s8); }
-
-  /* ---------- hero ---------- */
-  header.hero { position: relative; overflow: hidden; padding: var(--s32) 0 var(--s56); }
-  .ember-glow {
-    position: absolute; left: 50%; top: 46%; transform: translate(-50%,-50%);
-    width: min(1250px, 145vw); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
-    background: radial-gradient(circle, rgba(255,74,13,.42) 0%, rgba(255,165,36,.16) 34%, transparent 64%);
-    animation: breathe 7s ease-in-out infinite;
-  }
-  @keyframes breathe { 0%,100% { opacity: .78; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.05); } }
-  .grit {
-    position: absolute; inset: 0; pointer-events: none; opacity: .5;
-    background-image: radial-gradient(rgba(255,210,184,.055) 1px, transparent 1.3px);
-    background-size: 6px 6px;
-  }
-  header.hero .wrap { position: relative; z-index: 2; display: grid; justify-items: center; gap: var(--s16); text-align: center; }
-
-  .hero-stage { display: grid; justify-items: center; width: 100%; }
-  .hero-line { position: relative; white-space: nowrap; font-size: clamp(60px, 18.5vw, 250px); }
-  .hero-line.top { z-index: 1; }
-  .hero-line.bot { z-index: 3; font-size: clamp(26px, 7.6vw, 104px); color: var(--blush); }
-
-  .hero-art { position: relative; z-index: 2; width: min(540px, 76vw); margin: -7vw 0 -5vw; }
-  .hero-art > svg.burger-hero { width: 100%; height: auto; display: block; filter: drop-shadow(0 30px 38px rgba(0,0,0,.62)); }
-
-  .lyr { opacity: 0; transform-box: fill-box; transform-origin: center; transform: translateY(-34px); animation: drop .62s cubic-bezier(.2,.85,.3,1) forwards; }
-  .l1{animation-delay:.05s}.l2{animation-delay:.13s}.l3{animation-delay:.21s}.l4{animation-delay:.29s}
-  .l5{animation-delay:.37s}.l6{animation-delay:.45s}.l7{animation-delay:.53s}.l8{animation-delay:.61s}
-  .l9{animation-delay:.69s}.l10{animation-delay:.77s}
-  @keyframes drop { to { opacity: 1; transform: translateY(0); } }
-
-  .steam { position: absolute; left: 50%; top: -3%; transform: translateX(-50%); width: 42%; height: 22%; pointer-events: none; z-index: 3; }
-  .steam path {
-    fill: none; stroke: var(--blush); stroke-width: 6.5; stroke-linecap: round; opacity: 0;
-    transform-box: fill-box; transform-origin: bottom center;
-    animation: puff 4.6s ease-in-out infinite 1.1s;
-  }
-  .steam path:nth-child(2) { animation-delay: 2.6s; }
-  .steam path:nth-child(3) { animation-delay: 4s; }
-  @keyframes puff {
-    0% { opacity: 0; transform: translateY(18px) scaleX(.85); }
-    35% { opacity: .3; }
-    100% { opacity: 0; transform: translateY(-32px) scaleX(1.2); }
-  }
-
-  .badge-spin { position: absolute; right: -5%; top: 2%; width: clamp(88px, 17%, 140px); z-index: 4; animation: spin 22s linear infinite; }
-  .badge-spin .disc { fill: var(--black); }
-  .badge-spin text { font-family: var(--ui); font-size: 12.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; fill: var(--ember); }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @media (max-width: 640px) { .badge-spin { display: none; } }
-
-  /* ---------- ticker ---------- */
-  .promo { background: var(--hot); color: var(--on-hot); overflow: hidden; white-space: nowrap; }
-  .promo-track { display: inline-flex; padding: var(--s12) 0; font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: .02em; animation: slide 32s linear infinite; }
-  .promo-track > span::after { content: " ✱"; padding: 0 var(--s40); }
-  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  /* ---------- sections ---------- */
-  section { padding: var(--s80) 0; }
-  .sec-top { display: grid; gap: var(--s12); margin-bottom: var(--s40); }
-  .sec-top h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: .8; letter-spacing: .03em; font-size: clamp(40px, 7.5vw, 104px); }
-  .sec-top .row { display: flex; justify-content: space-between; align-items: end; gap: var(--s20); flex-wrap: wrap; }
-
-  /* ---------- menu ---------- */
-  .tabs { display: flex; gap: var(--s24); flex-wrap: wrap; margin-bottom: var(--s24); }
-  .tab { display: inline-flex; align-items: center; gap: var(--s8); font-size: 19px; font-weight: 500; text-transform: uppercase; color: var(--blush); padding-bottom: 6px; border-bottom: 2px solid transparent; }
-  .tab .count { width: 22px; height: 22px; border-radius: 50%; background: var(--stage); color: var(--bone); font-size: 12px; display: grid; place-items: center; letter-spacing: 0; }
-  .tab[aria-current="true"] { color: var(--bone); border-bottom-color: var(--hot); }
-  .tab:hover { color: var(--bone); }
-
-  .grid { display: grid; gap: var(--s16); grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-  .card {
-    position: relative; background: linear-gradient(180deg, var(--stage-2), var(--stage));
-    border: 1px solid var(--hairline); border-radius: var(--r-card); padding: var(--s16);
-    display: grid; gap: var(--s12); align-content: start; overflow: hidden;
-    transition: transform .3s cubic-bezier(.2,.8,.3,1), border-color .3s ease;
-  }
-  .card::before {
-    content: ""; position: absolute; left: 50%; top: 8%; width: 130%; aspect-ratio: 1;
-    transform: translateX(-50%); border-radius: 50%; pointer-events: none;
-    background: radial-gradient(circle, rgba(255,74,13,.3) 0%, transparent 58%);
-    opacity: 0; transition: opacity .35s ease;
-  }
-  .card:hover { transform: translateY(-6px); border-color: rgba(255,165,36,.45); }
-  .card:hover::before { opacity: 1; }
-  .card .art { position: relative; z-index: 1; padding: var(--s8) 0; }
-  .card .art svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 14px 16px rgba(0,0,0,.55)); transition: transform .35s cubic-bezier(.2,.8,.3,1); }
-  .card:hover .art svg { transform: translateY(-5px) scale(1.04); }
-  .card .head { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: baseline; gap: var(--s12); }
-  .card h3 { font-family: var(--display); font-weight: 400; font-size: 30px; text-transform: uppercase; letter-spacing: .02em; }
-  .card .price { font-family: var(--display); font-size: 26px; color: var(--ember); font-variant-numeric: tabular-nums; }
-  .card p { position: relative; z-index: 1; font-size: 14px; color: var(--blush); }
-  .card .foot { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: var(--s12); flex-wrap: wrap; }
-
-  .heat { display: inline-flex; gap: 3px; align-items: center; }
-  .heat i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,210,184,.24); }
-  .heat i.on { background: var(--hot); }
-  .heat span { font-size: 10px; text-transform: uppercase; letter-spacing: .02em; color: var(--blush); margin-left: 5px; }
-
-  /* ---------- anatomy ---------- */
-  .anatomy { display: grid; gap: var(--s40); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: center; }
-  .anatomy-art { position: relative; }
-  .anatomy-art svg { width: 100%; max-width: 460px; height: auto; display: block; margin: 0 auto; }
-  .anatomy-art .part { transition: transform .4s cubic-bezier(.2,.8,.3,1), opacity .3s ease; transform-box: fill-box; transform-origin: center; }
-  .anatomy-art.dimmed .part { opacity: .28; }
-  .anatomy-art.dimmed .part.active { opacity: 1; transform: translateX(14px); }
-  .parts { display: grid; gap: 0; }
-  .parts li { border-top: 1px solid var(--hairline); }
-  .parts li:last-child { border-bottom: 1px solid var(--hairline); }
-  .parts button {
-    width: 100%; text-align: left; background: none; border: 0; cursor: pointer; color: inherit;
-    padding: var(--s16) 0; display: flex; justify-content: space-between; align-items: baseline; gap: var(--s16);
-    transition: color .2s ease;
-  }
-  .parts button:hover, .parts button:focus-visible { color: var(--ember); }
-  .parts .name { font-family: var(--display); font-size: 26px; text-transform: uppercase; letter-spacing: .02em; }
-  .parts .note { font-size: 14px; color: var(--blush); text-align: right; max-width: 26ch; }
-
-  /* ---------- feature ---------- */
-  .feature {
-    position: relative; overflow: hidden;
-    background: linear-gradient(140deg, var(--stage-2), var(--canvas-2));
-    border: 1px solid var(--hairline); border-radius: var(--r-feature);
-    padding: var(--s56) var(--s40); display: grid; gap: var(--s32);
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: center;
-  }
-  .feature::before {
-    content: ""; position: absolute; right: 4%; top: 10%; width: 60%; aspect-ratio: 1; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,74,13,.3) 0%, transparent 62%); pointer-events: none;
-  }
-  .feature > * { position: relative; z-index: 1; }
-  .feature h2 { font-family: var(--display); font-weight: 400; font-size: clamp(42px, 7vw, 96px); text-transform: uppercase; line-height: .78; letter-spacing: .03em; }
-  .feature .art svg { width: 100%; max-width: 330px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 22px 26px rgba(0,0,0,.6)); }
-  .feature .cta-row { display: flex; gap: var(--s8); flex-wrap: wrap; margin-top: var(--s24); }
-
-  /* ---------- steps ---------- */
-  .steps { display: grid; gap: var(--s24); grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
-  .step { border-top: 2px solid var(--hot); padding-top: var(--s16); display: grid; gap: var(--s8); align-content: start; }
-  .step .n { font-family: var(--display); font-size: 52px; line-height: .8; color: var(--hot); letter-spacing: .03em; }
-  .step h3 { font-size: 19px; font-weight: 500; text-transform: uppercase; }
-  .step p { font-size: 14px; color: var(--blush); }
-
-  /* ---------- statement ---------- */
-  .statement { text-align: center; display: grid; gap: var(--s24); justify-items: center; }
-  .statement h2 { font-size: clamp(48px, 12vw, 172px); }
-
-  /* ---------- locations ---------- */
-  .locs { display: grid; gap: var(--s16); grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-  .loc { background: var(--stage); border: 1px solid var(--hairline); border-radius: var(--r-card); padding: var(--s20); display: grid; gap: var(--s8); align-content: start; transition: border-color .3s ease, transform .3s ease; }
-  .loc:hover { border-color: rgba(255,165,36,.45); transform: translateY(-4px); }
-  .loc h3 { font-family: var(--display); font-weight: 400; font-size: 30px; text-transform: uppercase; letter-spacing: .02em; }
-  .loc .meta { font-size: 14px; color: var(--blush); }
-  .loc .status { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; text-transform: uppercase; letter-spacing: .02em; color: var(--ember); }
-  .loc .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ember); }
-  .loc .btn { margin-top: var(--s8); justify-self: start; }
-
-  /* ---------- rewards ---------- */
-  .rewards { display: grid; gap: var(--s40); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: center; }
-  .rewards h2 { font-family: var(--display); font-weight: 400; font-size: clamp(44px, 8vw, 116px); text-transform: uppercase; line-height: .76; letter-spacing: .04em; }
-  .rewards .cta-row { display: flex; gap: var(--s8); flex-wrap: wrap; margin-top: var(--s24); }
-  .rewards .art svg { width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 20px 24px rgba(0,0,0,.6)); }
-
-  /* ---------- duo ---------- */
-  .duo { display: grid; gap: var(--s16); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  .duo article { background: var(--stage); border: 1px solid var(--hairline); border-radius: var(--r-card); padding: var(--s24); display: grid; gap: var(--s12); align-content: start; }
-  .duo h3 { font-family: var(--display); font-weight: 400; font-size: 36px; text-transform: uppercase; letter-spacing: .03em; }
-  .duo p { font-size: 14px; color: var(--blush); }
-  .duo .btn { justify-self: start; }
-
-  /* ---------- signup ---------- */
-  .signup { display: grid; gap: var(--s16); justify-items: center; text-align: center; }
-  .signup h2 { font-family: var(--display); font-weight: 400; font-size: clamp(36px, 6.5vw, 84px); text-transform: uppercase; line-height: .8; letter-spacing: .03em; }
-  .signup form { display: flex; gap: var(--s8); flex-wrap: wrap; justify-content: center; }
-  .signup input {
-    font-family: var(--ui); font-size: 14px; letter-spacing: .02em; color: var(--bone);
-    background: var(--stage); border: 1px solid var(--hairline); border-radius: var(--r-pill);
-    padding: 11px 16px; min-width: 260px;
-  }
-  .signup input::placeholder { color: var(--blush); opacity: .7; }
-  .fineprint { font-size: 10px; text-transform: uppercase; letter-spacing: .02em; color: var(--blush); }
-
-  /* ---------- footer ---------- */
-  footer { background: var(--black); padding: var(--s64) 0 var(--s32); }
-  .foot-cols { display: grid; gap: var(--s32); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-  .foot-cols h4 { font-size: 10px; text-transform: uppercase; letter-spacing: .02em; color: var(--hot); font-weight: 500; margin-bottom: var(--s12); }
-  .foot-cols li { margin-bottom: var(--s8); }
-  .foot-cols a { font-size: 14px; }
-  .foot-cols a:hover { color: var(--ember); }
-  .foot-legal { display: flex; justify-content: space-between; gap: var(--s16); flex-wrap: wrap; align-items: center; border-top: 1px solid rgba(255,255,255,.1); margin-top: var(--s40); padding-top: var(--s20); }
-  .foot-legal p { font-size: 10px; text-transform: uppercase; letter-spacing: .02em; color: var(--blush); max-width: 52ch; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .promo-track, .steam path, .badge-spin, .lyr, .ember-glow { animation: none !important; }
-    .lyr { opacity: 1; transform: none; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-    * { transition: none !important; }
-  }
-</style>
+<title>Jumbo King Burger — The One. The Only.</title>
+<meta name="description" content="Flame-grilled burgers, chicken, breakfast and shakes. Bigger. Bolder. Better. Order pickup or delivery.">
+<meta name="theme-color" content="#DC3A1F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path d='M6 22c0-9 8-14 18-14s18 5 18 14z' fill='%23E8A24B'/><path d='M5 24h38v4H5z' fill='%234E8A3E'/><path d='M6 29h36v6H6z' fill='%235B3520'/><path d='M7 36h34c0 6-6 9-17 9S7 42 7 36z' fill='%23E8A24B'/></svg>">
+<script>try{if(sessionStorage.getItem('jkb-seen'))document.documentElement.classList.add('loaded-before')}catch(e){}</script>
 </head>
 <body>
-<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
-  <defs>
-    <linearGradient id="gBunTop" x1="0" y1="0" x2=".35" y2="1">
-      <stop offset="0" stop-color="#F8CE7C"/><stop offset=".55" stop-color="#DE9838"/><stop offset="1" stop-color="#B26415"/>
-    </linearGradient>
-    <linearGradient id="gBunBot" x1="0" y1="0" x2=".2" y2="1">
-      <stop offset="0" stop-color="#E4AD55"/><stop offset="1" stop-color="#9A5411"/>
-    </linearGradient>
-    <linearGradient id="gPatty" x1="0" y1="0" x2=".15" y2="1">
-      <stop offset="0" stop-color="#74472B"/><stop offset="1" stop-color="#20100A"/>
-    </linearGradient>
-    <linearGradient id="gVeg" x1="0" y1="0" x2=".15" y2="1">
-      <stop offset="0" stop-color="#6C7A32"/><stop offset="1" stop-color="#2C3512"/>
-    </linearGradient>
-    <linearGradient id="gChick" x1="0" y1="0" x2=".2" y2="1">
-      <stop offset="0" stop-color="#F0B65B"/><stop offset="1" stop-color="#B96A15"/>
-    </linearGradient>
-    <linearGradient id="gCheese" x1="0" y1="0" x2=".1" y2="1">
-      <stop offset="0" stop-color="#FFDC69"/><stop offset="1" stop-color="#E0870B"/>
-    </linearGradient>
-    <linearGradient id="gTom" x1="0" y1="0" x2=".1" y2="1">
-      <stop offset="0" stop-color="#FF6149"/><stop offset="1" stop-color="#AC2018"/>
-    </linearGradient>
-    <linearGradient id="gLet" x1="0" y1="0" x2=".2" y2="1">
-      <stop offset="0" stop-color="#9FDC57"/><stop offset="1" stop-color="#3A7418"/>
-    </linearGradient>
-    <linearGradient id="gBacon" x1="0" y1="0" x2=".3" y2="1">
-      <stop offset="0" stop-color="#E4633F"/><stop offset="1" stop-color="#85251A"/>
-    </linearGradient>
-    <linearGradient id="gAvo" x1="0" y1="0" x2=".2" y2="1">
-      <stop offset="0" stop-color="#BFD96B"/><stop offset="1" stop-color="#6E8F27"/>
-    </linearGradient>
+<a class="skip" href="#main">Skip to content</a>
 
-    <!-- reusable layer geometry, drawn from a 0,0 baseline, 280 wide -->
-    <path id="pBunBot" d="M0 0 H280 V17 Q280 37 252 37 H28 Q0 37 0 17 Z"/>
-    <rect id="pPatty" x="-14" y="0" width="308" height="33" rx="14"/>
-    <path id="pCheese" d="M-9 0 H289 L283 17 Q277 33 267 25 Q260 19 254 27 Q248 37 240 26 L233 17 H47 L40 26 Q32 37 26 27 Q20 19 13 25 Q3 33 -3 17 Z"/>
-    <path id="pLettuce" d="M-6 12 Q14 -8 34 10 Q54 -10 74 10 Q94 -10 114 10 Q134 -10 154 10 Q174 -10 194 10 Q214 -10 234 10 Q254 -10 274 10 Q292 -4 288 14 Q290 26 278 27 H2 Q-10 26 -6 12 Z"/>
-    <rect id="pTomato" x="8" y="0" width="264" height="19" rx="9.5"/>
-    <path id="pBacon" d="M4 0 Q42 -9 80 0 Q118 9 156 0 Q194 -9 232 0 Q258 6 274 1 L274 15 Q252 21 232 15 Q194 6 156 15 Q118 24 80 15 Q42 6 4 15 Z"/>
-    <path id="pBunTop" d="M0 0 Q-5 -92 140 -96 Q285 -92 280 0 Z"/>
-    <path id="pFillet" d="M-4 0 Q-16 -18 6 -26 Q40 -40 92 -34 Q140 -44 190 -34 Q244 -42 274 -26 Q296 -16 284 0 Q286 22 262 26 H18 Q-6 22 -4 0 Z"/>
-    <ellipse id="pAvo" cx="140" cy="9" rx="120" ry="10"/>
-  </defs>
-
-  <!-- ============ card burgers ============ -->
-  <symbol id="b-double" viewBox="0 0 300 250">
-    <ellipse cx="150" cy="238" rx="118" ry="10" fill="#000" opacity=".45"/>
-    <g transform="translate(10,196)"><use href="#pBunBot" fill="url(#gBunBot)"/></g>
-    <g transform="translate(10,163)"><use href="#pPatty" fill="url(#gPatty)"/><ellipse cx="90" cy="12" rx="16" ry="3.6" fill="#120806" opacity=".5"/><ellipse cx="196" cy="14" rx="12" ry="3" fill="#120806" opacity=".5"/></g>
-    <g transform="translate(10,146)"><use href="#pCheese" fill="url(#gCheese)"/></g>
-    <g transform="translate(10,113)"><use href="#pPatty" fill="url(#gPatty)"/><ellipse cx="120" cy="13" rx="18" ry="3.8" fill="#120806" opacity=".5"/></g>
-    <g transform="translate(10,96)"><use href="#pCheese" fill="url(#gCheese)"/></g>
-    <g transform="translate(10,76)"><use href="#pTomato" fill="url(#gTom)"/><path d="M28 9 H252" stroke="#8C1810" stroke-width="3" stroke-linecap="round" opacity=".45"/></g>
-    <g transform="translate(10,52)"><use href="#pLettuce" fill="url(#gLet)"/></g>
-    <g transform="translate(10,58)">
-      <use href="#pBunTop" fill="url(#gBunTop)"/>
-      <ellipse cx="92" cy="-56" rx="42" ry="15" fill="#fff" opacity=".16" transform="rotate(-22 92 -56)"/>
-      <ellipse cx="96" cy="-26" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(-16 96 -26)"/>
-      <ellipse cx="150" cy="-58" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(6 150 -58)"/>
-      <ellipse cx="204" cy="-30" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(24 204 -30)"/>
-      <ellipse cx="146" cy="-18" rx="8" ry="4.2" fill="#FFE6BC"/>
-      <ellipse cx="222" cy="-62" rx="8" ry="4.2" fill="#FFE6BC" transform="rotate(18 222 -62)"/>
-    </g>
-  </symbol>
-
-  <symbol id="b-triple" viewBox="0 0 300 250">
-    <ellipse cx="150" cy="240" rx="120" ry="10" fill="#000" opacity=".45"/>
-    <g transform="translate(10,200)"><use href="#pBunBot" fill="url(#gBunBot)"/></g>
-    <g transform="translate(10,170)"><use href="#pPatty" fill="url(#gPatty)"/><ellipse cx="100" cy="13" rx="16" ry="3.4" fill="#120806" opacity=".5"/></g>
-    <g transform="translate(10,155)"><use href="#pCheese" fill="url(#gCheese)"/></g>
-    <g transform="translate(10,125)"><use href="#pPatty" fill="url(#gPatty)"/><ellipse cx="180" cy="13" rx="15" ry="3.4" fill="#120806" opacity=".5"/></g>
-    <g transform="translate(10,110)"><use href="#pCheese" fill="url(#gCheese)"/></g>
-    <g transform="translate(10,80)"><use href="#pPatty" fill="url(#gPatty)"/><ellipse cx="120" cy="13" rx="17" ry="3.6" fill="#120806" opacity=".5"/></g>
-    <g transform="translate(10,64)"><use href="#pCheese" fill="url(#gCheese)"/></g>
-    <g transform="translate(10,50)"><use href="#pBacon" fill="url(#gBacon)"/><path d="M20 7 Q70 -2 120 7 Q170 16 220 7" stroke="#F6C9AE" stroke-width="2.6" fill="none" opacity=".5" stroke-linecap="round"/></g>
-    <g transform="translate(10,50)">
-      <use href="#pBunTop" fill="url(#gBunTop)"/>
-      <ellipse cx="92" cy="-56" rx="42" ry="15" fill="#fff" opacity=".16" transform="rotate(-22 92 -56)"/>
-      <ellipse cx="100" cy="-28" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(-16 100 -28)"/>
-      <ellipse cx="156" cy="-60" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(6 156 -60)"/>
-      <ellipse cx="208" cy="-32" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(24 208 -32)"/>
-      <ellipse cx="140" cy="-20" rx="8" ry="4.2" fill="#FFE6BC"/>
-    </g>
-  </symbol>
-
-  <symbol id="b-chicken" viewBox="0 0 300 250">
-    <ellipse cx="150" cy="238" rx="116" ry="10" fill="#000" opacity=".45"/>
-    <g transform="translate(10,196)"><use href="#pBunBot" fill="url(#gBunBot)"/></g>
-    <g transform="translate(10,168)">
-      <use href="#pFillet" fill="url(#gChick)"/>
-      <ellipse cx="80" cy="-8" rx="20" ry="6" fill="#FFD9A0" opacity=".45"/>
-      <ellipse cx="180" cy="-14" rx="26" ry="6" fill="#FFD9A0" opacity=".35"/>
-      <ellipse cx="238" cy="-4" rx="16" ry="5" fill="#8F4E0C" opacity=".4"/>
-    </g>
-    <g transform="translate(10,128)"><use href="#pCheese" fill="url(#gCheese)"/></g>
-    <g transform="translate(10,106)"><use href="#pTomato" fill="url(#gTom)"/><path d="M30 9 H250" stroke="#8C1810" stroke-width="3" stroke-linecap="round" opacity=".45"/></g>
-    <g transform="translate(10,78)"><use href="#pLettuce" fill="url(#gLet)"/></g>
-    <g transform="translate(10,84)">
-      <use href="#pBunTop" fill="url(#gBunTop)"/>
-      <ellipse cx="92" cy="-56" rx="42" ry="15" fill="#fff" opacity=".16" transform="rotate(-22 92 -56)"/>
-      <ellipse cx="104" cy="-30" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(-14 104 -30)"/>
-      <ellipse cx="162" cy="-58" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(8 162 -58)"/>
-      <ellipse cx="206" cy="-28" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(22 206 -28)"/>
-    </g>
-  </symbol>
-
-  <symbol id="b-veg" viewBox="0 0 300 250">
-    <ellipse cx="150" cy="238" rx="114" ry="10" fill="#000" opacity=".45"/>
-    <g transform="translate(10,196)"><use href="#pBunBot" fill="url(#gBunBot)"/></g>
-    <g transform="translate(10,163)">
-      <use href="#pPatty" fill="url(#gVeg)"/>
-      <circle cx="70" cy="14" r="4" fill="#D9C86A" opacity=".7"/>
-      <circle cx="140" cy="10" r="3.4" fill="#D9C86A" opacity=".7"/>
-      <circle cx="210" cy="16" r="4.2" fill="#D9C86A" opacity=".7"/>
-      <circle cx="176" cy="20" r="2.8" fill="#D9C86A" opacity=".6"/>
-    </g>
-    <g transform="translate(10,142)"><use href="#pAvo" fill="url(#gAvo)"/></g>
-    <g transform="translate(10,118)"><use href="#pTomato" fill="url(#gTom)"/><path d="M30 9 H250" stroke="#8C1810" stroke-width="3" stroke-linecap="round" opacity=".45"/></g>
-    <g transform="translate(10,90)"><use href="#pLettuce" fill="url(#gLet)"/></g>
-    <g transform="translate(10,96)">
-      <use href="#pBunTop" fill="url(#gBunTop)"/>
-      <ellipse cx="92" cy="-56" rx="42" ry="15" fill="#fff" opacity=".16" transform="rotate(-22 92 -56)"/>
-      <ellipse cx="98" cy="-28" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(-16 98 -28)"/>
-      <ellipse cx="158" cy="-58" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(6 158 -58)"/>
-      <ellipse cx="210" cy="-30" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(24 210 -30)"/>
-    </g>
-  </symbol>
-</svg>
-
-<nav class="bar">
-  <div class="wrap">
-    <span class="logo flame">JumboKing</span>
-    <div class="navlinks">
-      <a href="#menu">Burgers</a>
-      <a href="#anatomy">The Build</a>
-      <a href="#deal">Deals</a>
-      <a href="#locations">Locations</a>
-      <a href="#rewards">Rewards</a>
+<div id="loader" aria-hidden="true">
+  <div class="lbox">
+    <div class="lstack">
+      <svg class="lflame" viewBox="0 0 240 120" aria-hidden="true">
+        <path class="fl-b" d="M120 120c-20-33 9-50 17-77 5 16 13 21 19 34 7-21 3-38-7-55 30 18 53 50 48 82-3 19-17 24-34 24z" fill="#DC3A1F"/>
+        <path class="fl-a" d="M52 120c-10-24 6-35 13-51 3 10 7 13 11 21 5-15 2-27-4-40 20 12 34 33 31 53-2 14-11 17-21 17z" fill="#DC3A1F" opacity=".75"/>
+        <path class="fl-c" d="M188 120c-10-24 6-35 13-51 3 10 7 13 11 21 5-15 2-27-4-40 20 12 34 33 31 53-2 14-11 17-21 17z" fill="#F2A93B" opacity=".7"/>
+      </svg>
+      <svg viewBox="0 0 240 200" aria-hidden="true">
+        <g><path d="M40 158h160c0 18-28 28-80 28s-80-10-80-28z" fill="#E8A24B"/><path d="M40 158h160c0 6-3 10-7 13H47c-4-3-7-7-7-13z" fill="#D08C3B"/></g>
+        <g><rect x="32" y="132" width="176" height="24" rx="12" fill="#5B3520"/><rect x="32" y="132" width="176" height="8" rx="4" fill="#7A472B"/></g>
+        <g><path d="M34 118h172v8c0 4-4 6-8 6H42c-4 0-8-2-8-6z" fill="#F2A93B"/><path d="M62 132c0 8-2 13-5 13s-5-5-5-13zM122 132c0 10-2 16-5 16s-5-6-5-16zM182 132c0 8-2 13-5 13s-5-5-5-13z" fill="#F2A93B"/></g>
+        <g><rect x="38" y="105" width="164" height="12" rx="6" fill="#D93A26"/><path d="M30 94c10-9 19 6 29-2s17 7 27-2 19 9 29-1 19 7 29-2 19 9 29 0c5 4 7 8 7 11H28c0-3 0-5 2-6z" fill="#7FB04E"/></g>
+        <g><path d="M28 96c0-27 32-44 92-44s92 17 92 44z" fill="#E8A24B"/><g fill="#FBF2DF"><ellipse cx="86" cy="76" rx="7" ry="3.6" transform="rotate(-18 86 76)"/><ellipse cx="120" cy="66" rx="7.2" ry="3.6"/><ellipse cx="154" cy="77" rx="7" ry="3.6" transform="rotate(17 154 77)"/><ellipse cx="103" cy="88" rx="6" ry="3.2" transform="rotate(-8 103 88)"/><ellipse cx="139" cy="87" rx="6" ry="3.2" transform="rotate(9 139 87)"/></g></g>
+      </svg>
     </div>
-    <div class="navcta">
-      <a class="btn ghost" href="#locations">◈ Find us</a>
-      <a class="btn" href="#menu">Order now <span class="caret">▸</span></a>
-    </div>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="ember-glow"></div>
-  <div class="grit"></div>
-  <div class="wrap">
-    <span class="eyebrow">◂ Smashed to order · never lamped ▸</span>
-
-    <div class="hero-stage">
-      <h1 class="display flame hero-line top">Burgers</h1>
-
-      <div class="hero-art">
-        <svg class="steam" viewBox="0 0 120 90" aria-hidden="true">
-          <path d="M30 84 C18 66 42 56 30 38 C22 26 34 16 30 6"/>
-          <path d="M60 84 C48 64 72 54 60 36 C52 24 64 14 60 4"/>
-          <path d="M90 84 C78 66 102 56 90 38 C82 26 94 16 90 6"/>
-        </svg>
-
-        <svg class="burger-hero" viewBox="0 0 520 470" role="img" aria-label="Illustrated double burger with bacon, cheese, tomato and lettuce">
-          <ellipse cx="260" cy="452" rx="196" ry="16" fill="#000" opacity=".5"/>
-
-          <g class="lyr l1">
-            <path d="M85 404 H435 V424 Q435 448 398 448 H122 Q85 448 85 424 Z" fill="url(#gBunBot)"/>
-            <path d="M85 404 H435 V415 H85 Z" fill="#fff" opacity=".12"/>
-          </g>
-          <g class="lyr l2">
-            <rect x="72" y="364" width="376" height="42" rx="17" fill="url(#gPatty)"/>
-            <ellipse cx="150" cy="378" rx="15" ry="4" fill="#150A05" opacity=".55"/>
-            <ellipse cx="268" cy="374" rx="19" ry="4.5" fill="#150A05" opacity=".55"/>
-            <ellipse cx="372" cy="379" rx="13" ry="3.6" fill="#150A05" opacity=".55"/>
-          </g>
-          <g class="lyr l3">
-            <path d="M80 342 H440 L432 364 Q424 388 408 375 Q398 366 390 379 Q382 393 370 377 L360 364 H160 L150 377 Q140 393 132 379 Q124 366 114 375 Q98 388 88 364 Z" fill="url(#gCheese)"/>
-            <path d="M80 342 H440 L437 352 H83 Z" fill="#fff" opacity=".16"/>
-          </g>
-          <g class="lyr l4">
-            <path d="M92 326 Q140 314 188 326 Q236 338 284 326 Q332 314 380 326 Q412 334 430 327 L430 345 Q404 353 380 345 Q332 333 284 345 Q236 357 188 345 Q140 333 92 345 Z" fill="url(#gBacon)"/>
-            <path d="M100 334 Q150 322 198 334 Q246 346 294 334 Q342 322 390 334" stroke="#F6C9AE" stroke-width="3.5" fill="none" opacity=".5" stroke-linecap="round"/>
-          </g>
-          <g class="lyr l5">
-            <rect x="72" y="286" width="376" height="42" rx="17" fill="url(#gPatty)"/>
-            <ellipse cx="176" cy="300" rx="17" ry="4.2" fill="#150A05" opacity=".55"/>
-            <ellipse cx="300" cy="297" rx="14" ry="3.8" fill="#150A05" opacity=".55"/>
-          </g>
-          <g class="lyr l6">
-            <path d="M80 262 H440 L432 284 Q424 308 408 295 Q398 286 390 299 Q382 313 370 297 L360 284 H160 L150 297 Q140 313 132 299 Q124 286 114 295 Q98 308 88 284 Z" fill="url(#gCheese)"/>
-            <path d="M80 262 H440 L437 272 H83 Z" fill="#fff" opacity=".16"/>
-          </g>
-          <g class="lyr l7">
-            <rect x="104" y="250" width="312" height="13" rx="6.5" fill="#F7E9F3" opacity=".92"/>
-            <rect x="132" y="253" width="256" height="4" rx="2" fill="#C9A9C4" opacity=".7"/>
-          </g>
-          <g class="lyr l8">
-            <rect x="96" y="226" width="328" height="25" rx="12.5" fill="url(#gTom)"/>
-            <path d="M118 238 H402" stroke="#8E1A13" stroke-width="4" stroke-linecap="round" opacity=".45"/>
-          </g>
-          <g class="lyr l9">
-            <path d="M76 214 Q100 186 124 212 Q148 184 172 212 Q196 184 220 212 Q244 184 268 212 Q292 184 316 212 Q340 184 364 212 Q388 184 412 212 Q438 190 444 214 Q450 230 436 232 H84 Q70 230 76 214 Z" fill="url(#gLet)"/>
-            <path d="M78 218 Q260 236 442 218 L442 231 H78 Z" fill="#2F5E13" opacity=".45"/>
-          </g>
-          <g class="lyr l10">
-            <path d="M84 212 Q78 86 260 80 Q442 86 436 212 Z" fill="url(#gBunTop)"/>
-            <ellipse cx="182" cy="138" rx="66" ry="25" fill="#fff" opacity=".18" transform="rotate(-24 182 138)"/>
-            <ellipse cx="188" cy="166" rx="13" ry="7" fill="#FFE6BC" transform="rotate(-18 188 166)"/>
-            <ellipse cx="262" cy="128" rx="13" ry="7" fill="#FFE6BC" transform="rotate(6 262 128)"/>
-            <ellipse cx="330" cy="160" rx="13" ry="7" fill="#FFE6BC" transform="rotate(26 330 160)"/>
-            <ellipse cx="140" cy="192" rx="12" ry="6.4" fill="#FFE6BC" transform="rotate(-34 140 192)"/>
-            <ellipse cx="250" cy="186" rx="12" ry="6.4" fill="#FFE6BC" transform="rotate(-3 250 186)"/>
-            <ellipse cx="376" cy="194" rx="11" ry="6" fill="#FFE6BC" transform="rotate(32 376 194)"/>
-            <ellipse cx="312" cy="98" rx="11" ry="6" fill="#FFE6BC" transform="rotate(14 312 98)"/>
-          </g>
-        </svg>
-
-        <svg class="badge-spin" viewBox="0 0 200 200" aria-hidden="true">
-          <circle class="disc" cx="100" cy="100" r="100"/>
-          <path id="badgePath" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0" fill="none"/>
-          <text><textPath href="#badgePath">Smashed to order ✱ Open till 2am ✱ Never lamped ✱</textPath></text>
-        </svg>
-      </div>
-
-      <span class="display hero-line bot">(no apologies)</span>
-    </div>
-
-    <p class="lede">Pressed onto a screaming flat-top the second you order. Lacy charred edges, cheese that actually melts, a bun that holds to the last bite.</p>
-    <div class="cta-row" style="display:flex;gap:var(--s8);flex-wrap:wrap;justify-content:center">
-      <a class="btn" href="#menu">See the burgers <span class="caret">▸</span></a>
-      <a class="btn ghost" href="#locations">◈ Find your counter</a>
-    </div>
-  </div>
-</header>
-
-<div class="promo">
-  <div class="promo-track">
-    <span>2 for $12 every Tuesday</span><span>Free fries over $15</span><span>Open till 2am Thu–Sat</span><span>Rewards members skip the line</span>
-    <span>2 for $12 every Tuesday</span><span>Free fries over $15</span><span>Open till 2am Thu–Sat</span><span>Rewards members skip the line</span>
+    <div class="lwm">Jumbo King Burger</div>
+    <div class="ltag">The one. The only.</div>
+    <div class="lbar"><i></i></div>
   </div>
 </div>
 
-<section id="menu">
-  <div class="wrap">
-    <div class="sec-top reveal">
-      <div class="row">
-        <div>
-          <span class="eyebrow">◂ The line-up ▸</span>
-          <h2 class="flame">Built hot</h2>
-        </div>
-        <a class="btn ghost" href="#menu">Full menu <span class="caret">▸</span></a>
+<div id="progress"></div>
+
+<header>
+  <div class="head-in">
+    <a class="brand" href="/" aria-label="Jumbo King Burger home">
+      <svg class="mono" viewBox="0 0 60 60" aria-hidden="true">
+        <circle cx="30" cy="30" r="28" fill="none" stroke="#DC3A1F" stroke-width="2.5"/>
+        <path d="M13 15l6 7 6-9 6 9 6-9 6 9 6-7v8H13z" fill="#F2A93B"/>
+        <path d="M15 30c0-7 7-11 15-11s15 4 15 11z" fill="#DC3A1F"/>
+        <path d="M14 32h32v3H14z" fill="#DC3A1F"/>
+        <path d="M15 37h30c0 5-6 8-15 8s-15-3-15-8z" fill="#DC3A1F"/>
+      </svg>
+      <span class="wm">Jumbo King<br>Burger<small>The one. The only.</small></span>
+    </a>
+    <nav>
+      <a href="/" class="active">Home</a>
+      <a href="/menu">Menu</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="head-cta">
+      <button class="btn btn-ghost btn-sm" data-order="pickup">Pickup</button>
+      <button class="btn btn-primary btn-sm" data-order="delivery">Delivery</button>
+    </div>
+    <button class="burger-btn" id="navToggle" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>
+  </div>
+</header>
+
+<div class="orderbar">
+  <button data-order="pickup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Pickup</button>
+  <button data-order="delivery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Delivery</button>
+</div>
+
+<div class="drawer" id="drawer">
+  <a href="/">Home</a>
+  <a href="/menu">Menu</a>
+  <a href="/contact">Contact</a>
+  <a href="/menu#signature">Signature burgers</a>
+  <a href="/menu#breakfast">Breakfast</a>
+  <a href="/contact#catering">Catering</a>
+  <button class="btn" data-order="delivery">Order delivery</button>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<main id="main">
+
+  <!-- ═══════════ hero ═══════════ -->
+  <section class="hero wrap">
+    <div>
+      <div class="status" id="status"><span class="dot"></span><span id="statusText">Checking hours…</span></div>
+      <h1>Flame-grilled.<br><em>Jumbo-sized.</em></h1>
+      <div class="tagline">The one. The only.</div>
+      <p>Real flame, real char. Nine signature burgers and sandwiches, breakfast every morning, and shakes worth the trip.</p>
+      <div class="pick">
+        <a href="#" data-order="pickup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1.2 12.2A2 2 0 0 1 15.8 22H8.2a2 2 0 0 1-2-1.8L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <b>Order<br>pickup</b>
+        </a>
+        <a href="#" data-order="delivery">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 7h12v9H2z"/><path d="M14 10h4.2l3.3 3.4V16H14z"/><circle cx="6.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+          <b>Order<br>delivery</b>
+        </a>
       </div>
     </div>
+    <div class="ph r43"><span class="tag">4:3 · hero.jpg</span></div>
+  </section>
 
-    <div class="tabs reveal">
-      <a class="tab" href="#menu" aria-current="true">Beef <span class="count">3</span></a>
-      <a class="tab" href="#menu">Chicken <span class="count">2</span></a>
-      <a class="tab" href="#menu">Meat free <span class="count">2</span></a>
-      <a class="tab" href="#menu">Sides <span class="count">6</span></a>
+  <div class="marquee" aria-hidden="true">
+    <div class="mtrack"><span>Flame-grilled</span><span>Bigger. Bolder. Better.</span><span>Have a jumbo day</span><span>We cater</span><span>Quality ingredients</span></div>
+    <div class="mtrack"><span>Flame-grilled</span><span>Bigger. Bolder. Better.</span><span>Have a jumbo day</span><span>We cater</span><span>Quality ingredients</span></div>
+  </div>
+
+  <!-- ═══════════ showcase ═══════════ -->
+  <div class="wrap">
+    <div class="showcase" id="showcase">
+      <div class="skel-show"><div class="skel" style="min-height:420px;border-radius:var(--r)"></div><div style="padding:40px"><div class="skel skel-line w40"></div><div class="skel skel-title"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div></div></div>
     </div>
 
-    <div class="grid">
-      <article class="card reveal">
-        <div class="art"><svg viewBox="0 0 300 250" role="img" aria-label="Double smashed cheeseburger"><use href="#b-double"/></svg></div>
-        <div class="head"><h3>The Double</h3><span class="price">$9.50</span></div>
-        <p>Two smashed patties, lacy edges, American cheese, pickles, king sauce.</p>
-        <div class="foot">
-          <span class="heat"><i class="on"></i><i></i><i></i><span>Mild</span></span>
-          <a class="btn" href="#menu">Add <span class="caret">▸</span></a>
-        </div>
-      </article>
+    <div class="band flame reveal">
+      <div>
+        <span class="kicker" style="color:#fff">Make it a value meal</span>
+        <h3>Add fries and a<br>fountain drink</h3>
+        <p>Any signature burger or sandwich. Any time.</p>
+      </div>
+      <div class="figure">+$3.79</div>
+      <button class="btn btn-light" data-order="pickup">Start an order</button>
+    </div>
 
-      <article class="card reveal">
-        <div class="art"><svg viewBox="0 0 300 250" role="img" aria-label="Triple stacked burger with bacon"><use href="#b-triple"/></svg></div>
-        <div class="head"><h3>The Triple</h3><span class="price">$13.25</span></div>
-        <p>Three patties, double cheese, thick-cut bacon. Bring both hands.</p>
-        <div class="foot">
-          <span class="heat"><i class="on"></i><i></i><i></i><span>Mild</span></span>
-          <a class="btn" href="#menu">Add <span class="caret">▸</span></a>
-        </div>
-      </article>
-
-      <article class="card reveal">
-        <div class="art"><svg viewBox="0 0 300 250" role="img" aria-label="Crispy chicken burger"><use href="#b-chicken"/></svg></div>
-        <div class="head"><h3>The Heat</h3><span class="price">$10.75</span></div>
-        <p>Buttermilk chicken thigh, cayenne butter, dill slaw, hot honey.</p>
-        <div class="foot">
-          <span class="heat"><i class="on"></i><i class="on"></i><i class="on"></i><span>Hot</span></span>
-          <a class="btn" href="#menu">Add <span class="caret">▸</span></a>
-        </div>
-      </article>
-
-      <article class="card reveal">
-        <div class="art"><svg viewBox="0 0 300 250" role="img" aria-label="Vegetable burger with avocado"><use href="#b-veg"/></svg></div>
-        <div class="head"><h3>The Green</h3><span class="price">$8.75</span></div>
-        <p>Charred black bean patty, avocado, smoked tomato jam, herb aioli.</p>
-        <div class="foot">
-          <span class="heat"><i class="on"></i><i class="on"></i><i></i><span>Medium</span></span>
-          <a class="btn" href="#menu">Add <span class="caret">▸</span></a>
-        </div>
-      </article>
+    <!-- ═══════════ featured ═══════════ -->
+    <div class="sec-head reveal">
+      <span class="kicker">Signature burgers &amp; sandwiches</span>
+      <h2>Nine ways to<br>have a jumbo day</h2>
+      <p>Every one flame-grilled to order. Single, or make it a value meal with fries and a fountain drink.</p>
+    </div>
+    <div class="sig" id="sigGrid" data-limit="3" data-stagger>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+      <article><div class="skel" style="aspect-ratio:1/1;border-radius:var(--r)"></div><div class="skel skel-line" style="margin-top:18px"></div><div class="skel skel-line w40"></div></article>
+    </div>
+    <div style="margin-top:34px" class="reveal">
+      <a class="btn btn-primary" href="/menu">See the full menu</a>
     </div>
   </div>
-</section>
 
-<section id="anatomy" style="background:var(--canvas-2)">
-  <div class="wrap">
-    <div class="sec-top reveal">
-      <span class="eyebrow">◂ Nothing in here is filler ▸</span>
-      <h2 class="flame">The build</h2>
-    </div>
-
-    <div class="anatomy">
-      <div class="anatomy-art reveal" id="anatomyArt">
-        <svg viewBox="0 0 300 300" role="img" aria-label="Exploded view of a burger showing each layer">
-          <g class="part" data-part="bun-top" transform="translate(10,86)">
-            <use href="#pBunTop" fill="url(#gBunTop)"/>
-            <ellipse cx="92" cy="-56" rx="42" ry="15" fill="#fff" opacity=".16" transform="rotate(-22 92 -56)"/>
-            <ellipse cx="100" cy="-28" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(-16 100 -28)"/>
-            <ellipse cx="158" cy="-58" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(6 158 -58)"/>
-            <ellipse cx="208" cy="-30" rx="9" ry="4.6" fill="#FFE6BC" transform="rotate(24 208 -30)"/>
-          </g>
-          <g class="part" data-part="lettuce" transform="translate(10,104)"><use href="#pLettuce" fill="url(#gLet)"/></g>
-          <g class="part" data-part="tomato" transform="translate(10,142)"><use href="#pTomato" fill="url(#gTom)"/><path d="M30 9 H250" stroke="#8C1810" stroke-width="3" stroke-linecap="round" opacity=".45"/></g>
-          <g class="part" data-part="cheese" transform="translate(10,172)"><use href="#pCheese" fill="url(#gCheese)"/></g>
-          <g class="part" data-part="patty" transform="translate(10,206)"><use href="#pPatty" fill="url(#gPatty)"/><ellipse cx="110" cy="13" rx="18" ry="3.8" fill="#120806" opacity=".5"/><ellipse cx="210" cy="16" rx="13" ry="3.2" fill="#120806" opacity=".5"/></g>
-          <g class="part" data-part="bun-bot" transform="translate(10,250)"><use href="#pBunBot" fill="url(#gBunBot)"/></g>
+  <!-- ═══════════ grill ═══════════ -->
+  <section class="grill" id="grill">
+    <div class="grill-sticky">
+      <div>
+        <span class="kicker">The difference</span>
+        <h2>Grilled over<br>real flame</h2>
+        <p style="margin-top:16px">Not pressed on a flat-top. Scroll and watch a King get built.</p>
+        <ol class="gsteps" id="steps">
+          <li><b>01</b><span>Toasted sesame bun, straight off the grill</span></li>
+          <li><b>02</b><span>Quarter-pound patty over open flame</span></li>
+          <li><b>03</b><span>Second patty — that's the Double</span></li>
+          <li><b>04</b><span>American cheese, melted right on top</span></li>
+          <li><b>05</b><span>Lettuce, tomato, onion, pickle</span></li>
+          <li><b>06</b><span>Crown it. Have a jumbo day.</span></li>
+        </ol>
+      </div>
+      <div class="gstage">
+        <svg class="fire" viewBox="0 0 480 170" aria-hidden="true">
+          <path class="fl-b" d="M240 170c-28-46 12-70 24-108 6 22 18 30 26 48 10-30 4-54-10-78 42 26 74 70 68 116-4 26-24 34-48 34z" fill="#DC3A1F"/>
+          <path class="fl-a" d="M110 170c-14-34 8-50 18-72 4 14 10 18 16 30 6-22 2-38-6-56 28 16 48 46 44 74-3 20-16 24-30 24z" fill="#DC3A1F" opacity=".78"/>
+          <path class="fl-c" d="M368 170c-14-34 8-50 18-72 4 14 10 18 16 30 6-22 2-38-6-56 28 16 48 46 44 74-3 20-16 24-30 24z" fill="#F2A93B" opacity=".72"/>
+        </svg>
+        <svg class="stack" viewBox="0 0 400 330" role="img" aria-label="A burger assembling layer by layer as you scroll">
+          <ellipse cx="200" cy="300" rx="128" ry="14" fill="rgba(0,0,0,.34)"/>
+          <g data-layer="0"><path d="M64 258h272c0 26-46 39-136 39S64 284 64 258z" fill="#E8A24B"/><path d="M64 258h272c0 8-4 13-10 17H74c-6-4-10-9-10-17z" fill="#D08C3B"/></g>
+          <g data-layer="1"><rect x="58" y="231" width="284" height="26" rx="13" fill="#4E2C1A"/><rect x="58" y="231" width="284" height="8" rx="4" fill="#6B3D24"/><g stroke="#331B0F" stroke-width="4" stroke-linecap="round" opacity=".6"><path d="M96 242l24 10M158 241l24 10M220 242l24 10M280 241l22 10"/></g></g>
+          <g data-layer="2"><rect x="56" y="203" width="288" height="27" rx="13.5" fill="#5B3520"/><rect x="56" y="203" width="288" height="9" rx="4.5" fill="#7A472B"/><g stroke="#3B2113" stroke-width="4" stroke-linecap="round" opacity=".6"><path d="M92 215l24 10M152 213l24 10M212 215l24 10M272 213l24 10"/></g></g>
+          <g data-layer="3"><path d="M58 181h284v10c0 5-5 8-10 8H68c-5 0-10-3-10-8z" fill="#F2A93B"/><path d="M92 199c0 10-2 18-8 18s-8-8-8-18zM196 199c0 13-2 22-8 22s-8-9-8-22zM306 199c0 11-2 19-8 19s-8-8-8-19z" fill="#F2A93B"/></g>
+          <g data-layer="4"><rect x="62" y="164" width="276" height="15" rx="7.5" fill="#D93A26"/><rect x="62" y="164" width="276" height="6" rx="3" fill="#E8604A"/><path d="M52 148c14-12 26 8 40-3s24 10 38-2 26 12 40-1 26 10 40-2 26 12 40 0 26 8 38-2c8 8 12 13 12 19H48c0-4 0-6 4-10z" fill="#7FB04E"/></g>
+          <g data-layer="5"><path d="M60 142c0-46 62-74 140-74s140 28 140 74z" fill="#E8A24B"/><path d="M60 142c0-46 62-74 140-74s140 28 140 74z" fill="url(#gl)" opacity=".5"/><g fill="#FBF2DF"><ellipse cx="130" cy="108" rx="8" ry="4.3" transform="rotate(-18 130 108)"/><ellipse cx="196" cy="92" rx="8.4" ry="4.3"/><ellipse cx="262" cy="110" rx="8" ry="4.3" transform="rotate(17 262 110)"/><ellipse cx="160" cy="130" rx="7" ry="3.9" transform="rotate(-8 160 130)"/><ellipse cx="235" cy="128" rx="7" ry="3.9" transform="rotate(9 235 128)"/></g></g>
+          <defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD79A"/><stop offset="1" stop-color="#E8A24B" stop-opacity="0"/></linearGradient></defs>
         </svg>
       </div>
-
-      <ul class="parts reveal" id="partsList">
-        <li><button type="button" data-target="bun-top"><span class="name">Sesame crown</span><span class="note">Baked to our spec, buttered and pressed face-down</span></button></li>
-        <li><button type="button" data-target="lettuce"><span class="name">Cold crunch</span><span class="note">Shredded to order, kept on ice until it's built</span></button></li>
-        <li><button type="button" data-target="tomato"><span class="name">Ripe tomato</span><span class="note">Cut thick, never refrigerated to death</span></button></li>
-        <li><button type="button" data-target="cheese"><span class="name">Melted cheese</span><span class="note">Laid on the patty while it's still on the heat</span></button></li>
-        <li><button type="button" data-target="patty"><span class="name">Smashed patty</span><span class="note">Chuck and brisket, ground this morning, charred edges</span></button></li>
-        <li><button type="button" data-target="bun-bot"><span class="name">Toasted base</span><span class="note">Griddled so it holds up to everything above it</span></button></li>
-      </ul>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="deal">
-  <div class="wrap">
-    <div class="feature reveal">
+  <!-- ═══════════ reviews ═══════════ -->
+  <section class="wrap">
+    <div class="rev-head reveal" style="margin-top:var(--gap)">
       <div>
-        <span class="eyebrow">◂ Feeds four ▸</span>
-        <h2>The <span class="flame">Family Stack</span></h2>
-        <p class="lede" style="margin-top:var(--s16)">Four burgers, two big fries, four drinks. One box, one price, and nobody arguing about who got the bigger one.</p>
-        <div class="cta-row">
-          <a class="btn" href="#menu">Get the stack — $34 <span class="caret">▸</span></a>
-          <a class="btn ghost" href="#deal">All deals</a>
-        </div>
+        <span class="kicker">Word of mouth</span>
+        <h2>What people say</h2>
       </div>
-      <div class="art"><svg viewBox="0 0 300 250" role="img" aria-label="Triple stacked burger"><use href="#b-triple"/></svg></div>
+      <div class="rail-nav"><button id="railPrev" aria-label="Previous">‹</button><button id="railNext" aria-label="Next">›</button></div>
     </div>
-  </div>
-</section>
+    <div class="score reveal">
+      <div class="big" data-count="4.8">4.8</div>
+      <div><div class="stars" aria-label="4.8 out of 5">★★★★★</div><p style="margin-top:4px;font-size:13.5px">Replace with your real Google reviews</p></div>
+    </div>
+    <div class="rail reveal" id="rail">
+      <figure class="quote"><div class="skel skel-line"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div><div class="skel skel-line w40" style="margin-top:14px"></div></figure>
+      <figure class="quote"><div class="skel skel-line"></div><div class="skel skel-line"></div><div class="skel skel-line w70"></div><div class="skel skel-line w40" style="margin-top:14px"></div></figure>
+    </div>
+  </section>
 
-<section>
-  <div class="wrap">
-    <div class="sec-top reveal">
-      <span class="eyebrow">◂ How it's built ▸</span>
-      <h2 class="flame">Four steps</h2>
-    </div>
-    <div class="steps reveal">
-      <div class="step"><span class="n">01</span><h3>Ground fresh</h3><p>Chuck and brisket ground every morning. Nothing carries to the next day.</p></div>
-      <div class="step"><span class="n">02</span><h3>Smashed hard</h3><p>Pressed thin onto a screaming flat-top so the edges go lacy and crisp.</p></div>
-      <div class="step"><span class="n">03</span><h3>Buttered bun</h3><p>Split, buttered, griddled face-down until it's gold right to the edge.</p></div>
-      <div class="step"><span class="n">04</span><h3>Wrapped and gone</h3><p>Paper-wrapped and in your hand inside five minutes of ordering.</p></div>
-    </div>
-  </div>
-</section>
-
-<section style="padding-top:var(--s40)">
-  <div class="wrap statement reveal">
-    <span class="eyebrow">◂ Nothing sits under a lamp ▸</span>
-    <h2 class="display flame">Hot<span class="aside">(or it doesn't leave)</span></h2>
-    <a class="btn" href="#locations">Find your counter <span class="caret">▸</span></a>
-  </div>
-</section>
-
-<section id="locations" style="background:var(--canvas-2)">
-  <div class="wrap">
-    <div class="sec-top reveal">
-      <div class="row">
-        <div>
-          <span class="eyebrow">◂ Find us ▸</span>
-          <h2 class="flame">Counters</h2>
-        </div>
-        <a class="btn ghost" href="#locations">All locations <span class="caret">▸</span></a>
-      </div>
-    </div>
-    <div class="locs">
-      <article class="loc reveal">
-        <span class="status">Open now</span>
-        <h3>Downtown</h3>
-        <p class="meta">Street address here<br>City, ST 00000</p>
-        <p class="meta">11:00 — 02:00</p>
-        <a class="btn ghost" href="#locations">◈ Directions</a>
-      </article>
-      <article class="loc reveal">
-        <span class="status">Open now</span>
-        <h3>Riverside</h3>
-        <p class="meta">Street address here<br>City, ST 00000</p>
-        <p class="meta">11:00 — 24:00</p>
-        <a class="btn ghost" href="#locations">◈ Directions</a>
-      </article>
-      <article class="loc reveal">
-        <span class="status">Opens 11:00</span>
-        <h3>Airport Road</h3>
-        <p class="meta">Street address here<br>City, ST 00000</p>
-        <p class="meta">11:00 — 22:00</p>
-        <a class="btn ghost" href="#locations">◈ Directions</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section id="rewards">
-  <div class="wrap">
-    <div class="rewards reveal">
+  <!-- ═══════════ visit CTA ═══════════ -->
+  <section class="wrap">
+    <div class="band dark reveal">
       <div>
-        <span class="eyebrow">◂ Free burger, tenth visit ▸</span>
-        <h2 class="flame">King<span class="aside">(rewards)</span></h2>
-        <p class="lede" style="margin-top:var(--s16)">Scan at the counter, stack points, skip the line on pickup. No card to lose, no app tantrums.</p>
-        <div class="cta-row">
-          <a class="btn" href="#rewards">Join rewards <span class="caret">▸</span></a>
-          <a class="btn ghost" href="#rewards">Get the app</a>
-        </div>
+        <span class="kicker">Come see us</span>
+        <h3>Open early,<br>open late</h3>
+        <p>Find our address, hours and delivery partners — all on one page.</p>
       </div>
-      <div class="art"><svg viewBox="0 0 300 250" role="img" aria-label="Double cheeseburger"><use href="#b-double"/></svg></div>
+      <a class="btn" style="border-color:rgba(253,251,246,.5);color:var(--paper)" href="/contact">Location &amp; hours</a>
     </div>
-  </div>
-</section>
+  </section>
 
-<section style="padding-top:0">
-  <div class="wrap">
-    <div class="duo reveal">
-      <article>
-        <h3>Catering</h3>
-        <p>Feeding a crew, an office or a whole shift. Trays, boxes and enough napkins for all of it.</p>
-        <a class="btn ghost" href="#">Enquire <span class="caret">▸</span></a>
-      </article>
-      <article>
-        <h3>Franchise</h3>
-        <p>Open a counter of your own. Territory, build-out and training covered end to end.</p>
-        <a class="btn ghost" href="#">Franchise with us <span class="caret">▸</span></a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section style="padding-top:0">
-  <div class="wrap signup reveal">
-    <span class="eyebrow">◂ Don't miss a drop ▸</span>
-    <h2 class="flame">Specials, first</h2>
-    <form>
-      <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-      <input id="email" type="email" placeholder="you@email.com" autocomplete="email">
-      <button class="btn" type="submit">Sign up <span class="caret">▸</span></button>
-    </form>
-    <p class="fineprint">Limited drops and location news. Unsubscribe any time.</p>
-  </div>
-</section>
+</main>
 
 <footer>
   <div class="wrap">
-    <div class="foot-cols">
+    <div class="foot-grid">
       <div>
-        <h4>Menu</h4>
-        <ul><li><a href="#menu">Burgers</a></li><li><a href="#menu">Chicken</a></li><li><a href="#menu">Meat free</a></li><li><a href="#menu">Sides &amp; drinks</a></li></ul>
+        <h5>Jumbo King Burger</h5>
+        <p style="color:rgba(253,251,246,.68);max-width:34ch">Flame-grilled quality ingredients. Bold, juicy, made for you. Thank you — have a jumbo day.</p>
+        <div style="display:flex;gap:9px;margin-top:22px">
+          <button class="btn btn-sm" style="background:var(--gold);border-color:var(--gold);color:var(--charcoal)" data-order="pickup">Pickup</button>
+          <button class="btn btn-sm" style="border-color:rgba(253,251,246,.45)" data-order="delivery">Delivery</button>
+        </div>
       </div>
-      <div>
-        <h4>Company</h4>
-        <ul><li><a href="#anatomy">The build</a></li><li><a href="#">Careers</a></li><li><a href="#">Franchise</a></li><li><a href="#">Press</a></li></ul>
+      <div class="fl"><h5>Menu</h5>
+        <a href="/menu#signature">Signature burgers</a><a href="/menu#sides">Sides</a>
+        <a href="/menu#deals">Daily deals</a><a href="/menu#kids">Kids meals</a>
+        <a href="/menu#drinks">Beverages</a><a href="/menu#breakfast">Breakfast</a>
       </div>
-      <div>
-        <h4>Support</h4>
-        <ul><li><a href="#locations">Locations</a></li><li><a href="#">Contact</a></li><li><a href="#">Allergens</a></li><li><a href="#">Accessibility</a></li></ul>
-      </div>
-      <div>
-        <h4>Follow</h4>
-        <ul><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li><li><a href="#">X</a></li><li><a href="#">YouTube</a></li></ul>
+      <div class="fl"><h5>Info</h5>
+        <a href="/contact">Location &amp; hours</a><a href="/contact#catering">Catering</a>
+        <a href="/contact#delivery">Delivery partners</a><a href="/#grill">Flame-grilled</a>
       </div>
     </div>
-    <div class="foot-legal">
-      <span class="logo flame">JumboKing</span>
-      <p>Charcoal &amp; Flame — concept for client review. Copy, prices, addresses and links are placeholders.</p>
+    <div class="foot-bottom">
+      <span>© <span data-year></span> Jumbo King Burger. All rights reserved.</span>
+      <span>Prices and availability subject to change.</span>
     </div>
   </div>
 </footer>
 
-<script>
-  // scroll reveal
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+<div class="sheet" id="orderSheet" role="dialog" aria-modal="true" aria-label="Choose how to order">
+  <div class="sheet-in">
+    <div class="sheet-card"><p id="orderTitle">Order</p><div id="orderOptions"></div></div>
+    <button class="sheet-cancel" data-close>Cancel</button>
+  </div>
+</div>
 
-  // anatomy layer highlighting
-  var art = document.getElementById('anatomyArt');
-  var list = document.getElementById('partsList');
-  function highlight(name) {
-    art.classList.toggle('dimmed', !!name);
-    art.querySelectorAll('.part').forEach(function (p) {
-      p.classList.toggle('active', p.dataset.part === name);
-    });
-  }
-  list.querySelectorAll('button').forEach(function (b) {
-    b.addEventListener('mouseenter', function () { highlight(b.dataset.target); });
-    b.addEventListener('focus', function () { highlight(b.dataset.target); });
-    b.addEventListener('mouseleave', function () { highlight(null); });
-    b.addEventListener('blur', function () { highlight(null); });
-  });
-</script>
+<button id="toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="/assets/data.js"></script>
+<script src="/assets/app.js"></script>
 </body>
 </html>

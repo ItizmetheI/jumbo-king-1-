@@ -1,2 +1,4 @@
-﻿.claude/
-_old-site/
+.claude/
+_archive-charcoal/
+PLAN.md
+__pycache__/
