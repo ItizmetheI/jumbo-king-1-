@@ -196,7 +196,65 @@ if (rail) {
   const step = () => rail.querySelector(".quote").offsetWidth + 16;
   $("#railNext").onclick = () => rail.scrollBy({ left: step(), behavior:"smooth" });
   $("#railPrev").onclick = () => rail.scrollBy({ left: -step(), behavior:"smooth" });
+
+  /* A horizontal scroller with no position indicator gives the reader no idea
+     how much is left, and no way through it from the keyboard. */
+  const dots = document.createElement("div");
+  dots.className = "rail-dots";
+  dots.setAttribute("role", "tablist");
+  dots.setAttribute("aria-label", "Reviews");
+  REVIEWS.forEach((_, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", `Review ${i + 1} of ${REVIEWS.length}`);
+    b.onclick = () => rail.scrollTo({ left: i * step(), behavior: prefersReduced ? "auto" : "smooth" });
+    dots.appendChild(b);
+  });
+  rail.after(dots);
+
+  const syncDots = () => {
+    const i = Math.round(rail.scrollLeft / step());
+    [...dots.children].forEach((d, n) => d.setAttribute("aria-current", String(n === i)));
+  };
+  rail.addEventListener("scroll", syncDots, { passive: true });
+  syncDots();
+
+  rail.tabIndex = 0;
+  rail.setAttribute("aria-label", "Customer reviews, use arrow keys to browse");
+  rail.addEventListener("keydown", e => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    rail.scrollBy({ left: e.key === "ArrowRight" ? step() : -step(), behavior:"smooth" });
+  });
 }
+
+/* ─── highlight the section that is being served right now ────────
+   Breakfast before 11, and today's deals the rest of the day. Small
+   thing, but it answers "can I still get breakfast?" without reading. */
+(() => {
+  const blocks = $$(".mblock");
+  if (!blocks.length) return;
+  const h = now.getHours();
+  const target = h < 11 ? "breakfast" : "deals";
+  document.getElementById(target)?.classList.add("is-now");
+})();
+
+/* ─── back to the category nav from the foot of a long section ─── */
+(() => {
+  const nav = $(".menu-nav");
+  if (!nav) return;
+  $$(".mblock").forEach(b => {
+    const a = document.createElement("a");
+    a.className = "to-menu-top";
+    a.href = "#" + (nav.querySelector("a")?.getAttribute("href")?.slice(1) || "sides");
+    a.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Back to menu sections`;
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      nav.scrollIntoView({ block: "start", behavior: prefersReduced ? "auto" : "smooth" });
+    });
+    b.appendChild(a);
+  });
+})();
 
 /* ─── header / drawer ───────────────────────────────────────── */
 const body = document.body;
@@ -844,11 +902,28 @@ function buildStructuredData() {
   return [restaurant, menu];
 }
 
+/* Breadcrumbs tell search engines the site's shape; only inner pages have one. */
+function buildBreadcrumb(path) {
+  const NAMES = { "/menu": "Menu", "/contact": "Contact" };
+  if (!NAMES[path]) return null;
+  const abs = p => (SITE.url || "") + p;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: abs("/") },
+      { "@type": "ListItem", position: 2, name: NAMES[path], item: abs(path) }
+    ]
+  };
+}
+
 (() => {
   const path = location.pathname.replace(/\/$/, "") || "/";
   const blocks = buildStructuredData();
   // menu graph only where it belongs; every page carries the Restaurant
   const payload = path === "/menu" ? blocks : [blocks[0]];
+  const crumb = buildBreadcrumb(path);
+  if (crumb) payload.push(crumb);
   payload.forEach(obj => {
     const s = document.createElement("script");
     s.type = "application/ld+json";
