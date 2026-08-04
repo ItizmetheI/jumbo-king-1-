@@ -27,6 +27,7 @@
   --ease:cubic-bezier(.22,1,.36,1);
 }
 *,*::before,*::after{box-sizing:border-box}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 html{scroll-behavior:smooth;scroll-padding-top:150px}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -54,7 +55,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn-primary:hover{background:var(--flame-dk);border-color:var(--flame-dk)}
 .btn-ghost{background:transparent}
 .btn-ghost:hover{background:var(--charcoal);color:var(--paper)}
-.btn-light{background:#fff;border-color:#fff;color:var(--flame)}
+.btn-light{background:#fff;border-color:#fff;color:var(--flame-text)}
 .btn-sm{padding:10px 20px;font-size:13px}
 
 /* ═══════════ header ═══════════ */
@@ -86,7 +87,7 @@ body.nav-open .burger-btn i:nth-child(3){transform:translateY(-7px) rotate(-45de
   transform:translateX(101%);transition:transform .42s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;padding:26px;overflow-y:auto}
 body.nav-open .drawer{transform:none}
 .drawer a{font-family:var(--display);font-size:27px;text-transform:uppercase;text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.2)}
-.drawer .btn{margin-top:22px;background:#fff;border-color:#fff;color:var(--flame)}
+.drawer .btn{margin-top:22px;background:#fff;border-color:#fff;color:var(--flame-text)}
 .scrim{position:fixed;inset:0;background:rgba(31,39,51,.55);z-index:55;opacity:0;pointer-events:none;transition:opacity .3s}
 body.nav-open .scrim,body.sheet-open .scrim{opacity:1;pointer-events:auto}
 
@@ -96,7 +97,7 @@ body.nav-open .scrim,body.sheet-open .scrim{opacity:1;pointer-events:auto}
 body.scrolled .orderbar{top:70px}
 .orderbar button{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:999px;
   background:var(--flame);color:#fff;font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
-.orderbar button:last-child{background:transparent;color:var(--flame);border:1.5px solid var(--flame)}
+.orderbar button:last-child{background:transparent;color:var(--flame-text);border:1.5px solid var(--flame)}
 .orderbar svg{width:17px;height:17px}
 @media(min-width:1025px){.orderbar{display:none}}
 
@@ -125,7 +126,7 @@ main{padding-top:calc(var(--head-h) + 60px)}
   padding-block:clamp(36px,6vw,84px)}
 .hero h1{color:var(--charcoal)}
 .hero h1 em{font-style:normal;color:var(--flame)}
-.hero .tagline{font-family:var(--display);font-size:clamp(13px,1.5vw,17px);letter-spacing:.32em;color:var(--flame);margin-top:18px}
+.hero .tagline{font-family:var(--display);font-size:clamp(13px,1.5vw,17px);letter-spacing:.32em;color:var(--flame-text);margin-top:18px}
 .hero p{max-width:40ch;margin-top:18px}
 .pick{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
 .pick a{flex:0 0 auto;width:132px;background:#fff;border:1px solid var(--hair);border-radius:18px;padding:20px 16px;
@@ -187,7 +188,7 @@ main{padding-top:calc(var(--head-h) + 60px)}
 .sig .ph{border:1px solid var(--hair)}
 .sig .meta{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:18px}
 .sig h3{font-size:19px;color:var(--charcoal);letter-spacing:.02em}
-.sig .no{font-family:var(--display);font-size:14px;color:var(--flame);flex:0 0 auto}
+.sig .no{font-family:var(--display);font-size:14px;color:var(--flame-text);flex:0 0 auto}
 .sig .cost{margin-top:10px;display:flex;gap:18px;font-size:14px}
 .sig .cost span{color:var(--soft)}
 .sig .cost b{color:var(--ink);font-weight:700}
@@ -258,14 +259,13 @@ body.scrolled .menu-nav{top:calc(70px + 60px)}
   box-shadow:0 14px 30px -16px rgba(31,39,51,.5);white-space:nowrap}
 .loc-info{display:flex;flex-direction:column;gap:12px}
 .card{background:#fff;border:1px solid var(--hair);border-radius:20px;padding:24px 26px}
-.card h4{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--flame)}
+.card h3{margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--flame-text)}
 .card p,.card a{font-size:16px;color:var(--ink);font-weight:500;text-decoration:none;line-height:1.6}
 .card a{display:block}
 .card a:hover{color:var(--flame)}
 .hours{display:flex;flex-direction:column;gap:2px}
 .hours div{display:flex;justify-content:space-between;gap:14px;font-size:14.5px;padding:6px 9px;border-radius:8px;color:var(--soft);font-weight:500}
 .hours div.today{background:var(--cream);color:var(--ink);font-weight:700}
-.todo{background:#FFF6D9;border:1px dashed #D6A400;color:#75590A;border-radius:9px;padding:9px 12px;font-size:11.5px;font-weight:600;margin-top:10px}
 @media(max-width:900px){.loc{grid-template-columns:1fr}.loc-map{min-height:300px}}
 
 /* ═══════════ delivery partners ═══════════ */
@@ -336,8 +336,12 @@ footer{view-transition-name:site-footer}
 }
 @keyframes loader-out{to{opacity:0;visibility:hidden;transform:translateY(-100%)}}
 .loaded-before #loader,.no-loader #loader{display:none}
-#loader .lbox{display:flex;flex-direction:column;align-items:center;gap:26px;
-  animation:lbox-in .5s cubic-bezier(.22,1,.36,1) both}
+#loader .lbox{display:flex;flex-direction:column;align-items:center;gap:26px}
+/* .lbox/.llogo pop-in is a no-JS fallback only — html gets .js before body
+   parses, so this never runs alongside motion.js's real per-piece reveal.
+   Unscoped, it was replaying the old "one flat picture" pop on every visit,
+   layered on top of (and fighting) the granular JS animation. */
+html:not(.js) #loader .lbox{animation:lbox-in .5s cubic-bezier(.22,1,.36,1) both}
 @keyframes lbox-in{from{opacity:0;transform:scale(.94)}}
 
 /* The stack is wider than the badge itself on purpose: the badge sits at
@@ -347,8 +351,8 @@ footer{view-transition-name:site-footer}
 
 #loader .lflame{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);
   width:100%;z-index:0}
-#loader .llogo{position:relative;z-index:1;display:block;width:76%;height:auto;margin:0 auto;
-  animation:lpop .55s cubic-bezier(.2,.9,.25,1.15) both}
+#loader .llogo{position:relative;z-index:1;display:block;width:76%;height:auto;margin:0 auto}
+html:not(.js) #loader .llogo{animation:lpop .55s cubic-bezier(.2,.9,.25,1.15) both}
 @keyframes lpop{from{opacity:0;transform:translateY(-18px) scale(.96)}}
 
 #loader .lbar{width:min(190px,54vw);height:3px;border-radius:2px;background:var(--cream);overflow:hidden}
@@ -439,8 +443,12 @@ html{scrollbar-color:var(--flame) var(--cream);scrollbar-width:thin}
 
 /* ─── focus ring: needs to clear both cream and charcoal ──────── */
 :focus-visible{outline:3px solid var(--flame);outline-offset:3px;border-radius:6px}
-.band.dark :focus-visible,.grill :focus-visible,footer :focus-visible,
-.drawer :focus-visible,.band.flame :focus-visible{outline-color:var(--gold)}
+.band.dark :focus-visible,.grill :focus-visible,footer :focus-visible{outline-color:var(--gold)}
+/* gold on the drawer's paper background, or on a flame-orange band, both
+   drop under the 3:1 non-text-contrast floor — this predates the drawer's
+   light redesign (was solid flame) and the flame-band buttons */
+.drawer :focus-visible{outline-color:var(--flame)}
+.band.flame :focus-visible{outline-color:#fff}
 
 /* ─── header lifts once scrolled ──────────────────────────────── */
 header{box-shadow:0 0 0 rgba(31,39,51,0);transition:height .25s,box-shadow .3s}
@@ -504,7 +512,7 @@ body.locked{position:fixed;width:100%;overflow:hidden}
 [inert]{pointer-events:none}
 
 /* ─── "closing soon" earns the flame ──────────────────────────── */
-.status.closing{background:rgba(220,58,31,.1);color:var(--flame)}
+.status.closing{background:rgba(220,58,31,.1);color:var(--flame-text)}
 .status.closing .dot{background:var(--flame)}
 .status.closing .dot::after{border-color:var(--flame)}
 
@@ -569,6 +577,10 @@ body.locked{position:fixed;width:100%;overflow:hidden}
 .ph img{opacity:0;filter:blur(14px);transform:scale(1.04);
   transition:opacity .6s ease,filter .7s ease,transform .7s cubic-bezier(.22,1,.36,1)}
 .ph img.ready{opacity:1;filter:none;transform:none}
+/* the hero photo loads eager + fetchpriority=high specifically so it's ready
+   fast — stacking another ~700ms blur/scale settle on top of that defeats
+   the point and delays the page's actual LCP element for no visual gain */
+.hero .ph img{transition:none}
 
 /* ─── marquee pauses on hover ─────────────────────────────────── */
 .marquee:hover .mtrack{animation-play-state:paused}
@@ -704,11 +716,14 @@ body.is-leaving{opacity:0}
 .copy-btn:active,#phoneLink:active{transform:scale(.97)}
 
 /* ─── review rail: position dots + keyboard ───────────────────── */
-.rail-dots{display:flex;gap:7px;justify-content:center;margin-top:2px}
-.rail-dots button{width:8px;height:8px;padding:0;border-radius:50%;background:var(--hair);
-  border:0;transition:background .25s,transform .25s var(--ease)}
-.rail-dots button[aria-current="true"]{background:var(--flame);transform:scale(1.4)}
-.rail-dots button:hover{background:var(--flame-text)}
+.rail-dots{display:flex;gap:2px;justify-content:center;margin-top:2px}
+/* visual dot stays 8px; hit area grows to the 24px minimum via the button box itself */
+.rail-dots button{width:24px;height:24px;padding:0;position:relative;background:none;
+  border:0;border-radius:0}
+.rail-dots button::before{content:"";position:absolute;inset:8px;border-radius:50%;
+  background:var(--hair);transition:background .25s,transform .25s var(--ease)}
+.rail-dots button[aria-current="true"]::before{background:var(--flame);transform:scale(1.4)}
+.rail-dots button:hover::before{background:var(--flame-text)}
 
 /* ─── contextual highlight: what is being served right now ────── */
 .mblock.is-now > h3::after{content:"Serving now";margin-left:12px;font-family:var(--body);
@@ -733,7 +748,6 @@ body.is-leaving{opacity:0}
 .prose a{color:var(--flame-text);text-decoration:underline;text-underline-offset:3px}
 .prose code{font-family:ui-monospace,monospace;font-size:13.5px;background:var(--cream);
   padding:2px 6px;border-radius:5px;color:var(--ink)}
-.prose .todo{font-size:12.5px;line-height:1.6}
 
 /* ─── photo hook: images settle as they enter, lift on hover ──── */
 @media(hover:hover) and (pointer:fine){
@@ -759,3 +773,22 @@ body.is-leaving{opacity:0}
 .map-directions:hover{transform:translateY(-2px);box-shadow:0 18px 36px -16px rgba(31,39,51,.55)}
 .map-directions svg{width:16px;height:16px;color:var(--flame)}
 @media(max-width:900px){.loc-map{min-height:300px}}
+
+/* ─── phone number: the single highest-value CTA on this page ──────
+   Was styled identically to every other card link (16px, ink colour) —
+   easy to skim past on a page whose whole job is "how do I reach them".
+   Now a real button: flame fill, icon, large tap target, impossible to
+   miss on both mobile and desktop. */
+.phone-cta{
+  display:flex!important;align-items:center;justify-content:center;gap:10px;
+  margin-top:2px;padding:15px 18px;border-radius:999px;
+  background:var(--flame);color:#fff!important;
+  font-family:var(--display);font-size:22px;letter-spacing:.02em;text-transform:none;
+  transition:background .2s,transform .2s var(--ease),box-shadow .2s;
+}
+.phone-cta:hover{background:var(--flame-dk);transform:translateY(-2px);box-shadow:var(--e2)}
+.phone-cta:active{transform:none}
+.phone-cta svg{width:20px;height:20px;flex:0 0 auto}
+.phone-cta span{line-height:1}
+.ig-link{margin-top:12px!important;font-size:14px!important;color:var(--soft)!important;font-weight:600!important}
+.ig-link:hover{color:var(--flame-text)!important}

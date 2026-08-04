@@ -1,17 +1,20 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en-US" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Jumbo King Burger — Flame-Grilled Burgers, Chicken & Breakfast</title>
-<meta name="description" content="Flame-grilled burgers, crispy chicken, all-morning breakfast and hand-spun shakes. Nine signature sandwiches, daily deals from $1.99. Order pickup or delivery.">
+<title>Jumbo King Burger — Flame-Grilled Burgers in Paterson, NJ</title>
+<meta name="description" content="Flame-grilled burgers and crispy chicken in Paterson, NJ. Nine signature sandwiches, all-morning breakfast, daily deals from $1.99, pickup or delivery.">
 <meta name="theme-color" content="#DC3A1F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 116'><path d='M12 24c0-8 6-13 14-13 3-4 9-7 15-5 4-4 11-4 15 0 6-2 12 0 15 5 8 0 14 5 14 13 0 5-3 9-6 11v61c0 4-3 7-7 7H25c-4 0-7-3-7-7V35c-4-2-6-6-6-11z' fill='%23FFFFFF' stroke='%23F5811F' stroke-width='5'/><path d='M26 62c0-7 11-12 24-12s24 5 24 12z' fill='%23F5901E'/><rect x='25' y='63' width='50' height='4' rx='2' fill='%23E8232A'/><rect x='26' y='68' width='48' height='4' rx='2' fill='%234CAF3E'/><rect x='25' y='73' width='50' height='4.5' rx='2.2' fill='%234A2E1D'/><rect x='25' y='79' width='50' height='4.5' rx='2.2' fill='%234A2E1D'/><path d='M27 85h46c0 4-8 7-23 7s-23-3-23-7z' fill='%23F5901E'/></svg>">
+<!-- hero photo is injected by app.js from PHOTOS.hero (assets/data.js), so the
+     browser's preload scanner can't discover it in raw HTML — this preload is
+     hand-kept in sync with that path; if the hero photo changes, update both. -->
+<link rel="preload" as="image" type="image/avif" href="/assets/img/hero.avif" fetchpriority="high">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 116'><path d='M12 24c0-8 6-13 14-13 3-4 9-7 15-5 4-4 11-4 15 0 6-2 12 0 15 5 8 0 14 5 14 13 0 5-3 9-6 11v61c0 4-3 7-7 7H25c-4 0-7-3-7-7V35c-4-2-6-6-6-11z' fill='%23FFFFFF' stroke='%23F2660D' stroke-width='5'/><path d='M26 62c0-7 11-12 24-12s24 5 24 12z' fill='%23F2A93B'/><rect x='25' y='63' width='50' height='4' rx='2' fill='%23DA1E28'/><rect x='26' y='68' width='48' height='4' rx='2' fill='%234CAF3E'/><rect x='25' y='73' width='50' height='4.5' rx='2.2' fill='%234A2E1D'/><rect x='25' y='79' width='50' height='4.5' rx='2.2' fill='%234A2E1D'/><path d='M27 85h46c0 4-8 7-23 7s-23-3-23-7z' fill='%23F2A93B'/></svg>">
 <script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('jkb-seen'))document.documentElement.classList.add('loaded-before')}catch(e){}</script>
 <link rel="canonical" href="https://jumbo-king-1.ahmedbarkat1067.workers.dev/">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -21,22 +24,22 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Jumbo King Burger">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Jumbo King Burger — Flame-Grilled Burgers, Chicken & Breakfast">
-<meta property="og:description" content="Flame-grilled burgers, crispy chicken, all-morning breakfast and hand-spun shakes. Nine signature sandwiches, daily deals from $1.99. Order pickup or delivery.">
+<meta property="og:title" content="Jumbo King Burger — Flame-Grilled Burgers in Paterson, NJ">
+<meta property="og:description" content="Flame-grilled burgers and crispy chicken in Paterson, NJ. Nine signature sandwiches, all-morning breakfast, daily deals from $1.99, pickup or delivery.">
 <meta property="og:url" content="https://jumbo-king-1.ahmedbarkat1067.workers.dev/">
-<meta property="og:image" content="https://jumbo-king-1.ahmedbarkat1067.workers.dev/assets/og-image.jpg">
+<meta property="og:image" content="https://jumbo-king-1.ahmedbarkat1067.workers.dev/assets/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A flame-grilled Jumbo King Burger with fries and a drink">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jumbo King Burger — Flame-Grilled Burgers, Chicken & Breakfast">
-<meta name="twitter:description" content="Flame-grilled burgers, crispy chicken, all-morning breakfast and hand-spun shakes. Nine signature sandwiches, daily deals from $1.99. Order pickup or delivery.">
-<meta name="twitter:image" content="https://jumbo-king-1.ahmedbarkat1067.workers.dev/assets/og-image.jpg">
+<meta name="twitter:title" content="Jumbo King Burger — Flame-Grilled Burgers in Paterson, NJ">
+<meta name="twitter:description" content="Flame-grilled burgers and crispy chicken in Paterson, NJ. Nine signature sandwiches, all-morning breakfast, daily deals from $1.99, pickup or delivery.">
+<meta name="twitter:image" content="https://jumbo-king-1.ahmedbarkat1067.workers.dev/assets/img/og-image.jpg">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<div id="loader" aria-hidden="true">
+<div id="loader" aria-hidden="true" inert>
   <div class="lbox">
     <div class="lstack">
       <svg class="lflame" viewBox="0 0 240 120" aria-hidden="true">
@@ -44,7 +47,45 @@
         <path class="fl-a" d="M52 120c-10-24 6-35 13-51 3 10 7 13 11 21 5-15 2-27-4-40 20 12 34 33 31 53-2 14-11 17-21 17z" fill="#DC3A1F" opacity=".75"/>
         <path class="fl-c" d="M188 120c-10-24 6-35 13-51 3 10 7 13 11 21 5-15 2-27-4-40 20 12 34 33 31 53-2 14-11 17-21 17z" fill="#F2A93B" opacity=".7"/>
       </svg>
-      <img class="llogo" src="/assets/logo.svg" alt="" width="300" height="330">
+      <svg class="llogo" viewBox="0 0 300 372" aria-hidden="true">
+        <g id="badge">
+          <path d="M40 70c0-24 18-40 42-40 9-13 27-20 45-14 12-12 33-12 45 0 18-6 36 0 45 14 24 0 42 16 42 40 0 15-8 26-18 32v182c0 12-9 21-21 21H79c-12 0-21-9-21-21V102c-11-6-18-17-18-32z"
+                transform="translate(9 9)" fill="#7A3D0E" opacity=".55"/>
+          <path id="badge-outline" d="M40 70c0-24 18-40 42-40 9-13 27-20 45-14 12-12 33-12 45 0 18-6 36 0 45 14 24 0 42 16 42 40 0 15-8 26-18 32v182c0 12-9 21-21 21H79c-12 0-21-9-21-21V102c-11-6-18-17-18-32z"
+                fill="#FFFFFF" stroke="#F2660D" stroke-width="9" stroke-linejoin="round"/>
+        </g>
+        <g id="wordmark" font-family="Anton, Impact, 'Arial Narrow Bold', sans-serif" text-anchor="middle">
+          <g fill="#F2660D">
+            <text x="153" y="105" font-size="49">JUMBO</text>
+            <text x="153" y="152" font-size="45">KING</text>
+            <text x="153" y="203" font-size="52">BURGER</text>
+          </g>
+          <g fill="#101010">
+            <text x="150" y="102" font-size="49">JUMBO</text>
+            <text x="150" y="149" font-size="45">KING</text>
+            <text x="150" y="200" font-size="52">BURGER</text>
+          </g>
+        </g>
+        <g id="burger">
+          <path d="M78 246c0-21 32-36 72-36s72 15 72 36z" fill="#F2A93B"/>
+          <g fill="#FFF3D6">
+            <circle cx="112" cy="232" r="3.4"/><circle cx="134" cy="223" r="3.4"/>
+            <circle cx="158" cy="221" r="3.4"/><circle cx="182" cy="228" r="3.4"/>
+            <circle cx="124" cy="243" r="3"/><circle cx="196" cy="240" r="3"/><circle cx="150" cy="238" r="3"/>
+          </g>
+          <rect x="76" y="250" width="148" height="11" rx="5.5" fill="#DA1E28"/>
+          <rect x="78" y="264" width="144" height="11" rx="5.5" fill="#4CAF3E"/>
+          <path d="M92 278h116l-42 22c-9 5-20 5-29 0z" fill="#F2A93B"/>
+          <rect x="76" y="277" width="148" height="13" rx="6.5" fill="#4A2E1D"/>
+          <rect x="76" y="294" width="148" height="13" rx="6.5" fill="#4A2E1D"/>
+          <path d="M82 311h136c0 12-24 19-68 19s-68-7-68-19z" fill="#F2A93B"/>
+        </g>
+        <g id="banner">
+          <rect x="66" y="336" width="168" height="30" rx="8" fill="#DA1E28"/>
+          <text x="150" y="357" font-family="Anton, Impact, sans-serif" font-size="18"
+                fill="#FFFFFF" text-anchor="middle" letter-spacing=".5">THE ONE. THE ONLY.</text>
+        </g>
+      </svg>
     </div>
     <div class="lbar"><i></i></div>
   </div>
@@ -265,7 +306,7 @@
   </div>
 </footer>
 
-<div class="sheet" id="orderSheet" role="dialog" aria-modal="true" aria-label="Choose how to order">
+<div class="sheet" id="orderSheet" role="dialog" aria-modal="true" aria-labelledby="orderTitle" inert>
   <div class="sheet-in">
     <div class="sheet-card"><p id="orderTitle">Order</p><div id="orderOptions"></div></div>
     <button class="sheet-cancel" data-close>Cancel</button>

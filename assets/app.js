@@ -138,19 +138,25 @@ $$("[data-year-full]").forEach(el =>
 const addrLine = $("#addrLine");
 if (addrLine && SITE.address) {
   addrLine.innerHTML = SITE.address.replace(/,\s*/, ",<br>");
-  $(".todo")?.remove();
 }
 const phoneLink = $("#phoneLink");
 if (phoneLink && SITE.phone) {
   phoneLink.href = "tel:" + SITE.phone;
-  phoneLink.textContent = SITE.phoneLabel || SITE.phone;
+  // .phone-cta carries an icon <svg> before the label — replace only the
+  // text, not the whole node, or textContent would delete the icon too.
+  const label = phoneLink.querySelector("span") || phoneLink;
+  label.textContent = SITE.phoneLabel || SITE.phone;
 }
 const igLink = $("#igLink");
-if (igLink && SITE.instagram) {
-  igLink.href = "https://instagram.com/" + SITE.instagram;
-  igLink.target = "_blank";
-  igLink.rel = "noopener";
-  igLink.textContent = "@" + SITE.instagram;
+if (igLink) {
+  if (SITE.instagram) {
+    igLink.href = "https://instagram.com/" + SITE.instagram;
+    igLink.target = "_blank";
+    igLink.rel = "noopener";
+    igLink.textContent = "@" + SITE.instagram;
+  } else {
+    igLink.remove(); // no handle yet — a dead "#" link reading "Add your Instagram" is worse than nothing
+  }
 }
 
 /* ─── page rendering ────────────────────────────────────────── */
@@ -165,7 +171,7 @@ const showcase = $("#showcase");
 if (showcase) {
   showcase.innerHTML = SHOWCASE.map(s => `
     <article class="show reveal">
-      ${photo(s.key, "r45", s.title, "")}
+      ${photo(s.key, "r45", s.alt, "")}
       <div class="copy">
         <span class="kicker">Jumbo King</span>
         <h2>${s.title}</h2>
@@ -295,6 +301,7 @@ const closeNav = () => {
   if (!body.classList.contains("nav-open")) return;
   body.classList.remove("nav-open");
   navToggle?.setAttribute("aria-expanded", "false");
+  navToggle?.setAttribute("aria-label", "Open menu");
   releaseNavTrap?.(); releaseNavTrap = null;
   drawerEl?.setAttribute("inert", "");
   if (!body.classList.contains("sheet-open")) lockScroll(false);
@@ -307,6 +314,7 @@ if (navToggle) {
     if (!open) return closeNav();
     body.classList.add("nav-open");
     navToggle.setAttribute("aria-expanded", "true");
+    navToggle.setAttribute("aria-label", "Close menu");
     drawerEl?.removeAttribute("inert");
     lockScroll(true);
     releaseNavTrap = drawerEl ? trapFocus(drawerEl) : null;
@@ -355,6 +363,7 @@ const openSheet = el => {
   closeNav();
   body.classList.add("sheet-open");
   el.classList.add("on");
+  el.removeAttribute("inert"); // closed sheets are off-screen via transform only, not display:none — inert is what actually keeps them out of Tab order while hidden
   lockScroll(true);
   releaseTrap?.();
   releaseTrap = trapFocus(el);
@@ -362,7 +371,7 @@ const openSheet = el => {
 };
 const closeSheets = () => {
   if (!$(".sheet.on")) return;
-  $$(".sheet.on").forEach(s => s.classList.remove("on"));
+  $$(".sheet.on").forEach(s => { s.classList.remove("on"); s.setAttribute("inert", ""); });
   body.classList.remove("sheet-open");
   releaseTrap?.(); releaseTrap = null;
   if (!body.classList.contains("nav-open")) lockScroll(false);
@@ -401,7 +410,7 @@ if (mapCard && mapSheet) {
     iframe.src = "https://maps.google.com/maps?q=" + q + "&output=embed";
     iframe.loading = "lazy";
     iframe.title = "Map showing our location";
-    iframe.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
+    iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
     ph?.replaceWith(iframe);
   }, { rootMargin: "200px" });
   io.observe(mapCard);
@@ -781,8 +790,12 @@ $("#drawerClose")?.addEventListener("click", closeNav);
 })();
 
 /* ─── enquiry form ────────────────────────────────────────────────
-   Client-side checks mirror the Worker's, but the Worker is the real
-   gate — this layer only exists to save the customer a round trip. */
+   Client-side checks mirror the Worker's validate()/rateLimited() logic,
+   but on the production (Netlify) deploy this form posts straight to
+   Netlify Forms via action="/" — the Worker is never in that request path.
+   These checks exist to save the customer a round trip, not as the real
+   gate; Netlify's own honeypot + spam heuristics are what actually guards
+   the production submission. */
 const enquiryForm = $("#enquiryForm");
 if (enquiryForm) {
   const statusEl = $("#enquiryStatus");
@@ -920,10 +933,14 @@ function buildStructuredData() {
     ];
   }
 
-  const item = (name, price) => ({
+  const item = (name, price, multi) => ({
     "@type": "MenuItem",
     name: name.replace(/&amp;/g, "&").replace(/^\d+\.\s*/, ""),
-    ...(price != null && { offers: { "@type": "Offer", price: price.toFixed(2), priceCurrency: "USD" } })
+    // sized items (Sm/Md/Lg etc.) get one Offer per size instead of just the
+    // cheapest tier, so structured data doesn't quote a lower price than what's
+    // actually charged for the size most people order
+    ...(multi ? { offers: multi.map(([label, p]) => ({ "@type": "Offer", name: label, price: p.toFixed(2), priceCurrency: "USD" })) }
+      : price != null ? { offers: { "@type": "Offer", price: price.toFixed(2), priceCurrency: "USD" } } : {})
   });
 
   const menu = {
@@ -940,7 +957,7 @@ function buildStructuredData() {
       ...BLOCKS.map(b => ({
         "@type": "MenuSection",
         name: b.title.replace(/&amp;/g, "&"),
-        hasMenuItem: b.items.map(i => item(i.name, i.multi ? i.multi[0][1] : i.price))
+        hasMenuItem: b.items.map(i => item(i.name, i.price, i.multi))
       }))
     ]
   };
@@ -950,7 +967,7 @@ function buildStructuredData() {
 
 /* Breadcrumbs tell search engines the site's shape; only inner pages have one. */
 function buildBreadcrumb(path) {
-  const NAMES = { "/menu": "Menu", "/contact": "Contact" };
+  const NAMES = { "/menu": "Menu", "/contact": "Contact", "/privacy": "Privacy" };
   if (!NAMES[path]) return null;
   const abs = p => (SITE.url || "") + p;
   return {

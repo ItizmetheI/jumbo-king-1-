@@ -12,10 +12,13 @@
    slides stay on CSS: they're single-property transitions or infinite
    linear loops, and a JS engine would be strictly more expensive.
    ══════════════════════════════════════════════════════════════════ */
-import { animate, createTimeline, stagger, utils } from "./vendor/anime.esm.min.js";
-
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (reduced) throw new Error("reduced-motion: motion layer disabled");
+
+// Dynamic + gated behind the check above: reduced-motion visitors never pay
+// the download/parse cost of the vendor bundle at all, not just the
+// animations themselves (top-level await is fine — this file is a module).
+const { animate, createTimeline, stagger, svg, utils } = await import("./vendor/anime.esm.min.js");
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -47,40 +50,81 @@ function splitWords(root) {
   return words;
 }
 
-/* the loader keeps its CSS animation as the fail-safe; content waits for it */
-const loaderDelay = () => ($("#loader") && !document.documentElement.classList.contains("loaded-before")) ? 1450 : 0;
+/* Used to be a ~1.45s delay so the hero wouldn't visibly "pop in" right after
+   the loader cleared. That was solving the wrong problem: the hero sits
+   behind the opaque #loader (z-index 9999) the whole time it's covering the
+   screen, so there is nothing to see either way. Starting the reveal at 0
+   instead means it finishes settling (~1.3s) *before* the loader's own 1.4s
+   wipe exposes it — same "arrives already in place" result, but the hero
+   (the page's actual LCP element) is no longer sitting at opacity:0 for an
+   extra second-plus after the loader is gone. */
+const loaderDelay = () => 0;
 
-/* ─── loader: flame flare-in + a graceful exit ─────────────────────
-   The badge's own pop-in and the progress bar fill stay on CSS — cheap,
-   and already fine as the no-JS fallback. anime only adds two things CSS
-   doesn't do gracefully here: a staggered flare so the flames feel lit
-   rather than just present, and an exit that moves the content before
-   the panel wipes rather than cutting it off mid-frame.
+/* ─── loader: the logo assembles itself, piece by piece ────────────
+   Previously this was an <img src="logo.svg"> — opaque raster-ish content
+   anime can only pop or fade as one flat unit, which is exactly what read
+   as "just a picture." The markup is now the real inline SVG (see
+   index.html/menu.html/contact.html), so each part — badge outline,
+   wordmark, burger, banner — is its own DOM node anime can drive on its
+   own schedule. The CSS pop-in on .llogo (lpop) stays as the no-JS
+   fallback: it fades/settles the whole lockup as one piece, which is a
+   perfectly reasonable "quieter" loader if this script never runs.
 
-   The continuous flicker on .fl-a/.fl-b/.fl-c stays on CSS (infinite,
-   basically free) — so this animates opacity only. Scale is already
-   owned by that CSS keyframe, and a CSS animation always wins the
-   property it's actively animating over an inline style, so touching
-   transform here would just be silently overwritten every frame. */
+   Sequence (fits inside the .9s hold before the exit fires):
+     0ms    badge outline draws on         (svg.createDrawable)
+     150ms  flames flare in underneath     (existing, unchanged)
+     180ms  wordmark cascades line by line (shadow+front move as a pair,
+                                             or the drop-shadow look breaks)
+     280ms  burger stacks top to bottom
+     560ms  banner seals it
+     900ms  exit — panel and content leave together                     */
 const loaderEl = $("#loader");
 if (loaderEl && !document.documentElement.classList.contains("loaded-before")) {
+  const outline = $("#loader #badge-outline");
+  if (outline) {
+    const [drawable] = svg.createDrawable(outline);
+    animate(drawable, { draw: ["0 0", "0 1"], duration: 380, ease: "out(2)" });
+  }
+
   const flames = $$("#loader .lflame path");
   if (flames.length) {
     utils.set(flames, { opacity: 0 });
     animate(flames, { opacity: [0, 1], duration: 480, ease: "out(2)", delay: stagger(90, { start: 150 }) });
   }
 
-  // A pop-in that then sits frozen for another second reads as a static
-  // image, not something alive — this keeps the badge visibly breathing
-  // through the hold. Starts after the CSS pop-in (lpop, .55s) finishes,
-  // so there is no window where both are animating transform at once.
-  const logoEl = $("#loader .llogo");
-  const breathe = logoEl && animate(logoEl, {
-    scale: [1, 1.035], duration: 900, ease: "inOut(2)", loop: true, alternate: true, delay: 650
-  });
+  // Shadow and front text must move as matched pairs — staggering them
+  // independently would slide the drop-shadow out of register mid-flight.
+  // NOTE: anime writes the plain `y` shorthand onto an element's native SVG
+  // attribute when it has one (<text>'s y, <rect>'s y, ...) instead of a CSS
+  // transform — that clobbers the real baseline/position with the -16..0
+  // offset itself. `translateY` forces a CSS transform on every tag, so the
+  // original SVG geometry stays intact underneath.
+  const wordmark = $("#loader #wordmark");
+  if (wordmark) {
+    const [shadowLines, frontLines] = [...wordmark.children].map(g => [...g.children]);
+    const pairs = shadowLines.map((line, i) => [line, frontLines[i]]);
+    utils.set(pairs.flat(), { opacity: 0, translateY: -16 });
+    pairs.forEach((pair, i) => {
+      animate(pair, { opacity: 1, translateY: 0, duration: 200, ease: "out(3)", delay: 180 + i * 70 });
+    });
+  }
+
+  const burgerPieces = [...($("#loader #burger")?.children || [])];
+  if (burgerPieces.length) {
+    utils.set(burgerPieces, { opacity: 0, translateY: 10, scale: 0.9 });
+    animate(burgerPieces, {
+      opacity: 1, translateY: 0, scale: 1, duration: 130, ease: "out(3)",
+      delay: stagger(22, { start: 280 })
+    });
+  }
+
+  const banner = $("#loader #banner");
+  if (banner) {
+    utils.set(banner, { opacity: 0, translateY: 10 });
+    animate(banner, { opacity: 1, translateY: 0, duration: 240, ease: "outBack(1.8)", delay: 560 });
+  }
 
   setTimeout(() => {
-    breathe?.pause();
     const box = $("#loader .lbox");
     if (box) animate(box, { opacity: 0, scale: 0.94, y: -14, duration: 620, ease: "in(2)" });
   }, 900); // matches the CSS #loader wipe delay, so the content leaves with the panel

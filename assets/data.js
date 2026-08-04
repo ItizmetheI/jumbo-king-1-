@@ -80,18 +80,23 @@ const SIGNATURE = [
 const SHOWCASE = [
   { key:"beef", title:"Beef",
     body:"From the Jumbo King Burger to the Loaded King — quarter-pound patties, flame-grilled to order, stacked as high as you want them.",
+    alt:"Flame-grilled beef burgers including the Jumbo King Burger and Loaded King",
     cta:"See the burgers", href:"/menu#signature" },
   { key:"chicken", title:"Chicken",
     body:"Grilled, crispy or spicy. Plus the wrap sandwich for when you want the same thing with one hand free.",
+    alt:"Grilled and crispy chicken sandwiches with a chicken wrap",
     cta:"See the chicken", href:"/menu#signature" },
   { key:"breakfast", title:"Breakfast",
     body:"Croissants, biscuits, burritos and pancakes. Sausage, bacon or ham — every morning, no shortcuts.",
+    alt:"Breakfast croissants, biscuits, burritos and pancakes with sausage, bacon or ham",
     cta:"See breakfast", href:"/menu#breakfast" },
   { key:"sides", title:"Sides",
     body:"Fries and onion rings in three sizes, nuggets, mozzarella planks, and wings tossed in four sauces.",
+    alt:"Fries, onion rings, chicken nuggets, mozzarella planks and sauced wings",
     cta:"See the sides", href:"/menu#sides" },
   { key:"sweets", title:"Shakes &amp; sweets",
     body:"Ice cream shakes in five flavors, sundaes, cones, cookies and cinnamon rolls fresh out.",
+    alt:"Ice cream shakes, sundaes, cones, cookies and cinnamon rolls",
     cta:"See desserts", href:"/menu#desserts" }
 ];
 
