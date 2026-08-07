@@ -429,10 +429,16 @@ if (orderSheet) {
     if (!btn) return;
     e.preventDefault();
     const kind = btn.dataset.order;
-    const opts = kind === "pickup"
-      ? [["Order online", SITE.orderPickup], ["Call the store", SITE.phone ? "tel:" + SITE.phone : ""]]
-      : Object.entries(SITE.orderDelivery);
-    $("#orderTitle").textContent = kind === "pickup" ? "Order for pickup" : "Order for delivery";
+    /* Delivery partners are optional. With none set, delivery falls back to the
+       same real options as pickup rather than offering dead links. */
+    const partnerList = Object.entries(SITE.orderDelivery).filter(([, u]) => u);
+    const direct = [
+      ["Order online", SITE.orderPickup],
+      ["Call the store", SITE.phone ? "tel:" + SITE.phone : ""]
+    ].filter(([, u]) => u);
+    const viaPartners = kind === "delivery" && partnerList.length > 0;
+    const opts = viaPartners ? partnerList : direct;
+    $("#orderTitle").textContent = viaPartners ? "Order for delivery" : "Order online";
     $("#orderOptions").innerHTML = opts
       .map(([l, h]) => `<a href="${h || "#"}"${h ? ' target="_blank" rel="noopener"' : ""}>${l}${h ? "" : " — add link"}</a>`)
       .join("");
@@ -444,10 +450,17 @@ if (orderSheet) {
 /* ─── delivery partner cards (contact page) ─────────────────── */
 const partners = $("#partners");
 if (partners) {
-  partners.innerHTML = Object.entries(SITE.orderDelivery).map(([name, href]) => `
-    <a class="partner" href="${href || "#"}"${href ? ' target="_blank" rel="noopener"' : ""}>
-      <b>${name}</b><span>${href ? "Order now" : "Add link in data.js"}</span>
-    </a>`).join("");
+  const partnerList = Object.entries(SITE.orderDelivery).filter(([, u]) => u);
+  const cards = partnerList.length ? partnerList : [
+    ["Order online", SITE.orderPickup],
+    ["Call the store", SITE.phone ? "tel:" + SITE.phone : ""]
+  ].filter(([, u]) => u);
+  partners.innerHTML = cards.map(([name, href]) => {
+    const tel = href.startsWith("tel:");
+    return `<a class="partner" href="${href}"${tel ? "" : ' target="_blank" rel="noopener"'}>
+      <b>${name}</b><span>${tel ? SITE.phoneLabel : "Order now"}</span>
+    </a>`;
+  }).join("");
 }
 
 /* ─── reveal on scroll ──────────────────────────────────────── */

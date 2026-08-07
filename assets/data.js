@@ -14,7 +14,10 @@ const SITE = {
   phoneLabel: "(973) 247-1113",
   instagram: "",               // "jumbokingburger"
   orderPickup: "https://order.toasttab.com/online/jumbo-king-burger-paterson",
-  orderDelivery: { "Uber Eats": "", "DoorDash": "", "Grubhub": "" }
+  // Delivery partners. Empty = the site falls back to online ordering and the
+  // phone everywhere, with no partner cards. Add "Uber Eats": "https://…" here
+  // and the cards and the delivery sheet come back on their own.
+  orderDelivery: {}
 };
 
 /* ─── 2. PHOTOS ───────────────────────────────────────────────────
@@ -34,7 +37,7 @@ const PHOTOS = {
   "jumbo-king-burger": "/assets/img/jumbo-king-burger.jpg",
   "jumbo-king-double": "/assets/img/jumbo-king-double.jpg",
   "jumbo-loaded-king": "/assets/img/jumbo-loaded-king.jpg",
-  "jumbo-king-jr": "/assets/img/jumbo-king-jr.jpg",
+  "jumbo-king-bacon-cheese": "/assets/img/jumbo-king-bacon-cheese.jpg",
   "grilled-chicken": "/assets/img/grilled-chicken.jpg",
   "crispy-chicken": "/assets/img/crispy-chicken.jpg",
   "spicy-chicken": "/assets/img/spicy-chicken.jpg",
@@ -67,9 +70,9 @@ const SIGNATURE = [
   { n:3, key:"jumbo-loaded-king", name:"Jumbo Loaded King", single:9.99, vm:12.99,
     desc:"Sesame bun, mayonnaise, shredded lettuce, tomato, onions, pickle, ketchup, a 5.3 oz patty, bacon and cheese.",
     art:["bunTop","onionRing","bacon","cheese","patty","cheese","patty","bunBot"] },
-  { n:4, key:"jumbo-king-jr",     name:"Jumbo King Jr.",    single:3.99, vm:8.99,
-    desc:"Sesame bun, a 2 oz flame-grilled patty, pickle and ketchup.",
-    art:["bunTopPlain","cheese","pattyJr","bunBot"] },
+  { n:4, key:"jumbo-king-bacon-cheese", name:"Jumbo King Bacon and Cheese", single:9.99, vm:13.99,
+    desc:"Sesame bun, bacon, cheese, ketchup and a flame-grilled patty.",
+    art:["bunTop","bacon","cheese","patty","bunBot"] },
   { n:5, key:"grilled-chicken",   name:"Grilled Chicken",   single:6.99, vm:10.99,
     desc:"Potato bun, grilled chicken breast, mayonnaise, lettuce and tomato.",
     art:["bunTop","lettuce","tomato","chkGrill","bunBot"] },
@@ -132,7 +135,7 @@ const BLOCKS = [
     { name:"Hamburger", note:"Pickles &amp; ketchup", price:4.49 },
     { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:4.99 },
     { name:"Mac &amp; Cheese", price:5.99 },
-    { name:"Chicken Nuggets", multi:[["4 pc",2.29],["8 pc",3.79]] }
+    { name:"Chicken Nuggets", multi:[["4 pc",5.99]] }
   ]},
 
   { id:"drinks", title:"Beverages", items:[
@@ -151,16 +154,17 @@ const BLOCKS = [
     { name:"Cone / Cup", price:1.99 },
     { name:"Sundae", note:"Strawberry · Chocolate · KitKat · Oreo", price:2.99 },
     { name:"Cookie", price:1.00 },
-    { name:"Cinnamon Roll", multi:[["1 pc",2.49],["2 pc",3.99]] }
+    { name:"Cinnamon Roll", multi:[["1 pc",2.49],["2 pc",3.99]] },
+    { name:"Fried Oreo Cookies", multi:[["5 pc",5.99]] }
   ]},
 
-  { id:"breakfast", title:"Breakfast", lede:"Single or with combo", items:[
-    { name:"1. Croissant Sausage, Egg &amp; Cheese", multi:[["Single",4.49],["Combo",7.99]] },
-    { name:"2. Croissant Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Combo",7.99]] },
-    { name:"3. Biscuit Sausage, Egg &amp; Cheese", multi:[["Single",5.49],["Combo",7.99]] },
-    { name:"4. Biscuit Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Combo",7.99]] },
-    { name:"5. Breakfast Burrito", note:"Sausage or bacon", multi:[["Single",5.49],["Combo",7.99]] },
-    { name:"6. Pancakes", note:"Sausage, Bacon or Ham", multi:[["Single",4.99],["Combo",7.99]] }
+  { id:"breakfast", title:"Breakfast", lede:"Single or value meal", items:[
+    { name:"1. Croissant Sausage, Egg &amp; Cheese", multi:[["Single",4.49],["Value meal",7.99]] },
+    { name:"2. Croissant Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Value meal",7.99]] },
+    { name:"3. Biscuit Sausage, Egg &amp; Cheese", multi:[["Single",5.49],["Value meal",7.99]] },
+    { name:"4. Biscuit Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Value meal",7.99]] },
+    { name:"5. Breakfast Burrito", note:"Sausage or bacon", multi:[["Single",5.49],["Value meal",7.99]] },
+    { name:"6. Pancakes", note:"Sausage, Bacon or Ham", multi:[["Single",4.99],["Value meal",7.99]] }
   ]},
 
   { id:"bvalue", title:"Breakfast value items", items:[
@@ -198,7 +202,8 @@ const THUMBS = {
   },
   desserts: {
     "Cone / Cup":"sweet-cone-cup", "Sundae":"sweet-sundae",
-    "Cookie":"sweet-cookie", "Cinnamon Roll":"sweet-cinnamon-roll"
+    "Cookie":"sweet-cookie", "Cinnamon Roll":"sweet-cinnamon-roll",
+    "Fried Oreo Cookies":"sweet-fried-oreo"
   },
   breakfast: {
     "1. Croissant Sausage, Egg &amp; Cheese":"bk-1-croissant-sausage",
