@@ -190,6 +190,10 @@ main{padding-top:calc(var(--head-h) + 60px)}
 .sig h3{font-size:19px;color:var(--charcoal);letter-spacing:.02em}
 .sig .no{font-family:var(--display);font-size:14px;color:var(--flame-text);flex:0 0 auto}
 .sig .cost{margin-top:10px;display:flex;gap:18px;font-size:14px}
+/* Ingredient line under each signature name. Descriptions vary in length, so
+   the price row is pushed to the bottom to keep it level across the grid. */
+.sig .desc{margin-top:8px;font-size:13.5px;line-height:1.55;color:var(--soft)}
+.sig .cost{margin-top:auto;padding-top:12px}
 .sig .cost span{color:var(--soft)}
 .sig .cost b{color:var(--ink);font-weight:700}
 .sig .cost .vm b{color:var(--flame)}
@@ -217,6 +221,10 @@ body.scrolled .menu-nav{top:calc(70px + 60px)}
 .item .val{flex:0 0 auto;font-size:15px;font-weight:700;color:var(--flame);white-space:nowrap;text-align:right}
 .item .val i{font-style:normal;display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
 .item .multi{display:flex;gap:16px}
+/* Small square beside a priced line. Deliberately small — the source art is
+   low resolution, so it reads as a cue rather than a photograph. */
+.item .thumb{flex:0 0 auto;align-self:center;width:46px;height:46px;border-radius:9px;
+  object-fit:cover;background:#fff;border:1px solid rgba(31,39,51,.10)}
 .note{margin-top:18px;font-size:12.5px;color:var(--soft);font-weight:500}
 
 /* ═══════════ grill (scroll-scrubbed) ═══════════ */

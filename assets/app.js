@@ -186,9 +186,10 @@ if (sigGrid) {
   const limit = Number(sigGrid.dataset.limit) || SIGNATURE.length;
   const searchable = s => s.replace(/&amp;/g, "&").replace(/&[a-z]+;/g, " ").trim();
   sigGrid.innerHTML = SIGNATURE.slice(0, limit).map(i => `
-    <article data-search="${searchable(i.name)}">
+    <article data-search="${searchable(i.name + " " + (i.desc || ""))}">
       ${photo(i.key, "r11", i.name, i.icon ? WRAP_ART : stack(i.art))}
       <div class="meta"><h3>${i.name}</h3><span class="no">${String(i.n).padStart(2, "0")}</span></div>
+      ${i.desc ? `<p class="desc">${i.desc}</p>` : ""}
       <div class="cost">
         <div><span>Single</span> <b>${money(i.single)}</b></div>
         <div class="vm"><span>Value meal</span> <b>${money(i.vm)}</b></div>
@@ -207,8 +208,11 @@ if (menuRoot) {
     const search = `${it.name} ${it.note || ""}`
       .replace(/&amp;/g, "&").replace(/&[a-z]+;/g, " ")
       .replace(/^\s*\d+\.\s*/, "").replace(/\s+/g, " ").trim();
+    const thumb = it.img
+      ? `<img class="thumb" src="${it.img}" alt="" loading="lazy" decoding="async" width="46" height="46">`
+      : "";
     return `<div class="item" data-search="${search.replace(/"/g, "&quot;")}">
-      <div class="nm">${it.name}${it.note ? `<em>${it.note}</em>` : ""}</div>
+      ${thumb}<div class="nm">${it.name}${it.note ? `<em>${it.note}</em>` : ""}</div>
       <div class="dots"></div>
       <div class="val">${val}</div></div>`;
   };

@@ -13,7 +13,7 @@ const SITE = {
   phone: "+19732471113",
   phoneLabel: "(973) 247-1113",
   instagram: "",               // "jumbokingburger"
-  orderPickup: "",             // your online-ordering URL
+  orderPickup: "https://order.toasttab.com/online/jumbo-king-burger-paterson",
   orderDelivery: { "Uber Eats": "", "DoorDash": "", "Grubhub": "" }
 };
 
@@ -39,7 +39,7 @@ const PHOTOS = {
   "crispy-chicken": "/assets/img/crispy-chicken.jpg",
   "spicy-chicken": "/assets/img/spicy-chicken.jpg",
   "chicken-wrap": "/assets/img/chicken-wrap.jpg",
-  "fish-sandwich": ""   // no honest stock match — stays illustrated
+  "fish-sandwich": "/assets/img/fish-sandwich.jpg"
 };
 
 /* ─── 3. HOURS ────────────────────────────────────────────────────
@@ -59,21 +59,30 @@ const HOURS = [
 /* ─── 4. MENU ─────────────────────────────────────────────────── */
 const SIGNATURE = [
   { n:1, key:"jumbo-king-burger", name:"Jumbo King Burger", single:7.99, vm:10.99,
+    desc:"Sesame bun, mayonnaise, shredded lettuce, tomato, onions, pickle, ketchup and a 5.3 oz flame-grilled patty.",
     art:["bunTop","lettuce","tomato","onion","cheese","patty","bunBot"] },
   { n:2, key:"jumbo-king-double", name:"Jumbo King Double", single:9.99, vm:12.99,
+    desc:"Sesame bun, mayonnaise, shredded lettuce, tomato, onion, pickle, ketchup and two 5.3 oz flame-grilled patties.",
     art:["bunTop","lettuce","tomato","onion","cheese","patty","cheese","patty","bunBot"] },
   { n:3, key:"jumbo-loaded-king", name:"Jumbo Loaded King", single:9.99, vm:12.99,
+    desc:"Sesame bun, mayonnaise, shredded lettuce, tomato, onions, pickle, ketchup, a 5.3 oz patty, bacon and cheese.",
     art:["bunTop","onionRing","bacon","cheese","patty","cheese","patty","bunBot"] },
   { n:4, key:"jumbo-king-jr",     name:"Jumbo King Jr.",    single:3.99, vm:8.99,
+    desc:"Sesame bun, a 2 oz flame-grilled patty, pickle and ketchup.",
     art:["bunTopPlain","cheese","pattyJr","bunBot"] },
   { n:5, key:"grilled-chicken",   name:"Grilled Chicken",   single:6.99, vm:10.99,
+    desc:"Potato bun, grilled chicken breast, mayonnaise, lettuce and tomato.",
     art:["bunTop","lettuce","tomato","chkGrill","bunBot"] },
   { n:6, key:"crispy-chicken",    name:"Crispy Chicken",    single:6.99, vm:10.99,
+    desc:"Potato bun, crispy chicken fillet, mayonnaise, shredded lettuce and tomato.",
     art:["bunTop","lettuce","chkCrisp","bunBot"] },
   { n:7, key:"spicy-chicken",     name:"Spicy Chicken",     single:6.99, vm:10.99,
+    desc:"Potato bun, hot spicy sauce, lettuce, tomato and a 4.2 oz crispy chicken fillet.",
     art:["bunTop","lettuce","chkSpicy","bunBot"] },
-  { n:8, key:"chicken-wrap",      name:"Chicken Wrap Sandwich", single:6.99, vm:10.99, icon:"wrap" },
+  { n:8, key:"chicken-wrap",      name:"Chicken Wrap Sandwich", single:6.99, vm:10.99, icon:"wrap",
+    desc:"Large tortilla, chopped crispy chicken, shredded lettuce, two slices of tomato and ranch dressing." },
   { n:9, key:"fish-sandwich",     name:"Fish Sandwich",     single:6.29, vm:9.99,
+    desc:"Potato bun, tartar sauce, lettuce and a crispy fish fillet.",
     art:["bunTopPlain","lettuce","cheese","fish","bunBot"] }
 ];
 
@@ -103,16 +112,16 @@ const SHOWCASE = [
 const BLOCKS = [
   { id:"sides", title:"Sides", items:[
     { name:"Nuggets", multi:[["4 pc",1.99],["10 pc",4.99]] },
-    { name:"Mozzarella Planks", price:null },
-    { name:"Fries", multi:[["Sm",2.29],["Md",3.49],["Lg",3.99]] },
-    { name:"Onion Rings", multi:[["Sm",2.29],["Md",3.49],["Lg",3.99]] },
+    { name:"Mozzarella Planks", price:2.99 },
+    { name:"Fries", multi:[["Sm",2.99],["Md",3.49],["Lg",3.99]] },
+    { name:"Onion Rings", multi:[["Sm",2.99],["Md",3.49],["Lg",3.99]] },
     { name:"Tossed Wings", note:"BBQ · Buffalo · Nashville Hot · Honey Mustard",
-      multi:[["Boneless 8 pc",5.99],["Bone-in 5 pc",6.79]] }
+      multi:[["Boneless 8 pc",5.99],["Bone-in 5 pc",7.99]] }
   ], note:"Wing sauces: BBQ, Buffalo, Nashville Hot, Honey Mustard." },
 
   { id:"deals", title:"Daily deals", lede:"Everyday value", items:[
-    { name:"Hamburger", price:1.99 },
-    { name:"Cheeseburger", price:2.29 },
+    { name:"Hamburger", note:"Pickles &amp; ketchup", price:1.99 },
+    { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:2.29 },
     { name:"Bacon Cheeseburger", price:2.49 },
     { name:"Crispy Jr.", price:2.49 },
     { name:"Spicy Crispy Jr.", price:2.49 },
@@ -120,16 +129,16 @@ const BLOCKS = [
   ]},
 
   { id:"kids", title:"Kids meals", lede:"Choice of apple juice, orange juice or milk", items:[
-    { name:"Hamburger", price:4.49 },
-    { name:"Cheeseburger", price:4.99 },
-    { name:"Mac &amp; Cheese", price:4.99 },
-    { name:"Chicken Nuggets 4 pc", price:4.99 }
+    { name:"Hamburger", note:"Pickles &amp; ketchup", price:4.49 },
+    { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:4.99 },
+    { name:"Mac &amp; Cheese", price:5.99 },
+    { name:"Chicken Nuggets", multi:[["4 pc",2.29],["8 pc",3.79]] }
   ]},
 
   { id:"drinks", title:"Beverages", items:[
     { name:"Fountain Drink", multi:[["Sm",2.99],["Md",3.49],["Lg",3.99]] },
     { name:"Slushie", multi:[["Sm",1.99],["Md",2.49],["Lg",2.99]] },
-    { name:"Iced Coffee", note:"Plain · Mocha · Vanilla", multi:[["Sm",1.99],["Md",2.29],["Lg",2.49]] },
+    { name:"Iced Coffee", note:"Plain · Mocha · Vanilla", multi:[["Sm",1.99],["Md",2.49],["Lg",2.99]] },
     { name:"Ice Cream Shakes", note:"Vanilla · Chocolate · Strawberry · Oreo · KitKat",
       multi:[["Sm",3.99],["Md",4.49],["Lg",4.99]] },
     { name:"Hot Coffee / Tea", multi:[["Sm",1.29],["Md",1.99],["Lg",2.29]] },
@@ -146,11 +155,11 @@ const BLOCKS = [
   ]},
 
   { id:"breakfast", title:"Breakfast", lede:"Single or with combo", items:[
-    { name:"1. Croissant Sausage, Egg &amp; Cheese", multi:[["Single",2.49],["Combo",7.99]] },
-    { name:"2. Croissant Bacon, Egg &amp; Cheese or Ham", multi:[["Single",3.49],["Combo",7.99]] },
-    { name:"3. Biscuit Sausage, Egg &amp; Cheese", multi:[["Single",3.49],["Combo",7.99]] },
-    { name:"4. Biscuit Bacon, Egg &amp; Cheese or Ham", multi:[["Single",3.49],["Combo",7.99]] },
-    { name:"5. Breakfast Burrito", multi:[["Single",5.49],["Combo",7.99]] },
+    { name:"1. Croissant Sausage, Egg &amp; Cheese", multi:[["Single",4.49],["Combo",7.99]] },
+    { name:"2. Croissant Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Combo",7.99]] },
+    { name:"3. Biscuit Sausage, Egg &amp; Cheese", multi:[["Single",5.49],["Combo",7.99]] },
+    { name:"4. Biscuit Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Combo",7.99]] },
+    { name:"5. Breakfast Burrito", note:"Sausage or bacon", multi:[["Single",5.49],["Combo",7.99]] },
     { name:"6. Pancakes", note:"Sausage, Bacon or Ham", multi:[["Single",4.99],["Combo",7.99]] }
   ]},
 
@@ -162,6 +171,52 @@ const BLOCKS = [
     { name:"Biscuit Egg &amp; Cheese", price:2.49 }
   ]}
 ];
+
+/* ─── 4b. LIST THUMBNAILS ─────────────────────────────────────────
+   Small square beside each priced line. Keyed by block id, then by the
+   item name exactly as written above. Leave a name out and that line
+   simply renders without a picture — nothing else shifts.
+   ─────────────────────────────────────────────────────────────── */
+const THUMBS = {
+  sides: {
+    "Nuggets":"side-nuggets", "Mozzarella Planks":"side-mozzarella",
+    "Fries":"side-fries-rings", "Onion Rings":"side-fries-rings", "Tossed Wings":"side-wings"
+  },
+  deals: {
+    "Hamburger":"deal-hamburger", "Cheeseburger":"deal-cheeseburger",
+    "Bacon Cheeseburger":"deal-bacon-cheeseburger", "Crispy Jr.":"deal-crispy-jr",
+    "Spicy Crispy Jr.":"deal-spicy-crispy-jr", "Hot Dog":"deal-hot-dog"
+  },
+  kids: {
+    "Hamburger":"kids-hamburger", "Cheeseburger":"kids-cheeseburger",
+    "Mac &amp; Cheese":"kids-mac-cheese", "Chicken Nuggets":"kids-nuggets"
+  },
+  drinks: {
+    "Fountain Drink":"drink-fountain", "Slushie":"drink-slushie", "Iced Coffee":"drink-iced-coffee",
+    "Ice Cream Shakes":"drink-shake", "Hot Coffee / Tea":"drink-hot-coffee",
+    "Orange Juice":"drink-orange-juice", "Apple Juice":"drink-apple-juice", "Bottled Water":"drink-water"
+  },
+  desserts: {
+    "Cone / Cup":"sweet-cone-cup", "Sundae":"sweet-sundae",
+    "Cookie":"sweet-cookie", "Cinnamon Roll":"sweet-cinnamon-roll"
+  },
+  breakfast: {
+    "1. Croissant Sausage, Egg &amp; Cheese":"bk-1-croissant-sausage",
+    "2. Croissant Bacon, Egg &amp; Cheese or Ham":"bk-2-croissant-bacon",
+    "3. Biscuit Sausage, Egg &amp; Cheese":"bk-3-biscuit-sausage",
+    "4. Biscuit Bacon, Egg &amp; Cheese or Ham":"bk-4-biscuit-bacon",
+    "5. Breakfast Burrito":"bk-5-burrito", "6. Pancakes":"bk-6-pancakes"
+  },
+  bvalue: {
+    "Hash Browns":"bv-hash-browns", "Cinnamon Roll":"bv-cinnamon-roll",
+    "Plain Pancakes":"bv-plain-pancakes", "Croissant Egg &amp; Cheese":"bv-croissant-ec",
+    "Biscuit Egg &amp; Cheese":"bv-biscuit-ec"
+  }
+};
+BLOCKS.forEach(b => b.items.forEach(it => {
+  const file = (THUMBS[b.id] || {})[it.name];
+  if (file) it.img = `/assets/img/thumbs/${file}.jpg`;
+}));
 
 const REVIEWS = [
   { text:"You can actually taste the flame on the patty. The Loaded King is a two-hands-and-a-napkin situation.", who:"Placeholder review" },
