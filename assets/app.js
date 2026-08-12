@@ -429,18 +429,22 @@ if (orderSheet) {
     if (!btn) return;
     e.preventDefault();
     const kind = btn.dataset.order;
-    /* Delivery partners are optional. With none set, delivery falls back to the
-       same real options as pickup rather than offering dead links. */
+    /* Delivery partners are optional. With none set, delivery falls back to
+       the same online-ordering link as pickup rather than offering dead
+       links. No "call the store" option here — that's a phone call, not an
+       order, and it's already its own dedicated CTA on the contact page. */
     const partnerList = Object.entries(SITE.orderDelivery).filter(([, u]) => u);
-    const direct = [
-      ["Order online", SITE.orderPickup],
-      ["Call the store", SITE.phone ? "tel:" + SITE.phone : ""]
-    ].filter(([, u]) => u);
     const viaPartners = kind === "delivery" && partnerList.length > 0;
-    const opts = viaPartners ? partnerList : direct;
-    $("#orderTitle").textContent = viaPartners ? "Order for delivery" : "Order online";
+    const opts = viaPartners ? partnerList : [["Order online", SITE.orderPickup]].filter(([, u]) => u);
+    // Exactly one real destination — go straight there, no sheet to choose from.
+    if (opts.length <= 1) {
+      const [, href] = opts[0] || [];
+      if (href) window.open(href, "_blank", "noopener");
+      return;
+    }
+    $("#orderTitle").textContent = "Order for delivery";
     $("#orderOptions").innerHTML = opts
-      .map(([l, h]) => `<a href="${h || "#"}"${h ? ' target="_blank" rel="noopener"' : ""}>${l}${h ? "" : " — add link"}</a>`)
+      .map(([l, h]) => `<a href="${h}" target="_blank" rel="noopener">${l}</a>`)
       .join("");
     $$("#orderOptions a").forEach(a => a.addEventListener("click", closeSheets));
     openSheet(orderSheet);
@@ -451,10 +455,7 @@ if (orderSheet) {
 const partners = $("#partners");
 if (partners) {
   const partnerList = Object.entries(SITE.orderDelivery).filter(([, u]) => u);
-  const cards = partnerList.length ? partnerList : [
-    ["Order online", SITE.orderPickup],
-    ["Call the store", SITE.phone ? "tel:" + SITE.phone : ""]
-  ].filter(([, u]) => u);
+  const cards = partnerList.length ? partnerList : [["Order online", SITE.orderPickup]].filter(([, u]) => u);
   partners.innerHTML = cards.map(([name, href]) => {
     const tel = href.startsWith("tel:");
     return `<a class="partner" href="${href}"${tel ? "" : ' target="_blank" rel="noopener"'}>
