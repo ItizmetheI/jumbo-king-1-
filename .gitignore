@@ -1,0 +1,10 @@
+.claude/
+.agents/
+skills-lock.json
+_archive-charcoal/
+PLAN.md
+__pycache__/
+
+# stock scratch
+.tmp-stock/
+.tmp3/

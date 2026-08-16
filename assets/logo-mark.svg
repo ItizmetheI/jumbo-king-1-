@@ -1,0 +1,18 @@
+<!-- Compact mark: badge + burger, no wordmark. Used in the header and drawer,
+     where the wordmark is set as live text beside it. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 132" role="img" aria-label="Jumbo King Burger">
+  <path d="M14 30c0-11 8-18 19-18 4-6 12-9 20-6 5-5 15-5 20 0 8-3 16 0 20 6 11 0 19 7 19 18 0 7-4 12-8 15v67c0 5-4 9-9 9H31c-5 0-9-4-9-9V45c-4-3-8-8-8-15z"
+        fill="#FFFFFF" stroke="#F2660D" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M30 76c0-9 13-15 30-15s30 6 30 15z" fill="#F2A93B"/>
+  <g fill="#FFF3D6">
+    <circle cx="45" cy="70" r="2"/><circle cx="56" cy="66" r="2"/>
+    <circle cx="68" cy="66" r="2"/><circle cx="79" cy="70" r="2"/>
+    <circle cx="60" cy="74" r="1.8"/>
+  </g>
+  <rect x="29" y="79" width="62" height="5" rx="2.5" fill="#DA1E28"/>
+  <rect x="30" y="86" width="60" height="5" rx="2.5" fill="#4CAF3E"/>
+  <path d="M37 93h46l-17 9c-4 2-8 2-12 0z" fill="#F2A93B"/>
+  <rect x="29" y="92" width="62" height="6" rx="3" fill="#4A2E1D"/>
+  <rect x="29" y="100" width="62" height="6" rx="3" fill="#4A2E1D"/>
+  <path d="M32 109h56c0 5-10 8-28 8s-28-3-28-8z" fill="#F2A93B"/>
+</svg>
