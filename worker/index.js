@@ -40,7 +40,7 @@ const json = (obj, status = 200) =>
 /* ─── validation ──────────────────────────────────────────────────
    Every field is checked here as well as in the browser. Client-side
    validation is a convenience for the customer; this is the real gate. */
-const MAX = { name: 80, email: 160, phone: 32, message: 2000, eventType: 40 };
+const MAX = { name: 80, email: 160, phone: 32, message: 2000, eventType: 40, location: 120, capital: 60, experience: 60 };
 
 function validate(form) {
   const errors = {};
@@ -84,6 +84,16 @@ function validate(form) {
   const eventType = String(form.get("eventType") || "").trim().slice(0, MAX.eventType);
   if (eventType) clean.eventType = eventType;
 
+  // franchise enquiry only — same optional-passthrough treatment as eventType
+  const location = String(form.get("location") || "").trim().slice(0, MAX.location);
+  if (location) clean.location = location;
+  const capital = String(form.get("capital") || "").trim().slice(0, MAX.capital);
+  if (capital) clean.capital = capital;
+  const experience = String(form.get("experience") || "").trim().slice(0, MAX.experience);
+  if (experience) clean.experience = experience;
+
+  clean.kind = String(form.get("form-name") || "").trim() === "franchise" ? "franchise" : "catering";
+
   return { errors, clean, ok: Object.keys(errors).length === 0 };
 }
 
@@ -118,10 +128,14 @@ async function sendEmail(env, data) {
     data.eventType ? `Type: ${data.eventType}` : null,
     data.date ? `Date: ${data.date}` : null,
     data.headcount ? `Headcount: ${data.headcount}` : null,
+    data.location ? `Location: ${data.location}` : null,
+    data.capital ? `Liquid capital: ${data.capital}` : null,
+    data.experience ? `Experience: ${data.experience}` : null,
     "",
     data.message
   ].filter(Boolean);
 
+  const subjectPrefix = data.kind === "franchise" ? "Franchise enquiry" : "Catering enquiry";
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
@@ -129,7 +143,7 @@ async function sendEmail(env, data) {
       from: env.ENQUIRY_FROM || "Jumbo King Burger <onboarding@resend.dev>",
       to: [env.ENQUIRY_TO],
       reply_to: data.email,
-      subject: `Catering enquiry — ${data.name}${data.headcount ? ` (${data.headcount} people)` : ""}`,
+      subject: `${subjectPrefix} — ${data.name}${data.headcount ? ` (${data.headcount} people)` : ""}`,
       text: lines.join("\n")
     })
   });
