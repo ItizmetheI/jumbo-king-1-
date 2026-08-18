@@ -17,7 +17,7 @@
     # Inline scripts are hashed, not nonce'd, so the site stays fully static.
     # style-src keeps 'unsafe-inline' for style="" attributes — a far smaller
     # surface than inline script.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-snn76VxYj4st78Oq1MEE8S9HRmQStQCwWJXzAw158Mk=' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://maps.google.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-snn76VxYj4st78Oq1MEE8S9HRmQStQCwWJXzAw158Mk=' 'sha256-Du+OJKJSbdUgz5nrHeWWINvez6XKDDU/tyj/5c2uvwo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.google.com https://maps.google.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
 
 [[headers]]
   for = "/assets/*"

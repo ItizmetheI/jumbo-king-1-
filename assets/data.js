@@ -186,7 +186,8 @@ const BLOCKS = [
 const THUMBS = {
   sides: {
     "Nuggets":"side-nuggets", "Mozzarella Sticks":"side-mozzarella",
-    "Fries":"side-fries-rings", "Onion Rings":"side-fries-rings", "Tossed Wings":"side-wings"
+    "Fries":"side-fries-rings", "Onion Rings":"side-fries-rings", "Tossed Wings":"side-wings",
+    "Mac &amp; Cheese":"side-mac-cheese"
   },
   deals: {
     "Hamburger":"deal-hamburger", "Cheeseburger":"deal-cheeseburger",
@@ -212,7 +213,8 @@ const THUMBS = {
     "2. Croissant Bacon, Egg &amp; Cheese or Ham":"bk-2-croissant-bacon",
     "3. Biscuit Sausage, Egg &amp; Cheese":"bk-3-biscuit-sausage",
     "4. Biscuit Bacon, Egg &amp; Cheese or Ham":"bk-4-biscuit-bacon",
-    "5. Breakfast Burrito":"bk-5-burrito", "6. Pancakes":"bk-6-pancakes"
+    "5. Breakfast Burrito":"bk-5-burrito", "6. Pancakes":"bk-6-pancakes",
+    "7. French Toast":"bk-7-french-toast"
   },
   bvalue: {
     "Hash Browns":"bv-hash-browns", "Cinnamon Roll":"bv-cinnamon-roll",
@@ -227,7 +229,7 @@ BLOCKS.forEach(b => b.items.forEach(it => {
 
 const REVIEWS = [
   { text:"You can actually taste the flame on the patty. The Loaded King is a two-hands-and-a-napkin situation.", who:"Placeholder review" },
-  { text:"Value meal for $3.79 more is the move. Fries were hot and the fountain drink was bottomless.", who:"Placeholder review" },
+  { text:"Value meal for $3 more is the move. Fries were hot and the fountain drink was bottomless.", who:"Placeholder review" },
   { text:"Came for breakfast, stayed for the KitKat shake. The breakfast burrito is genuinely huge.", who:"Placeholder review" },
   { text:"Daily deals are unbeatable. Cheeseburger for $2.29 and it's a real burger, not a slider.", who:"Placeholder review" },
   { text:"Nashville hot tossed wings and mozzarella planks. Ordered for the office and everyone asked where it was from.", who:"Placeholder review" }

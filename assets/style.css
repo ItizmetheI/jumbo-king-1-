@@ -212,11 +212,11 @@ body.scrolled .menu-nav{top:calc(92px + 60px)}
 .mblock > h3{color:var(--charcoal);padding-bottom:16px;border-bottom:2px solid var(--flame);margin-bottom:8px}
 .mblock .lede{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:20px}
 .cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr));gap:0 clamp(30px,5vw,72px)}
-.item{display:flex;align-items:baseline;gap:14px;padding:17px 0;border-bottom:1px solid rgba(31,39,51,.09)}
+.item{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;padding:17px 0;border-bottom:1px solid rgba(31,39,51,.09)}
 .item .nm{font-size:16px;font-weight:600;color:var(--ink);flex:0 0 auto;max-width:62%}
 .item .nm em{display:block;font-style:normal;font-size:12.5px;font-weight:400;color:var(--soft);margin-top:4px;line-height:1.5}
 .item .dots{flex:1;border-bottom:1px dotted rgba(31,39,51,.28);transform:translateY(-4px);min-width:18px}
-.item .val{flex:0 0 auto;font-size:15px;font-weight:700;color:var(--flame);white-space:nowrap;text-align:right}
+.item .val{flex:0 0 auto;font-size:15px;font-weight:700;color:var(--flame);white-space:nowrap;text-align:right;margin-left:auto}
 .item .val i{font-style:normal;display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
 .item .multi{display:flex;gap:16px}
 /* Small square beside a priced line. Deliberately small — the source art is

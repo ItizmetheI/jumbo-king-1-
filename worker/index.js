@@ -22,7 +22,7 @@ const ORIGIN_HEADERS = {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data:",
-    "frame-src https://maps.google.com",
+    "frame-src https://www.google.com https://maps.google.com",
     "connect-src 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
