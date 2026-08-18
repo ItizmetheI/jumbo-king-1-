@@ -91,7 +91,7 @@ const SIGNATURE = [
 
 const SHOWCASE = [
   { key:"beef", title:"Beef",
-    body:"From the Jumbo King Burger to the Loaded King — quarter-pound patties, flame-grilled to order, stacked as high as you want them.",
+    body:"From the Jumbo King Burger to the Loaded King — 100% American beef patties, flame-grilled to order, stacked as high as you want them.",
     alt:"Flame-grilled beef burgers including the Jumbo King Burger and Loaded King",
     cta:"See the burgers", href:"/menu#signature" },
   { key:"chicken", title:"Chicken",
@@ -115,25 +115,26 @@ const SHOWCASE = [
 const BLOCKS = [
   { id:"sides", title:"Sides", items:[
     { name:"Nuggets", multi:[["4 pc",1.99],["10 pc",4.99]] },
-    { name:"Mozzarella Planks", price:2.99 },
+    { name:"Mozzarella Sticks", price:2.99 },
     { name:"Fries", multi:[["Sm",2.99],["Md",3.49],["Lg",3.99]] },
     { name:"Onion Rings", multi:[["Sm",2.99],["Md",3.49],["Lg",3.99]] },
-    { name:"Tossed Wings", note:"BBQ · Buffalo · Nashville Hot · Honey Mustard",
+    { name:"Mac &amp; Cheese", price:2.99 },
+    { name:"Tossed Wings", note:"BBQ · Buffalo · Nashville Hot · Honey Mustard · Sweet Chili",
       multi:[["Boneless 8 pc",5.99],["Bone-in 5 pc",7.99]] }
-  ], note:"Wing sauces: BBQ, Buffalo, Nashville Hot, Honey Mustard." },
+  ], note:"Wing sauces: BBQ, Buffalo, Nashville Hot, Honey Mustard, Sweet Chili." },
 
   { id:"deals", title:"Daily deals", lede:"Everyday value", items:[
     { name:"Hamburger", note:"Pickles &amp; ketchup", price:1.99 },
     { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:2.29 },
-    { name:"Bacon Cheeseburger", price:2.49 },
-    { name:"Crispy Jr.", price:2.49 },
-    { name:"Spicy Crispy Jr.", price:2.49 },
+    { name:"Bacon Cheeseburger", price:2.99 },
+    { name:"Crispy Jr.", price:2.99 },
+    { name:"Spicy Crispy Jr.", price:2.99 },
     { name:"Hot Dog", price:1.99 }
   ]},
 
   { id:"kids", title:"Kids meals", lede:"Choice of apple juice, orange juice or milk", items:[
-    { name:"Hamburger", note:"Pickles &amp; ketchup", price:4.49 },
-    { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:4.99 },
+    { name:"Hamburger", note:"Pickles &amp; ketchup", price:5.99 },
+    { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:5.99 },
     { name:"Mac &amp; Cheese", price:5.99 },
     { name:"Chicken Nuggets", multi:[["4 pc",5.99]] }
   ]},
@@ -164,7 +165,8 @@ const BLOCKS = [
     { name:"3. Biscuit Sausage, Egg &amp; Cheese", multi:[["Single",5.49],["Value meal",7.99]] },
     { name:"4. Biscuit Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Value meal",7.99]] },
     { name:"5. Breakfast Burrito", note:"Sausage or bacon", multi:[["Single",5.49],["Value meal",7.99]] },
-    { name:"6. Pancakes", note:"Sausage, Bacon or Ham", multi:[["Single",4.99],["Value meal",7.99]] }
+    { name:"6. Pancakes", note:"Sausage, Bacon or Ham", multi:[["Single",4.99],["Value meal",7.99]] },
+    { name:"7. French Toast", note:"5 pc", price:3.99 }
   ]},
 
   { id:"bvalue", title:"Breakfast value items", items:[
@@ -183,7 +185,7 @@ const BLOCKS = [
    ─────────────────────────────────────────────────────────────── */
 const THUMBS = {
   sides: {
-    "Nuggets":"side-nuggets", "Mozzarella Planks":"side-mozzarella",
+    "Nuggets":"side-nuggets", "Mozzarella Sticks":"side-mozzarella",
     "Fries":"side-fries-rings", "Onion Rings":"side-fries-rings", "Tossed Wings":"side-wings"
   },
   deals: {
