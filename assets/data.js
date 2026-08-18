@@ -10,8 +10,8 @@ const SITE = {
   locality: "Paterson",
   region: "NJ",
   postalCode: "07501",
-  phone: "+19732471113",
-  phoneLabel: "(973) 247-1113",
+  phone: "+19732471339",
+  phoneLabel: "(973) 247-1339",
   instagram: "",               // "jumbokingburger"
   orderPickup: "https://order.toasttab.com/online/jumbo-king-burger-paterson",
   // Delivery partners. Empty = the site falls back to online ordering and the
