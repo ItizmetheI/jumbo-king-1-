@@ -1,7 +1,7 @@
 /**
  * Jumbo King Burger — Cloudflare Worker
  *
- * Serves the static site and handles one POST endpoint (catering / contact
+ * Serves the static site and handles one POST endpoint (contact / franchise
  * enquiries). Everything degrades: no KV binding means no rate limiting and no
  * stored copy, no RESEND_API_KEY means no email — the endpoint still validates
  * and still tells the customer the truth about what happened.
@@ -40,7 +40,7 @@ const json = (obj, status = 200) =>
 /* ─── validation ──────────────────────────────────────────────────
    Every field is checked here as well as in the browser. Client-side
    validation is a convenience for the customer; this is the real gate. */
-const MAX = { name: 80, email: 160, phone: 32, message: 2000, eventType: 40, location: 120, capital: 60, experience: 60 };
+const MAX = { name: 80, email: 160, phone: 32, message: 2000, location: 120, capital: 60, experience: 60 };
 
 function validate(form) {
   const errors = {};
@@ -63,28 +63,12 @@ function validate(form) {
   else if (phone.length > MAX.phone) errors.phone = "That phone number is too long.";
   else clean.phone = phone;
 
-  const headcount = String(form.get("headcount") || "").trim();
-  if (headcount) {
-    const n = Number(headcount);
-    if (!Number.isInteger(n) || n < 1 || n > 5000) errors.headcount = "Enter a number between 1 and 5000.";
-    else clean.headcount = n;
-  }
-
-  const date = String(form.get("date") || "").trim();
-  if (date) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date))) errors.date = "Use a real date.";
-    else clean.date = date;
-  }
-
   const message = String(form.get("message") || "").trim();
   if (message.length < 5) errors.message = "Tell us a little about what you need.";
   else if (message.length > MAX.message) errors.message = "Please keep it under 2000 characters.";
   else clean.message = message;
 
-  const eventType = String(form.get("eventType") || "").trim().slice(0, MAX.eventType);
-  if (eventType) clean.eventType = eventType;
-
-  // franchise enquiry only — same optional-passthrough treatment as eventType
+  // franchise enquiry only — optional passthrough
   const location = String(form.get("location") || "").trim().slice(0, MAX.location);
   if (location) clean.location = location;
   const capital = String(form.get("capital") || "").trim().slice(0, MAX.capital);
@@ -92,7 +76,7 @@ function validate(form) {
   const experience = String(form.get("experience") || "").trim().slice(0, MAX.experience);
   if (experience) clean.experience = experience;
 
-  clean.kind = String(form.get("form-name") || "").trim() === "franchise" ? "franchise" : "catering";
+  clean.kind = String(form.get("form-name") || "").trim() === "franchise" ? "franchise" : "contact";
 
   return { errors, clean, ok: Object.keys(errors).length === 0 };
 }
@@ -125,9 +109,6 @@ async function sendEmail(env, data) {
     `Name: ${data.name}`,
     `Email: ${data.email}`,
     data.phone ? `Phone: ${data.phone}` : null,
-    data.eventType ? `Type: ${data.eventType}` : null,
-    data.date ? `Date: ${data.date}` : null,
-    data.headcount ? `Headcount: ${data.headcount}` : null,
     data.location ? `Location: ${data.location}` : null,
     data.capital ? `Liquid capital: ${data.capital}` : null,
     data.experience ? `Experience: ${data.experience}` : null,
@@ -135,7 +116,7 @@ async function sendEmail(env, data) {
     data.message
   ].filter(Boolean);
 
-  const subjectPrefix = data.kind === "franchise" ? "Franchise enquiry" : "Catering enquiry";
+  const subjectPrefix = data.kind === "franchise" ? "Franchise enquiry" : "Contact enquiry";
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
@@ -143,7 +124,7 @@ async function sendEmail(env, data) {
       from: env.ENQUIRY_FROM || "Jumbo King Burger <onboarding@resend.dev>",
       to: [env.ENQUIRY_TO],
       reply_to: data.email,
-      subject: `${subjectPrefix} — ${data.name}${data.headcount ? ` (${data.headcount} people)` : ""}`,
+      subject: `${subjectPrefix} — ${data.name}`,
       text: lines.join("\n")
     })
   });

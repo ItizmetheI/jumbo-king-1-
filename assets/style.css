@@ -13,7 +13,7 @@
   --hair:rgba(220,58,31,.18);
   --display:Anton,Impact,"Arial Narrow Bold",sans-serif;
   --body:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --head-h:92px;
+  --head-h:132px;
   --pad:clamp(20px,5vw,84px);
   --gap:clamp(72px,11vw,168px);
   /* radii: three steps only — pill, card, chip */
@@ -61,14 +61,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ═══════════ header ═══════════ */
 header{position:fixed;inset:0 0 auto 0;z-index:50;height:var(--head-h);background:rgba(253,251,246,.92);
   backdrop-filter:blur(14px);border-bottom:1px solid var(--hair);transition:height .25s}
-body.scrolled header{height:70px}
-body.scrolled .brand .mono{height:42px}
+body.scrolled header{height:92px}
+body.scrolled .brand .logo-full{height:76px}
 .head-in{max-width:1240px;height:100%;margin:0 auto;padding-inline:var(--pad);display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand .mono{height:50px;width:auto;flex:0 0 auto;transition:transform .35s}
-.brand:hover .mono{transform:rotate(-8deg)}
-.brand .wm{font-family:var(--display);font-size:17px;line-height:.92;letter-spacing:.03em;color:var(--flame)}
-.brand .wm small{display:block;font-family:var(--body);font-size:8px;font-weight:800;letter-spacing:.24em;color:var(--soft);margin-top:4px}
+.brand .logo-full{height:108px;width:auto;flex:0 0 auto;transition:height .25s,transform .25s}
+.brand:hover .logo-full{transform:scale(1.04)}
 nav{display:flex;align-items:center;gap:32px}
 nav a{font-size:13.5px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--ink);position:relative;padding:5px 0;transition:color .2s}
 nav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--flame);transition:width .25s}
@@ -94,7 +92,7 @@ body.nav-open .scrim,body.sheet-open .scrim{opacity:1;pointer-events:auto}
 /* ═══════════ order bar (mobile) ═══════════ */
 .orderbar{position:fixed;top:var(--head-h);left:0;right:0;z-index:45;display:grid;grid-template-columns:1fr 1fr;
   gap:8px;padding:8px var(--pad);background:var(--paper);border-bottom:1px solid var(--hair);transition:top .25s}
-body.scrolled .orderbar{top:70px}
+body.scrolled .orderbar{top:92px}
 .orderbar button{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border-radius:999px;
   background:var(--flame);color:#fff;font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
 .orderbar button:last-child{background:transparent;color:var(--flame-text);border:1.5px solid var(--flame)}
@@ -201,8 +199,8 @@ main{padding-top:calc(var(--head-h) + 60px)}
 /* ═══════════ menu list ═══════════ */
 .menu-nav{position:sticky;top:calc(var(--head-h) + 60px);z-index:40;background:var(--paper);
   border-bottom:1px solid var(--hair);margin-top:var(--gap);transition:top .25s}
-body.scrolled .menu-nav{top:calc(70px + 60px)}
-@media(min-width:1025px){.menu-nav{top:var(--head-h)}body.scrolled .menu-nav{top:70px}}
+body.scrolled .menu-nav{top:calc(92px + 60px)}
+@media(min-width:1025px){.menu-nav{top:var(--head-h)}body.scrolled .menu-nav{top:92px}}
 .menu-nav .in{display:flex;gap:26px;overflow-x:auto;padding:16px var(--pad);max-width:1240px;margin:0 auto;scrollbar-width:none}
 .menu-nav .in::-webkit-scrollbar{display:none}
 .menu-nav a{flex:0 0 auto;font-size:13px;font-weight:600;letter-spacing:.05em;text-decoration:none;color:var(--soft);
