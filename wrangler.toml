@@ -18,7 +18,7 @@ not_found_handling = "404-page"
 # id = "<paste-id-here>"
 
 [vars]
-# Where catering enquiries land. Set ENQUIRY_TO here; keep the API key secret:
+# Where contact / franchise enquiries land. The API key stays a secret, set via:
 #   wrangler secret put RESEND_API_KEY
-# ENQUIRY_TO   = "orders@yourdomain.com"
+ENQUIRY_TO   = "Jethwafoods@aol.com"
 # ENQUIRY_FROM = "Jumbo King Burger <hello@yourdomain.com>"
