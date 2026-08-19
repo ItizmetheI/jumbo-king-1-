@@ -85,11 +85,17 @@ function validate(form) {
    can see, and a form submitted faster than a human could have typed it. */
 function looksAutomated(form) {
   if (String(form.get("company") || "").trim()) return "honeypot";
-  const started = Number(form.get("startedAt"));
-  if (Number.isFinite(started)) {
-    const elapsed = Date.now() - started;
-    if (elapsed < 3000) return "too-fast";
-    if (elapsed > 1000 * 60 * 60 * 6) return "stale";
+  const startedRaw = form.get("startedAt");
+  // a missing field must NOT be treated as timing data — Number(null) and
+  // Number("") both coerce to 0, which reads as "6 hours stale" and would
+  // silently drop every submission that omits this field
+  if (startedRaw) {
+    const started = Number(startedRaw);
+    if (Number.isFinite(started) && started > 0) {
+      const elapsed = Date.now() - started;
+      if (elapsed < 3000) return "too-fast";
+      if (elapsed > 1000 * 60 * 60 * 6) return "stale";
+    }
   }
   return null;
 }

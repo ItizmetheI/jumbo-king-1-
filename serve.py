@@ -23,10 +23,11 @@ ROOT = Path(__file__).parent.resolve()
 
 class Handler(SimpleHTTPRequestHandler):
     def do_POST(self):
-        """Mirror the Worker's /api/enquiry contract so the success and error
-        paths can actually be exercised locally. Validation rules are kept in
-        step with worker/index.js deliberately — if they drift, the browser
-        will pass here and fail in production."""
+        """Mirror the /api/enquiry contract shared by worker/index.js (the
+        Cloudflare demo) and netlify/functions/enquiry.js (the real backend
+        on production) so the success and error paths can actually be
+        exercised locally. Validation rules are kept in step deliberately —
+        if they drift, the browser will pass here and fail in production."""
         if self.path not in ("/api/enquiry", "/"):
             return self.send_error(404)
 

@@ -29,12 +29,25 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Contact / franchise forms POST here. Rewritten (not redirected — status
+# 200 keeps the URL and proxies the request) to the real handler, so the
+# forms, the local dev server, and the Cloudflare demo can all target the
+# same /api/enquiry path.
+[[redirects]]
+  from = "/api/enquiry"
+  to = "/.netlify/functions/enquiry"
+  status = 200
+
 # Keep dev-only / internal files out of the deploy. publish = "." ships
 # everything git-tracks, so anything not meant for a visitor needs an
 # explicit block here — the Worker source discloses its own anti-abuse
 # thresholds (honeypot field name, rate limit) if left reachable.
 [[redirects]]
   from = "/serve.py"
+  to = "/404.html"
+  status = 404
+[[redirects]]
+  from = "/netlify/*"
   to = "/404.html"
   status = 404
 [[redirects]]
