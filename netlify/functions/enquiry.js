@@ -85,7 +85,7 @@ async function sendEmail(data) {
     data.message
   ].filter(Boolean);
 
-  const subjectPrefix = data.kind === "franchise" ? "Franchise enquiry" : "Contact enquiry";
+  const subjectPrefix = data.kind === "franchise" ? "License enquiry" : "Contact enquiry";
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
