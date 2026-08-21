@@ -97,7 +97,13 @@ async function sendEmail(data) {
       text: lines.join("\n")
     })
   });
-  return { sent: res.ok, reason: res.ok ? null : `resend-${res.status}` };
+  if (res.ok) return { sent: true, reason: null };
+  // Resend explains refusals in the body (unverified domain, bad key, bad
+  // from-address). Logging it is the difference between a fixable error and
+  // a silent "could not send".
+  const detail = await res.text().catch(() => "");
+  console.error("resend send failed", res.status, detail);
+  return { sent: false, reason: `resend-${res.status}`, detail };
 }
 
 const json = (obj, statusCode = 200) => ({
