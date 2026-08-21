@@ -127,7 +127,7 @@ async function sendEmail(env, data) {
     method: "POST",
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: env.ENQUIRY_FROM || "Jumbo King Burger <onboarding@resend.dev>",
+      from: env.ENQUIRY_FROM || "Jumbo King Burger <enquiries@jumbokingburgers.com>",
       to: [env.ENQUIRY_TO],
       reply_to: data.email,
       subject: `${subjectPrefix} — ${data.name}`,

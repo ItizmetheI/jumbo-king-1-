@@ -15,7 +15,7 @@
  */
 
 const ENQUIRY_TO = "Jethwafoods@aol.com";
-const ENQUIRY_FROM = process.env.ENQUIRY_FROM || "Jumbo King Burger <onboarding@resend.dev>";
+const ENQUIRY_FROM = process.env.ENQUIRY_FROM || "Jumbo King Burger <enquiries@jumbokingburgers.com>";
 
 const MAX = { name: 80, email: 160, phone: 32, message: 2000, location: 120, capital: 60, experience: 60 };
 
