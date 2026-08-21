@@ -2,6 +2,12 @@ name = "jumbo-king-1"
 main = "worker/index.js"
 compatibility_date = "2025-01-01"
 
+# Lets Worker Logs actually show request/error output in the dashboard.
+# A dashboard-only toggle here gets reset by the next deploy from GitHub —
+# this needs to live in the committed config to stick.
+[observability]
+enabled = true
+
 # Static site is served from the repo root; .assetsignore keeps source and
 # tooling out of the deployed bundle.
 [assets]
