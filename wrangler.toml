@@ -7,6 +7,16 @@ compatibility_date = "2025-01-01"
 # this needs to live in the committed config to stick.
 [observability]
 enabled = true
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+invocation_logs = true
+head_sampling_rate = 1
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 1
 
 # Static site is served from the repo root; .assetsignore keeps source and
 # tooling out of the deployed bundle.
