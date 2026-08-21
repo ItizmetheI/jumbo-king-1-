@@ -1,5 +1,6 @@
 .claude/
 .agents/
+.wrangler/
 skills-lock.json
 _archive-charcoal/
 PLAN.md
