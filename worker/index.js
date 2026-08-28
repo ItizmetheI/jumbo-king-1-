@@ -209,6 +209,13 @@ function withHeaders(res, url) {
    hostname and tells search to drop the duplicate. */
 const CANONICAL_HOST = "jumbokingburgers.com";
 
+/* Search Console can only remove a URL from a property you've verified, and
+   verifying the workers.dev subdomain needs it to serve a proof file — which
+   the blanket redirect below would otherwise swallow. Let just that one file
+   through, so the subdomain can be claimed and its stale result removed. It
+   exposes nothing: the file's only content is a verification token. */
+const GOOGLE_VERIFY = /^\/google[0-9a-z]+\.html$/;
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -217,7 +224,7 @@ export default {
     // is a duplicate of the same site. Collapse them all onto one hostname so
     // search never has two copies to choose between. The !== check also makes
     // a redirect loop impossible: the canonical host never redirects itself.
-    if (url.hostname !== CANONICAL_HOST) {
+    if (url.hostname !== CANONICAL_HOST && !GOOGLE_VERIFY.test(url.pathname)) {
       return Response.redirect(
         `https://${CANONICAL_HOST}${url.pathname}${url.search}`,
         301
