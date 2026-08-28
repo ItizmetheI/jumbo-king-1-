@@ -213,7 +213,11 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    if (url.hostname.endsWith(".workers.dev")) {
+    // Anything that isn't the canonical host (the workers.dev subdomain, www)
+    // is a duplicate of the same site. Collapse them all onto one hostname so
+    // search never has two copies to choose between. The !== check also makes
+    // a redirect loop impossible: the canonical host never redirects itself.
+    if (url.hostname !== CANONICAL_HOST) {
       return Response.redirect(
         `https://${CANONICAL_HOST}${url.pathname}${url.search}`,
         301
