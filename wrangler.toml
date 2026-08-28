@@ -24,6 +24,12 @@ head_sampling_rate = 1
 directory = "."
 binding = "ASSETS"
 not_found_handling = "404-page"
+# Without this, a request matching a static asset is served straight from the
+# asset store and fetch() never runs — so the workers.dev -> canonical-host
+# redirect silently didn't fire on any real page (only on 404 paths). Running
+# the Worker first costs one invocation per request, which is far inside the
+# free tier here, and the Worker still serves assets via env.ASSETS.
+run_worker_first = true
 
 # Enquiries + rate-limit counters. Create with:
 #   wrangler kv namespace create ENQUIRIES
