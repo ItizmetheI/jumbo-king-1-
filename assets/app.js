@@ -865,8 +865,8 @@ if (enquiryForm) {
     setStatus("", "");
 
     try {
-      // urlencoded so the same request shape works for Netlify Forms, the
-      // Cloudflare Worker and the local dev server
+      // urlencoded so the same request shape works for every backend this has
+      // run against: the Worker, the Netlify function, and the local dev server
       const res = await fetch(enquiryForm.getAttribute("action") || "/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -998,8 +998,8 @@ function buildStructuredData() {
   /* The WebSite entity (the one that sets the site name in search results)
      lives as static markup in index.html's <head> instead of being injected
      here — Google's site-name system is more reliable reading raw HTML than
-     script-generated JSON-LD, and that field is what was showing "Cloudflare".
-     Emitting it here too would just publish a duplicate entity. */
+     script-generated JSON-LD, and that name is the field search had been
+     getting wrong. Emitting it here too would publish a duplicate entity. */
 
   return [restaurant, menu];
 }
