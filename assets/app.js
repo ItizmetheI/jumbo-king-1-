@@ -980,7 +980,21 @@ function buildStructuredData() {
     ]
   };
 
-  return [restaurant, menu];
+  /* Google picks the site name shown in search results primarily from a
+     WebSite entity on the homepage. With none present it infers one — which
+     is how the old canonical (a *.workers.dev URL, a Cloudflare-owned domain)
+     got this site labelled "Cloudflare" in results. Stating the name outright
+     is the strongest signal available and stops it drifting again. */
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Jumbo King Burger",
+    alternateName: "Jumbo King",
+    url: abs("/"),
+    publisher: { "@type": "Organization", name: "Jumbo King Burger", url: abs("/") }
+  };
+
+  return [restaurant, menu, website];
 }
 
 /* Breadcrumbs tell search engines the site's shape; only inner pages have one. */
@@ -1000,9 +1014,11 @@ function buildBreadcrumb(path) {
 
 (() => {
   const path = location.pathname.replace(/\/$/, "") || "/";
-  const blocks = buildStructuredData();
+  const [restaurant, menu, website] = buildStructuredData();
   // menu graph only where it belongs; every page carries the Restaurant
-  const payload = path === "/menu" ? blocks : [blocks[0]];
+  const payload = path === "/menu" ? [restaurant, menu] : [restaurant];
+  // WebSite belongs on the homepage only — that's where Google reads it from
+  if (path === "/") payload.push(website);
   const crumb = buildBreadcrumb(path);
   if (crumb) payload.push(crumb);
   payload.forEach(obj => {

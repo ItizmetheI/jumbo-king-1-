@@ -5,7 +5,7 @@
 
 /* ─── 1. YOUR DETAILS ─────────────────────────────────────────── */
 const SITE = {
-  url: "https://jumbo-king-1.ahmedbarkat1067.workers.dev", // canonical origin, no trailing slash
+  url: "https://jumbokingburgers.com", // canonical origin, no trailing slash
   address: "12-14 Spruce St, Paterson, NJ 07501",
   locality: "Paterson",
   region: "NJ",
