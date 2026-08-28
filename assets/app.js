@@ -995,21 +995,13 @@ function buildStructuredData() {
     ]
   };
 
-  /* Google picks the site name shown in search results primarily from a
-     WebSite entity on the homepage. With none present it infers one — which
-     is how the old canonical (a *.workers.dev URL, a Cloudflare-owned domain)
-     got this site labelled "Cloudflare" in results. Stating the name outright
-     is the strongest signal available and stops it drifting again. */
-  const website = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Jumbo King Burger",
-    alternateName: "Jumbo King",
-    url: abs("/"),
-    publisher: { "@type": "Organization", name: "Jumbo King Burger", url: abs("/") }
-  };
+  /* The WebSite entity (the one that sets the site name in search results)
+     lives as static markup in index.html's <head> instead of being injected
+     here — Google's site-name system is more reliable reading raw HTML than
+     script-generated JSON-LD, and that field is what was showing "Cloudflare".
+     Emitting it here too would just publish a duplicate entity. */
 
-  return [restaurant, menu, website];
+  return [restaurant, menu];
 }
 
 /* Breadcrumbs tell search engines the site's shape; only inner pages have one. */
@@ -1029,11 +1021,9 @@ function buildBreadcrumb(path) {
 
 (() => {
   const path = location.pathname.replace(/\/$/, "") || "/";
-  const [restaurant, menu, website] = buildStructuredData();
+  const [restaurant, menu] = buildStructuredData();
   // menu graph only where it belongs; every page carries the Restaurant
   const payload = path === "/menu" ? [restaurant, menu] : [restaurant];
-  // WebSite belongs on the homepage only — that's where Google reads it from
-  if (path === "/") payload.push(website);
   const crumb = buildBreadcrumb(path);
   if (crumb) payload.push(crumb);
   payload.forEach(obj => {
