@@ -201,9 +201,24 @@ function withHeaders(res, url) {
   return out;
 }
 
+/* The Worker answers on its *.workers.dev subdomain as well as the custom
+   domain, so Google indexed that subdomain as a SECOND, separate site — and
+   labelled it "Cloudflare", since workers.dev is a Cloudflare-owned domain.
+   Canonical tags alone don't retire it while the URL still serves a live 200,
+   so send a permanent redirect: it consolidates ranking signals onto the real
+   hostname and tells search to drop the duplicate. */
+const CANONICAL_HOST = "jumbokingburgers.com";
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    if (url.hostname.endsWith(".workers.dev")) {
+      return Response.redirect(
+        `https://${CANONICAL_HOST}${url.pathname}${url.search}`,
+        301
+      );
+    }
 
     if (url.pathname === "/api/enquiry") {
       if (request.method !== "POST") {
