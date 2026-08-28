@@ -913,11 +913,17 @@ function buildStructuredData() {
   const restaurant = {
     "@context": "https://schema.org",
     "@type": "Restaurant",
+    // Stable identifier so every page's Restaurant node describes ONE entity
+    // rather than looking like a separate business per URL.
+    "@id": abs("/#restaurant"),
     name: "Jumbo King Burger",
     slogan: "The one. The only.",
     description: "Flame-grilled burgers, chicken, breakfast and shakes.",
     servesCuisine: ["Burgers", "American", "Fast Food"],
     priceRange: "$",
+    currenciesAccepted: "USD",
+    paymentAccepted: "Cash, Credit Card, Debit Card",
+    acceptsReservations: false,
     url: abs("/"),
     hasMenu: abs("/menu"),
     openingHoursSpecification: HOURS
@@ -933,6 +939,15 @@ function buildStructuredData() {
   if (PHOTOS.hero) restaurant.image = abs("/" + PHOTOS.hero.replace(/^\//, ""));
   if (SITE.phone) restaurant.telephone = SITE.phone;
   if (SITE.instagram) restaurant.sameAs = ["https://instagram.com/" + SITE.instagram];
+  // Coordinates + a map link are what local search leans on to place a
+  // storefront. Both are omitted rather than guessed if lat/lng aren't set.
+  if (typeof SITE.lat === "number" && typeof SITE.lng === "number") {
+    restaurant.geo = { "@type": "GeoCoordinates", latitude: SITE.lat, longitude: SITE.lng };
+    restaurant.hasMap = `https://www.google.com/maps/search/?api=1&query=${SITE.lat},${SITE.lng}`;
+  }
+  if (SITE.locality && SITE.region) {
+    restaurant.areaServed = { "@type": "City", name: `${SITE.locality}, ${SITE.region}` };
+  }
   if (SITE.address) {
     restaurant.address = {
       "@type": "PostalAddress",

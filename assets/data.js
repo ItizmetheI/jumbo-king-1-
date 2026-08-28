@@ -12,6 +12,11 @@ const SITE = {
   postalCode: "07501",
   phone: "+19732471339",
   phoneLabel: "(973) 247-1339",
+  // Coordinates for 12-14 Spruce St, geocoded from the street address. Local
+  // search and map apps use these to place the store; keep them in step with
+  // `address` above if the location ever changes.
+  lat: 40.913491,
+  lng: -74.1794377,
   instagram: "",               // "jumbokingburger"
   orderPickup: "https://order.toasttab.com/online/jumbo-king-burger-paterson",
   // Delivery partners. Empty = the site falls back to online ordering and the
