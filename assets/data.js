@@ -66,30 +66,30 @@ const HOURS = [
 
 /* ─── 4. MENU ─────────────────────────────────────────────────── */
 const SIGNATURE = [
-  { n:1, key:"jumbo-king-burger", name:"Jumbo King Burger", single:7.99, vm:10.99,
+  { n:1, key:"jumbo-king-burger", name:"Jumbo King Burger", single:8.99, vm:11.99,
     desc:"Sesame bun, mayonnaise, shredded lettuce, tomato, onions, pickle, ketchup and a 5.3 oz flame-grilled patty.",
     art:["bunTop","lettuce","tomato","onion","cheese","patty","bunBot"] },
-  { n:2, key:"jumbo-king-double", name:"Jumbo King Double", single:9.99, vm:12.99,
+  { n:2, key:"jumbo-king-double", name:"Jumbo King Double", single:10.99, vm:13.99,
     desc:"Sesame bun, mayonnaise, shredded lettuce, tomato, onion, pickle, ketchup and two 5.3 oz flame-grilled patties.",
     art:["bunTop","lettuce","tomato","onion","cheese","patty","cheese","patty","bunBot"] },
   { n:3, key:"jumbo-loaded-king", name:"Jumbo Loaded King", single:9.99, vm:12.99,
     desc:"Sesame bun, mayonnaise, shredded lettuce, tomato, onions, pickle, ketchup, a 5.3 oz patty, bacon and cheese.",
     art:["bunTop","onionRing","bacon","cheese","patty","cheese","patty","bunBot"] },
-  { n:4, key:"jumbo-king-bacon-cheese", name:"Jumbo King Bacon and Cheese", single:9.99, vm:13.99,
+  { n:4, key:"jumbo-king-bacon-cheese", name:"Jumbo King Bacon and Cheese", single:11.99, vm:14.99,
     desc:"Sesame bun, bacon, cheese, ketchup and a flame-grilled patty.",
     art:["bunTop","bacon","cheese","patty","bunBot"] },
-  { n:5, key:"grilled-chicken",   name:"Grilled Chicken",   single:6.99, vm:10.99,
+  { n:5, key:"grilled-chicken",   name:"Grilled Chicken",   single:7.99, vm:10.99,
     desc:"Potato bun, grilled chicken breast, mayonnaise, lettuce and tomato.",
     art:["bunTop","lettuce","tomato","chkGrill","bunBot"] },
-  { n:6, key:"crispy-chicken",    name:"Crispy Chicken",    single:6.99, vm:10.99,
+  { n:6, key:"crispy-chicken",    name:"Crispy Chicken",    single:7.99, vm:10.99,
     desc:"Potato bun, crispy chicken fillet, mayonnaise, shredded lettuce and tomato.",
     art:["bunTop","lettuce","chkCrisp","bunBot"] },
-  { n:7, key:"spicy-chicken",     name:"Spicy Chicken",     single:6.99, vm:10.99,
+  { n:7, key:"spicy-chicken",     name:"Spicy Chicken",     single:7.99, vm:10.99,
     desc:"Potato bun, hot spicy sauce, lettuce, tomato and a 4.2 oz crispy chicken fillet.",
     art:["bunTop","lettuce","chkSpicy","bunBot"] },
-  { n:8, key:"chicken-wrap",      name:"Chicken Wrap Sandwich", single:6.99, vm:10.99, icon:"wrap",
+  { n:8, key:"chicken-wrap",      name:"Chicken Wrap Sandwich", single:7.99, vm:10.99, icon:"wrap",
     desc:"Large tortilla, chopped crispy chicken, shredded lettuce, two slices of tomato and ranch dressing." },
-  { n:9, key:"fish-sandwich",     name:"Fish Sandwich",     single:6.29, vm:9.99,
+  { n:9, key:"fish-sandwich",     name:"Fish Sandwich",     single:6.99, vm:9.99,
     desc:"Potato bun, tartar sauce, lettuce and a crispy fish fillet.",
     art:["bunTopPlain","lettuce","cheese","fish","bunBot"] }
 ];
@@ -129,19 +129,19 @@ const BLOCKS = [
   ], note:"Wing sauces: BBQ, Buffalo, Nashville Hot, Honey Mustard, Sweet Chili." },
 
   { id:"deals", title:"Daily deals", lede:"Everyday value", items:[
-    { name:"Hamburger", note:"Pickles &amp; ketchup", price:1.99 },
-    { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:2.29 },
-    { name:"Bacon Cheeseburger", price:2.99 },
+    { name:"Hamburger", note:"Pickles &amp; ketchup", price:2.59 },
+    { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:2.99 },
+    { name:"Bacon Cheeseburger", price:3.49 },
     { name:"Crispy Jr.", price:2.99 },
     { name:"Spicy Crispy Jr.", price:2.99 },
-    { name:"Hot Dog", price:1.99 }
+    { name:"Hot Dog", price:2.99 }
   ]},
 
   { id:"kids", title:"Kids meals", lede:"Choice of apple juice, orange juice or milk", items:[
     { name:"Hamburger", note:"Pickles &amp; ketchup", price:5.99 },
     { name:"Cheeseburger", note:"Pickles &amp; ketchup", price:5.99 },
     { name:"Mac &amp; Cheese", price:5.99 },
-    { name:"Chicken Nuggets", multi:[["4 pc",5.99]] }
+    { name:"Chicken Nuggets", multi:[["4 pc",5.99],["6 pc",6.99]] }
   ]},
 
   { id:"drinks", title:"Beverages", items:[
@@ -150,27 +150,27 @@ const BLOCKS = [
     { name:"Iced Coffee", note:"Plain · Mocha · Vanilla", multi:[["Sm",1.99],["Md",2.49],["Lg",2.99]] },
     { name:"Ice Cream Shakes", note:"Vanilla · Chocolate · Strawberry · Oreo · KitKat",
       multi:[["Sm",3.99],["Md",4.49],["Lg",4.99]] },
-    { name:"Hot Coffee / Tea", multi:[["Sm",1.29],["Md",1.99],["Lg",2.29]] },
-    { name:"Orange Juice", price:2.49 },
-    { name:"Apple Juice", price:1.99 },
-    { name:"Bottled Water", price:1.99 }
+    { name:"Hot Coffee / Tea", multi:[["Sm",1.49],["Md",1.99],["Lg",2.49]] },
+    { name:"Orange Juice", price:2.99 },
+    { name:"Apple Juice", price:2.49 },
+    { name:"Bottled Water", price:2.29 }
   ]},
 
   { id:"desserts", title:"Desserts &amp; sweets", items:[
     { name:"Cone / Cup", price:1.99 },
     { name:"Sundae", note:"Strawberry · Chocolate · KitKat · Oreo", price:2.99 },
-    { name:"Cookie", price:1.00 },
+    { name:"Cookie", price:1.29 },
     { name:"Cinnamon Roll", multi:[["1 pc",2.49],["2 pc",3.99]] },
-    { name:"Fried Oreo Cookies", multi:[["5 pc",5.99]] }
+    { name:"Fried Oreo Cookies", multi:[["5 pc",6.99]] }
   ]},
 
   { id:"breakfast", title:"Breakfast", lede:"Single or value meal", items:[
-    { name:"1. Croissant Sausage, Egg &amp; Cheese", multi:[["Single",4.49],["Value meal",7.99]] },
+    { name:"1. Croissant Sausage, Egg &amp; Cheese", multi:[["Single",5.49],["Value meal",7.99]] },
     { name:"2. Croissant Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Value meal",7.99]] },
-    { name:"3. Biscuit Sausage, Egg &amp; Cheese", multi:[["Single",5.49],["Value meal",7.99]] },
-    { name:"4. Biscuit Bacon, Egg &amp; Cheese or Ham", multi:[["Single",5.49],["Value meal",7.99]] },
+    { name:"3. Biscuit Sausage, Egg &amp; Cheese", multi:[["Single",4.99],["Value meal",7.99]] },
+    { name:"4. Biscuit Bacon, Egg &amp; Cheese or Ham", multi:[["Single",4.99],["Value meal",7.99]] },
     { name:"5. Breakfast Burrito", note:"Sausage or bacon", multi:[["Single",5.49],["Value meal",7.99]] },
-    { name:"6. Pancakes", note:"Sausage, Bacon or Ham", multi:[["Single",4.99],["Value meal",7.99]] },
+    { name:"6. Pancakes", note:"Sausage, Bacon or Ham", multi:[["Single",5.99],["Value meal",7.99]] },
     { name:"7. French Toast", note:"5 pc", price:3.99 }
   ]},
 
@@ -178,8 +178,8 @@ const BLOCKS = [
     { name:"Hash Browns", price:1.99 },
     { name:"Cinnamon Roll", price:2.49 },
     { name:"Plain Pancakes", price:1.99 },
-    { name:"Croissant Egg &amp; Cheese", price:2.49 },
-    { name:"Biscuit Egg &amp; Cheese", price:2.49 }
+    { name:"Croissant Egg &amp; Cheese", price:2.99 },
+    { name:"Biscuit Egg &amp; Cheese", price:2.99 }
   ]}
 ];
 
